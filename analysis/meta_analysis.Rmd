@@ -176,7 +176,7 @@ fit_ma("~ Generations")
 ```
 
 
-## Forest plot of effect sizes
+## Forest plot of effect sizes (Figure 1)
 
 ```{r fig.height = 10}
 plot_data <- meta_analysis_data %>% 
@@ -242,6 +242,8 @@ plot_data %>%
     fill = rep(c("green", "steelblue"), 6)
   )
 ```
+
+**Figure 1**: Forest plot showing the estimated effect sizes (Cohen's d \u00B1 95% CIs). The y-axis indicates which trait was measured, and the coloured bands group effect sizes that come from the same set of experimental evolution lines (which are covered in one or more publications, named on the right). Positive effect sizes indicate evolutionary change in the direction predicted under IaSC, while negative effects indicate evolution in the opposite direction. Point colour differentiates between studies that manipulated inheritance vs selection. The grand mean effect size, shown at the bottom, is significantly positive. 
 
 ## Plotting effect of moderator `Generations`
 
