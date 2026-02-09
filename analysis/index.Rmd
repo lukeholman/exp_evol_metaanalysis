@@ -14,7 +14,6 @@ There are two annotated R scripts: the first documents how all the effect sizes 
 
 ### [1. Extracting effect sizes](primary_data.html)
 
-
 ### [2. The meta-analysis and associated figure](meta_analysis.html)
 
 
