@@ -551,15 +551,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree6dd07208070d8df45e5ece924825a391f512500atargetblank6dd0720a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreed64f5edc0196db6e34cf6a6797dc304b67bf03betargetblankd64f5eda">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/6dd07208070d8df45e5ece924825a391f512500a" target="_blank">6dd0720</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/d64f5edc0196db6e34cf6a6797dc304b67bf03be" target="_blank">d64f5ed</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree6dd07208070d8df45e5ece924825a391f512500atargetblank6dd0720a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreed64f5edc0196db6e34cf6a6797dc304b67bf03betargetblankd64f5eda"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -569,7 +569,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/6dd07208070d8df45e5ece924825a391f512500a" target="_blank">6dd0720</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/d64f5edc0196db6e34cf6a6797dc304b67bf03be" target="_blank">d64f5ed</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -646,6 +646,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/d64f5edc0196db6e34cf6a6797dc304b67bf03be/analysis/meta_analysis.Rmd" target="_blank">d64f5ed</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-09
+</td>
+<td>
+figure caption
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/0b01f666116032434912cf3eaf8a85cdcfd7710d/docs/meta_analysis.html" target="_blank">0b01f66</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1120,8 +1154,8 @@ Generations   -0.1151  0.0307  -3.7437  0.0002  -0.1754  -0.0548  ***
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 </div>
-<div id="forest-plot-of-effect-sizes" class="section level2">
-<h2>Forest plot of effect sizes</h2>
+<div id="forest-plot-of-effect-sizes-figure-1" class="section level2">
+<h2>Forest plot of effect sizes (Figure 1)</h2>
 <pre class="r"><code>plot_data &lt;- meta_analysis_data %&gt;% 
   select(Origin_of_lines, Short_name, 
          Experiment_type1, Experiment_type2, Trait, Estimate, 
@@ -1255,6 +1289,16 @@ luekholman
 </table>
 </div>
 </div>
+<p><strong>Figure 1</strong>: Forest plot showing the estimated effect
+sizes (Cohen’s d 0B1 95% CIs). The y-axis indicates which trait was
+measured, and the coloured bands group effect sizes that come from the
+same set of experimental evolution lines (which are covered in one or
+more publications, named on the right). Positive effect sizes indicate
+evolutionary change in the direction predicted under IaSC, while
+negative effects indicate evolution in the opposite direction. Point
+colour differentiates between studies that manipulated inheritance vs
+selection. The grand mean effect size, shown at the bottom, is
+significantly positive.</p>
 </div>
 <div id="plotting-effect-of-moderator-generations"
 class="section level2">
