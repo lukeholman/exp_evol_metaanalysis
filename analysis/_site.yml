@@ -11,6 +11,9 @@ navbar:
     href: meta_analysis.html
   - text: License
     href: license.html
+  right:
+  - icon: fa-github
+    href: https://github.com/lukeholman/exp_evol_metaanalysis
 output:
   workflowr::wflow_html:
     toc: yes
