@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Manat et al. (2021) Biol. Lett. 17, 20200915",Male sperm offence,160,Drosophila melanogaster,A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have worse sperm offence (i.e. sire fewer offspring with previously mated females) compared to males carrying control X chromosomes (however the finding is significant in the opposite direction).,-0.57,0.01,-0.81,-0.34

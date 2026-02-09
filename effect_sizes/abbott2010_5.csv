@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997",Female fitness,82,Drosophila melanogaster,The positive effect size indicates that females carrying male-evolved haplotypes have lower fitness thanthan females carrying control genotypes.,0.23,0.01,0.06,0.4

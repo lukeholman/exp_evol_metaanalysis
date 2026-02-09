@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Martinossi-Allibert et al. (2019) Evol. Applic., 12, 1371–1384",Female fitness,16,Callosobruchus maculatus,"A positive effect would indicate that the relaxation of selection on females reduced female fitness, relative to the monogamy treatment which removed sexual selection yet maintained natural selection on both sexes (there is non-significant difference in the opposite direction).",-0.06791664667588382,0.005899233845691557,-0.2184573280268352,0.08262403467506757

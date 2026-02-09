@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Abbott et al. (2020) J. Evol. Biol. 33, 738–750",Male effect on % sons,40,Drosophila melanogaster,"The positive effect size indicates that males carrying a male-evolved X chromosome have a greater proportion of sons among their progeny that reach adulthood (indicating enhanced male survival, reduced female survival, and/or changes to the primary sex ratio). Note that all daughters and none of the sons actually inherit the male-evolved X from the tester males.",0.7,0.04,0.33,1.07

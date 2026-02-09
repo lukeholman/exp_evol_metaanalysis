@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Abbott et al. (2013) PLOS ONE 8, e70493",Proportion of males among surviving progeny,40,Drosophila melanogaster,The proportion of males among the progeny of males carrying an X chromosome that underwent male-limited evolution is higher than that of males carrying an X that experienced only 1 generation of father-to-son inheritance.,1.65,0.04,1.24,2.06

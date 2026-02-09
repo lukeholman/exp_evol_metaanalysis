@@ -1,0 +1,3 @@
+Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
+Thyagarajan et al. (2025) J. Hered. esaf072,Female fitness,50,Drosophila melanogaster,This positive effect means that females carrying male-evolved haplotypes have lower fitness than females carrying control genomes.,0.24778446650748268,2.3704368892256926e-4,0.21760786902922244,0.27796106398574294
+Thyagarajan et al. (2025) J. Hered. esaf072,Male fitness,64,Drosophila melanogaster,This positive effect means that males carrying male-evolved haplotypes have higher fitness than males carrying control genomes.,0.03924881717034775,2.755122945598124e-4,0.006715633637515071,0.07178200070318043

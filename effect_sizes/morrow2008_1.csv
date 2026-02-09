@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Morrow et al. (2008) J. Evol. Biol. 21, 1046–1054",Male fitness,26,Drosophila melanogaster,The positive effect sie indicates that male fitness was higher in lines where selection was relaxed on females compared to lines where selection was relaxed on males.,0.52,0.03,0.16,0.89

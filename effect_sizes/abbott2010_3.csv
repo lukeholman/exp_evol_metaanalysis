@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997",Female wing size,82,Drosophila melanogaster,A positive effect size would indicate that females carrying male-evolved haplotypes have smaller wings than females carrying control genotypes (though wing size does not differ consistently).,0.14,0.01,-0.03,0.31

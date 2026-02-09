@@ -1,0 +1,290 @@
+---
+title: "EVO-23-0013 analysis"
+author: "Jessica Abbott" 
+date: "2023 02 08"
+output: html_document
+---
+
+## Set-up and data import:
+
+```{r}
+library(lme4)
+library(lmerTest)
+library(car)
+library(emmeans)
+
+fitness.dataCS<-read.csv("path\\Mlig_fitness_data_C_standard.csv", sep=";", dec=",", header=TRUE)
+View(fitness.dataCS)
+fitness.dataCS$Treatment <- factor(fitness.dataCS$Treatment)
+fitness.dataCS$Population <- factor(fitness.dataCS$Population)
+fitness.dataCS$ID <- factor(fitness.dataCS$ID)
+fitness.dataCS$sex_role <- factor(fitness.dataCS$sex_role)
+str(fitness.dataCS)
+```
+
+### Fitness analysis:
+
+```{r}
+modfitCS <- lmer(Stand_Fitness~Treatment*sex_role + (1|ID) + (1|Treatment:sex_role:Population), data=fitness.dataCS)
+summary(modfitCS)
+anova(modfitCS)
+#Interaction is significant, p=0.01879
+#Sex role also significant, p=0.02229
+
+#Check assumptions
+plot(modfitCS)
+#Homoscedasticity looks OK
+
+qqnorm(residuals(modfitCS))
+qqline(residuals(modfitCS))
+#Looks pretty good overall
+#Assumptions sufficiently fulfilled
+
+pairs(emmeans(modfitCS, ~Treatment*sex_role))
+#For all possible comparisons the only one that is significant is F female fitness versus F male fitness (0.0091)
+#Maybe more informative to limit the number of comparisons to within each sex role:
+emmeans(modfitCS, pairwise ~ Treatment | sex_role)
+#For female fitness, C vs F p=0.0999
+#For male fitness, all NS
+#Contrasts between sex roles within treatment:
+emmeans(modfitCS, pairwise ~  sex_role | Treatment)
+#Only the comparison within F treatment is significant, p=0.0008
+```
+
+### Fitness figure
+
+```{r}
+#Get overall treatment means
+treat.meansCS <- aggregate(list(fitness=fitness.dataCS$Stand_Fitness), by=list(Treatment=fitness.dataCS$Treatment, sex_role=fitness.dataCS$sex_role), mean, na.rm=TRUE)
+treat.meansCS
+#Get means per replicate population
+pop.meansCS <- aggregate(list(fitness=fitness.dataCS$Stand_Fitness), by=list(Population=fitness.dataCS$Population, sex_role=fitness.dataCS$sex_role), mean, na.rm=TRUE)
+pop.meansCS
+#Get SE per treatment (based on replicate means)
+pop.meansCS$Treatment <- rep(c("C","F","M"), each=4, times=2)
+SE <- function(x) sd(x, na.rm=TRUE)/(sqrt(sum(!is.na(x))))
+treatCS.SE <- aggregate(list(fitess=pop.meansCS$fitness), by=list(Treatment=pop.meansCS$Treatment, sex_role=pop.meansCS$sex_role), SE)
+treatCS.SE
+#Make plot
+x<-c(1:2)
+plot(x-0.1,treat.meansCS[c(1,4),3], type="n", lty=1, xlim=c(0.5, 2.5), ylim=c(-0.5, 0.7), xlab="Sex role", ylab="Standardized relative fitness", axes=FALSE)
+points(rep(x-0.1,each=4),pop.meansCS[c(1:4,13:16),3], pch=16, col="#d88d2a")
+points(rep(x, each=4),pop.meansCS[c(5:8,17:20),3], pch=17, col="#cc355a")
+points(rep(x+0.1, each=4),pop.meansCS[c(9:12,21:24),3], pch=15, col="#005787")
+axis(1, at=c(0.5, 1, 2, 2.5), labels=c("","Female","Male",""))
+axis(2, at=seq(-0.5, 0.7, 0.2))
+points(x-0.1, treat.meansCS[c(1,4),3], type="b", lty=1, pch=16, cex=1.5)
+arrows(x-0.1, treat.meansCS[c(1,4),3]-treatCS.SE[c(1,4),3], x-0.1, treat.meansCS[c(1,4),3]+treatCS.SE[c(1,4),3], code=3, angle=90, length=0.075)
+points(x,treat.meansCS[c(2,5),3], type="b", lty=2, pch=17, cex=1.5)
+arrows(x, treat.meansCS[c(2,5),3]-treatCS.SE[c(2,5),3], x, treat.meansCS[c(2,5),3]+treatCS.SE[c(2,5),3], code=3, angle=90, length=0.075)
+points(x+0.1,treat.meansCS[c(3,6),3], type="b", lty=3, pch=15, cex=1.5)
+arrows(x+0.1, treat.meansCS[c(3,6),3]-treatCS.SE[c(3,6),3], x+0.1, treat.meansCS[c(3,6),3]+treatCS.SE[c(3,6),3], code=3, angle=90, length=0.075)
+legend("topright", c("Control", "F-limited", "M-limited"), pch=c(16,17,15))
+```
+
+## Morphology
+
+```{r}
+morph <- read.csv("path\\Ovary_testis_area.csv")
+morph$line <- factor(morph$line)
+morph$trt <- factor(morph$trt)
+str(morph)
+```
+
+### Body size
+
+```{r}
+mod.body <- lmer(body.area~trt+(1|trt:line), data=morph)
+summary(mod.body)
+anova(mod.body)
+#NS, p=0.93
+plot(mod.body)
+qqnorm(residuals(mod.body))
+qqline(residuals(mod.body))
+#Assumptions look fine
+```
+
+### Relative ovary size
+
+```{r}
+mod.rel.ov <- lmer(relative_ovary~trt+(1|trt:line), data=morph)
+summary(mod.rel.ov)
+anova(mod.rel.ov)
+#NS, p=0.67
+plot(mod.rel.ov)
+qqnorm(residuals(mod.rel.ov))
+qqline(residuals(mod.rel.ov))
+#Fit looks ok except for one potential outlier.
+```
+
+### Ovary size with body size as covariate
+
+```{r}
+mod.cov.ov <- lmer(ovary~body.area+trt+(1|trt:line), data=morph)
+summary(mod.cov.ov)
+anova(mod.cov.ov)
+#NS, treat p=0.73
+#Body area p=4.57e-10
+plot(mod.cov.ov)
+qqnorm(residuals(mod.cov.ov))
+qqline(residuals(mod.cov.ov))
+#Fit looks ok except for a few values at the extremes.
+```
+
+### Relative testes size
+
+```{r}
+mod.rel.test <- lmer(relative_testis~trt+(1|trt:line), data=morph)
+summary(mod.rel.test)
+anova(mod.rel.test)
+#NS, p=0.77, and warning about singular fit
+plot(mod.rel.test)
+qqnorm(residuals(mod.rel.test))
+qqline(residuals(mod.rel.test))
+#Fit generally OK
+```
+
+### Testes size with body size as covariate
+
+```{r}
+mod.cov.test <- lmer(testis~body.area+trt+(1|trt:line), data=morph)
+summary(mod.cov.test)
+anova(mod.cov.test)
+#NS, treat p=0.9683
+#Body area p=6.996e-13
+plot(mod.cov.test)
+qqnorm(residuals(mod.cov.test))
+qqline(residuals(mod.cov.test))
+#Fit looks ok except for one potential outlier.
+```
+
+### Does the relationship between testis and ovary size differ between treatments?
+
+```{r}
+#Relative size:
+#Get correlation coefficients for each replicate
+cor.rel <- rep(NA, 12)
+for (i in 1:12) {
+  temp <- subset(morph, morph$line==levels(morph$line)[i])
+  foo <- cor.test(temp$relative_testis, temp$relative_ovary)
+  cor.rel[i] <- foo$estimate
+}
+cor.rel
+#Combine into data frame with treatment information
+cor.rel.data <- data.frame(trt=rep(c("C","F","M"), each=4), cor.rel=cor.rel)
+#One-way anova
+mod.rel <- lm(cor.rel~trt, data=cor.rel.data)
+summary(mod.rel)
+anova(mod.rel)
+#NS, p=0.46
+#Significant relationship?
+t.test(cor.rel.data$cor.rel, mu=0)
+#Correlation is significantly positive overall
+```
+
+### Does mean population morphology predict mean population fitness?
+
+```{r}
+#Get population means for morphological measures
+pop.means.morph <- aggregate(list(body=morph$body.area, ovary=morph$ovary, relative_ovary=morph$relative_ovary, testis=morph$testis, relative_testis=morph$relative_testis, SA=morph$sex_allocation), by=list(Population=morph$line), mean, na.rm=TRUE)
+pop.means.morph
+#Combine population means for morphology with population means for fitness
+pop.means.morph$F_fit <- pop.meansCS$fitness[1:12]
+pop.means.morph$M_fit <- pop.meansCS$fitness[13:24]
+pop.means.morph$treat <- rep(c("C","F","m"), each=4)
+```
+
+### Regression approach
+
+```{r}
+#Body, female fitness
+BFr <- lm(F_fit~body, data=pop.means.morph)
+summary(BFr)
+anova(BFr)
+#NS
+#Body, male fitness
+BMr <- lm(M_fit~body, data=pop.means.morph)
+summary(BMr)
+anova(BMr)
+#NS
+
+#Relative ovary, female fitness
+ROFr <- lm(F_fit~relative_ovary, data=pop.means.morph)
+summary(ROFr)
+anova(ROFr)
+#Rel ovary p=0.07, negative trend
+#Relative ovary, male fitness
+ROMr <- lm(M_fit~relative_ovary, data=pop.means.morph)
+summary(ROMr)
+anova(ROMr)
+#NS
+
+#Relative testis, female fitness
+RTFr <- lm(F_fit~relative_testis, data=pop.means.morph)
+summary(RTFr)
+anova(RTFr)
+#NS
+#Relative testis, male fitness
+RTMr <- lm(M_fit~relative_testis, data=pop.means.morph)
+summary(RTMr)
+anova(RTMr)
+#Positive effect of relative testis, p=0.03
+```
+
+### Visualization regressions
+
+```{r}
+par(mfrow=c(1,2))
+plot(M_fit~relative_testis, data=pop.means.morph, xlab="Relative testes area", ylab="Fitness in male role", pch=rep(c(16,17,15), each=4), col=rep(c("#d88d2a","#cc355a","#005787"), each=4), cex=1.5)
+abline(RTMr)
+plot(F_fit~relative_ovary, data=pop.means.morph, xlab="Relative ovary area", ylab="Fitness in female role", pch=rep(c(16,17,15), each=4), col=rep(c("#d88d2a","#cc355a","#005787"), each=4), cex=1.5)
+abline(ROFr)
+```
+
+### Ancova approach
+
+```{r}
+#Exclude interaction since power is so low.
+#Body, female fitness
+BF <- lm(F_fit~body+treat, data=pop.means.morph)
+summary(BF)
+anova(BF)
+Anova(BF, type=3)
+#All NS
+#Body, male fitness
+BM <- lm(M_fit~body+treat, data=pop.means.morph)
+summary(BM)
+anova(BM)
+Anova(BM, type=3)
+#both p=0.08-0.06. Negative effect of body size on male fitness. Male fitness highest in M and lowest in F.
+
+#Relative ovary, female fitness
+ROF <- lm(F_fit~relative_ovary+treat, data=pop.means.morph)
+summary(ROF)
+anova(ROF)
+#Rel ovary p=0.06, negative trend
+Anova(ROF, type=3)
+#All NS
+#Relative ovary, male fitness
+ROM <- lm(M_fit~relative_ovary+treat, data=pop.means.morph)
+summary(ROM)
+anova(ROM)
+Anova(ROM, type=3)
+#All NS
+
+#Relative testis, female fitness
+RTF <- lm(F_fit~relative_testis+treat, data=pop.means.morph)
+summary(RTF)
+anova(RTF)
+Anova(RTF, type=3)
+#All NS
+#Relative testis, male fitness
+RTM <- lm(M_fit~relative_testis+treat, data=pop.means.morph)
+summary(RTM)
+anova(RTM)
+#Positive effect of relative testis, p=0.01
+#Treatment p=0.08, lowest in F
+Anova(RTM, type=3)
+#Qualitatively similar with type 3 SS
+```
+

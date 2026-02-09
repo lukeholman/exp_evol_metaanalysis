@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Abbott et al. (2013) PLOS ONE 8, e70493",Male fitness,40,Drosophila melanogaster,Male fitness is higher in males carrying an X chromosome that underwent male-limited evolution compared to males carrying an X that experienced only 1 generation of father-to-son inheritance.,0.88,0.04,0.51,1.26

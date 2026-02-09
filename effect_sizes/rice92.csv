@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Rice (1992) Science 256, 1436-1439",Male fitness,29,Drosophila melanogaster,A positive effect size means that males carrying a genomic region that underwent female-limited evolution had lower fitness compared to males carrying control genomes.,0.3552722201971315,0.003938136390795837,0.23227325776703092,0.47827118262723206

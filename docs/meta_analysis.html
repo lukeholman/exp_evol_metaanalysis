@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Running the meta-analysis</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.34.0/datatables.js"></script>
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/dt-ext-scroller-1.13.6/css/scroller.dataTables.min.css" rel="stylesheet" />
+<script src="site_libs/dt-ext-scroller-1.13.6/js/dataTables.scroller.min.js"></script>
+<script src="site_libs/pdfmake-1.13.6/pdfmake.js"></script>
+<script src="site_libs/pdfmake-1.13.6/vfs_fonts.js"></script>
+<link href="site_libs/dt-ext-buttons-1.13.6/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="site_libs/dt-ext-buttons-1.13.6/js/dataTables.buttons.min.js"></script>
+<script src="site_libs/dt-ext-buttons-1.13.6/js/buttons.html5.min.js"></script>
+<script src="site_libs/dt-ext-buttons-1.13.6/js/buttons.colVis.min.js"></script>
+<script src="site_libs/dt-ext-buttons-1.13.6/js/buttons.print.min.js"></script>
+<link href="site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">exp_evol_metaanalysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Running the meta-analysis</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2026-02-09
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>exp_evol_metaanalysis/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.2). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20260206code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20260206)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20260206code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20260206)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong718c752">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong> 718c752
+</a>
+</p>
+</div>
+<div id="strongRepositoryversionstrong718c752"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version 718c752.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rproj.user/
+
+Untracked files:
+    Untracked:  analysis/ORIGINAL_SCRIPT.Rmd
+    Untracked:  analysis/meta_analysis.Rmd
+    Untracked:  analysis/primary_data.Rmd
+    Untracked:  effect_sizes/
+    Untracked:  input_data/
+
+Unstaged changes:
+    Deleted:    output/README.md
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<p>Load packages, the meta-analysis data, and a helper function.</p>
+<pre class="r"><code>library(tidyverse)
+library(metafor)
+library(DT)
+library(ggh4x)
+library(kableExtra)
+
+
+# function to make the searchable, exportable HTML table
+my_data_table &lt;- function(df){
+
+  num_cols &lt;- names(df)[sapply(df, is.numeric)]
+  num_cols &lt;- num_cols[num_cols != &quot;Generations&quot;]
+
+  datatable(
+    df, rownames = FALSE,
+    autoHideNavigation = TRUE,
+    extensions = c(&quot;Scroller&quot;, &quot;Buttons&quot;),
+    options = list(
+      autoWidth = TRUE,
+      dom = &#39;Bfrtip&#39;,
+      deferRender = TRUE,
+      scrollX = TRUE,
+      scrollY = 1000,
+      scrollCollapse = TRUE,
+      buttons = list(
+        &#39;pageLength&#39;, &#39;colvis&#39;, &#39;csv&#39;,
+        list(
+          extend = &#39;pdf&#39;,
+          pageSize = &#39;A4&#39;,
+          orientation = &#39;landscape&#39;,
+          filename = &#39;Trait_data&#39;
+        )
+      ),
+      pageLength = 100
+    )
+  ) %&gt;%
+    formatRound(
+      columns = num_cols,
+      digits = 3
+    )
+}
+
+# Load up the meta-analysis data:
+meta_analysis_data &lt;- list.files(&quot;effect_sizes/&quot;, full.names = T) %&gt;% 
+  lapply(read_csv, show_col_types = FALSE) %&gt;% 
+  bind_rows() %&gt;% 
+  left_join(read_csv(&quot;input_data/study_metadata.csv&quot;), by = join_by(Study)) %&gt;% 
+  mutate(year = str_extract(Short_name, &quot;[:digit:]+&quot;)) %&gt;% 
+  arrange(year) %&gt;% 
+  mutate(Sex = &quot;Both&quot;,
+         Sex = replace(Sex, str_detect(Trait, &quot;Male&quot;), &quot;Male&quot;),
+         Sex = replace(Sex, str_detect(Trait, &quot;Female&quot;), &quot;Female&quot;))</code></pre>
+<div id="data-collected-for-the-meta-analysis" class="section level2">
+<h2>Data collected for the meta-analysis</h2>
+<p>This table is searchable and can be exported as a file. You can also
+hide columns to help read it. There are 56 effect sizes from 11
+independent experimental evolution projects, which were published across
+16 journal articles.</p>
+<pre class="r"><code>meta_analysis_data %&gt;% 
+  select(-year, -Short_name) %&gt;% 
+  my_data_table()</code></pre>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-175c4e14aa5041d454d2" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-175c4e14aa5041d454d2">{"x":{"filter":"none","vertical":false,"extensions":["Scroller","Buttons"],"autoHideNavigation":true,"data":[["Rice (1992) Science 256, 1436-1439","Rice (1996) Nature 381, 232–234","Rice (1998) PNAS, 95, 6217–6221","Rice (1998) PNAS, 95, 6217–6221","Rice (1998) PNAS, 95, 6217–6221","Rice (1998) PNAS, 95, 6217–6221","Rice (1998) PNAS, 95, 6217–6221","Rice (1998) PNAS, 95, 6217–6221","Rice (1998) PNAS, 95, 6217–6221","Radwan et al. (2004) J. Evol. Biol. 17, 94–99.","Radwan et al. (2004) J. Evol. Biol. 17, 94–99.","Radwan et al. (2004) J. Evol. Biol. 17, 94–99.","Radwan et al. (2004) J. Evol. Biol. 17, 94–99.","Bedhomme et al. (2008) PLOS ONE 3, e2187","Bedhomme et al. (2008) PLOS ONE 3, e2187","Morrow et al. (2008) J. Evol. Biol. 21, 1046–1054","Morrow et al. (2008) J. Evol. Biol. 21, 1046–1054","Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997","Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997","Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997","Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997","Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997","Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997","Bedhomme et al. (2011) J. Genetics 90, 443–452","Abbott et al. (2013) PLOS ONE 8, e70493","Abbott et al. (2013) PLOS ONE 8, e70493","Martinossi-Allibert et al. (2019) Evol. Applic., 12, 1371–1384","Martinossi-Allibert et al. (2019) Evol. Applic., 12, 1371–1384","Abbott et al. (2020) J. Evol. Biol. 33, 738–750","Abbott et al. (2020) J. Evol. Biol. 33, 738–750","Abbott et al. (2020) J. Evol. Biol. 33, 738–750","Abbott et al. (2020) J. Evol. Biol. 33, 738–750","Abbott et al. (2020) J. Evol. Biol. 33, 738–750","Abbott et al. (2020) J. Evol. Biol. 33, 738–750","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Nordén et al. (2020) Evolution 77, 1066-1076","Nordén et al. (2020) Evolution 77, 1066-1076","Nordén et al. (2020) Evolution 77, 1066-1076","Nordén et al. (2020) Evolution 77, 1066-1076","Manat et al. (2021) Biol. Lett. 17, 20200915","Manat et al. (2021) Biol. Lett. 17, 20200915","Manat et al. (2021) Biol. Lett. 17, 20200915","Manat et al. (2021) Biol. Lett. 17, 20200915","Grieshop et al. (2025) Molec. Biol. Evol. 42 msaf099.","Grieshop et al. (2025) Molec. Biol. Evol. 42 msaf099.","Thyagarajan et al. (2025) J. Hered. esaf072","Thyagarajan et al. (2025) J. Hered. esaf072","Thyagarajan et al. (2025) J. Hered. esaf072","Thyagarajan et al. (2025) J. Hered. esaf072"],["Male fitness","Male fitness","Male mating speed","Male attractiveness to mated females","Male sperm defence","Male sperm offence","Female development time","Female productivity","Male harmfulness to females","Viability","Female longevity","Female fecundity","Male fitness","Male courtship rate","Female attractiveness","Male fitness","Female fitness","Female body mass","Male body mass","Female wing size","Male wing size","Female fitness","Male fitness","Male 7-C23:1 sex pheromone","Male fitness","Proportion of males among surviving progeny","Female fitness","Male fitness","Female fitness","Male fitness","Female locomotion","Male locomotion","Egg-to-adult survival","Male effect on % sons","Female fitness","Male fitness","Female development time","Male development time","Female locomotion","Male locomotion","Female thorax size","Male thorax size","Female fitness (effect of feminising allele)","Female fitness (effect of masculinising allele)","Male fitness (effect of feminising allele)","Male fitness (effect of masculinising allele)","Male mating success","Male mating speed","Male sperm offence","Male sperm defence","Female mating rate","Male mating rate","Female fitness","Male fitness","Male mating success","Male sperm offence"],[29,32,38,38,40,40,30,30,30,11,11,11,11,52,52,26,26,82,82,82,82,82,82,82,40,40,16,16,40,40,40,40,40,40,41,41,43,43,123,123,72,72,14,14,14,14,107,107,160,160,103,103,50,64,64,64],["Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Rhizoglyphus robini","Rhizoglyphus robini","Rhizoglyphus robini","Rhizoglyphus robini","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Callosobruchus maculatus","Callosobruchus maculatus","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Macrostomum lignano","Macrostomum lignano","Macrostomum lignano","Macrostomum lignano","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster"],["A positive effect size means that males carrying a genomic region that underwent female-limited evolution had lower fitness compared to males carrying control genomes.","The positive effect size means that males carrying a genomic region that underwent male-limited evolution had higher fitness than males carrying control genomes","The positive effect size means that males carrying a haplotype that underwent male-limited evolution mated with previously-unmated females faster than males carrying control haplotypes","The positive effect size means that males carrying a haplotype that underwent male-limited evolution attained more matings with previously-mated females compared to males carrying control haplotypes","A positive effect size means that males carrying a haplotype that underwent male-limited evolution fertilise more offspring when mating first in twice-mated females, compared to males carrying control haplotypes (though there is no significant difference between the two treatments)","A positive effect size means that males carrying a haplotype that underwent male-limited evolution fertilise more offspring when mating second in twice-mated females, compared to males carrying control haplotypes (though there is no significant difference between the two treatments)","The positive effect size means females carrying haplotypes that underwent male-limited evolution took longer to complete development than females carrying control genomes.","A positive effect size means that females carrying a haplotype that underwent male-limited evolution produced fewer offspring than females carrying a control haplotype (though there is no significant difference).","A positive effect size means that males carrying a haplotype that underwent male-limited evolution have a negative effect on the survival of their mates.","A positive effect size would indicate lower viability in populations that experienced relaxed selection on females relative to those experiencing selection on both sexes (the difference is non-significant and in the opposite direction).","A positive effect size would indicate reduced female longevity in populations that experienced relaxed selection on females relative to those experiencing selection on both sexes (the difference is non-significant and in the predicted direction).","The positive effect size indicates reduced fecundity in populations that experienced relaxed selection on females relative to those experiencing selection on both sexes.","A positive effect size would indicate increased fitness in populations that experienced relaxed selection on females relative to those experiencing selection on both sexes (the difference is non-significant and in the opposite direction).","This negative effect size indicates that males carrying male-evolved haplotypes courted females less often than males carrying control haplotypes. This might be because the former males are more attractive and thus need to court less.","This positive effect size indicates that females carrying male-evolved haplotypes were courted less often by standard males, compared to females carrying control haplotypes. This may imply these females have a masculinised phenotype that elicits less courtship.","The positive effect sie indicates that male fitness was higher in lines where selection was relaxed on females compared to lines where selection was relaxed on males.","The positive effect sie indicates that female fitness was higher in lines where selection was relaxed on males compared to lines where selection was relaxed on females.","The positive effect size indicates that females carrying male-evolved haplotypes have lower body mass than females carrying control genotypes.","The positive effect size indicates that males carrying male-evolved haplotypes have lower body mass than males carrying control genotypes.","A positive effect size would indicate that females carrying male-evolved haplotypes have smaller wings than females carrying control genotypes (though wing size does not differ consistently).","A positive effect size would indicate that males carrying male-evolved haplotypes have smaller wings than males carrying control genotypes (though wing size does not differ consistently).","The positive effect size indicates that females carrying male-evolved haplotypes have lower fitness thanthan females carrying control genotypes.","The positive effect size indicates that males carrying male-evolved haplotypes have higher fitness than males carrying control genotypes.","A positive effect size would imply that males carrying male-limited haplotypes produce more 7-C23:1 than males carrying control genomes (though there is no significant difference).","Male fitness is higher in males carrying an X chromosome that underwent male-limited evolution compared to males carrying an X that experienced only 1 generation of father-to-son inheritance.","The proportion of males among the progeny of males carrying an X chromosome that underwent male-limited evolution is higher than that of males carrying an X that experienced only 1 generation of father-to-son inheritance.","A positive effect would indicate that the relaxation of selection on females reduced female fitness, relative to the monogamy treatment which removed sexual selection yet maintained natural selection on both sexes (there is non-significant difference in the opposite direction).","The positive effect indicates that the relaxation of selection on females increased male fitness, relative to the monogamy treatment which removed sexual selection yet maintained natural selection on both sexes.","A positive effect size would mean that females carrying a male-evolved X chromosome have lower fitness than females carrying a control genome (the effect is non-significantly negative).","The positive effect size indicates that males carrying a male-evolved X chromosome have higher fitness than males carrying a control genome.","The positive effect size indicates that females carrying a male-evolved X chromosome have greater locomotory activity than females with a control genome.","The positive effect size would indicate that males carrying a male-evolved X chromosome have greater locomotory activity than males with a control genome (there is no significant difference though).","A positive effect size would indicates elevated egg-to-adult survival in the progeny of females carrying a male-evolved X chromosome relative to females carrying control genomes. Note that all sons and 50% daughters actually inherit the male-evolved X from the tester females. There is seemingly no difference based on the available data, though the authors find that MLX has greater survival than the control in a quasibinomial GLM presented in the supplement.","The positive effect size indicates that males carrying a male-evolved X chromosome have a greater proportion of sons among their progeny that reach adulthood (indicating enhanced male survival, reduced female survival, and/or changes to the primary sex ratio). Note that all daughters and none of the sons actually inherit the male-evolved X from the tester males.","A positive effect would mean that females carrying female-evolved X chromosomes have higher fitness than the control FM genotype (there is no difference, though).","A positive effect would mean that males carrying female-evolved X chromosomes have lower fitness than the control FM genotype (there is no difference, though).","A positive effect would mean that females carrying female-evolved X chromosomes take less time to develop higher fitness than the control FM genotype (there is no difference, though).","A positive effect would mean that males carrying female-evolved X chromosomes take less time to develop higher fitness than the control FM genotype (there is no difference, though).","A positive effect would mean that females carrying female-evolved X chromosomes are less active than females carrying the control FM genotype (there is no difference, though).","A positive effect would mean that males carrying female-evolved X chromosomes are less active than males carrying the control FM genotype (actually it's significant in the opposite direction).","A positive effect would mean that females carrying female-evolved X chromosomes had larger thoraxes than females with the control FM genotype (there is no difference, though).","A positive effect would mean that males carrying female-evolved X chromosomes had larger thoraxes than males with the control FM genotype (there is no difference, though).","The positive effect size means that worms carrying the feminising allele had higher fitness when breeding in the female sex role compared to worms carrying the control allele.","A positive effect would mean that worms carrying the masculinising allele had lower fitness when breeding in the female sex role compared to worms carrying the control allele (actually, they had non-significantly higher fitness).","A positive effect would mean that worms carrying the feminising allele had lower fitness when breeding in the male sex role compared to worms carrying the control allele (they did, but the difference is not significant).","A positive effect would mean that worms carrying the masculinising allele had higher fitness when breeding in the male sex role compared to worms carrying the control allele (they did, but the difference is not significant).","A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have lower mating success compared to males carrying control X chromosomes (there is a non-significant trend in the opposite direction).","A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would take longer to induce females to mate compared to males carrying control X chromosomes (there is a non-significant trend in the opposite direction).","A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have worse sperm offence (i.e. sire fewer offspring with previously mated females) compared to males carrying control X chromosomes (however the finding is significant in the opposite direction).","The positive effect indicates that males carrying an X chromosome that underwent female-limited evolution have worse sperm defence (i.e. sire fewer offspring when after the female remates) compared to males carrying control X chromosomes.","A positive effect would mean that females carrying primarily male-evolved copies of chromosome 2 mate less often, compared to females with primarily female-evolved copies of chromosome 2 (there is no difference, though).","This positive effect means that males carrying primarily male-evolved copies of chromosome 2 mate more often, compared to males with primarily female-evolved copies of chromosome 2.","This positive effect means that females carrying male-evolved haplotypes have lower fitness than females carrying control genomes.","This positive effect means that males carrying male-evolved haplotypes have higher fitness than males carrying control genomes.","A positive effectwould mean that males carrying male-evolved haplotypes are more likely to mate with females (over standard male competitors) compared to males carrying control genomes (there is no signficant difference).","A positive effect would indicate that males carrying male-evolved haplotypes sire more offspring when mating with previously-mated females, compared to males carrying control genomes (there is no significant effect)."],[0.3552722201971315,0.9202792535305844,0.9261835692619405,0.584790729736328,0.02315458613417177,0.1805342224955844,1.093859411017316,0.00515007089855357,0.3667539933905705,-0.04,0.13,0.46,-0.13,-1.17,0.51,0.52,1.86,0.26,0.43,0.14,0.15,0.23,0.19,0.13,0.88,1.65,-0.06791664667588382,0.2267810606678057,-0.17,0.5600000000000001,1.07,-0.36,0.14,0.7,0.02558520614593986,0.4302584278315182,-0.08061220628125212,-0.01893826042187464,0.06054650195608605,-0.2558257189070448,0.2466123469233509,0.2934138816346166,0.3284061468611228,-0.08648638416019193,0.2766109531132399,0.04510942968796571,-0.550517796951982,-0.25,-0.57,0.5,-0.03486196855263462,0.06304635505774638,0.2477844665074827,0.03924881717034775,0.1877179306789016,0.08510413627710936],[0.00393813639079583,0.1029017894373451,0.06245779249175776,0.0018894596860963,0.00214494252543407,0.00772670242553785,0.00196133488360151,7.733383088679684e-05,0.05348001642700953,0.04,0.04,0.04,0.06,0.06,0.05,0.03,0.05,0.01,0.01,0.01,0.01,0.01,0.01,0.02,0.04,0.04,0.00589923384569155,0.00578670863104179,0.03,0.03,0.08,0.07000000000000001,0.03,0.04,0.02047473868570672,0.03949078600773182,0.028051246180414,0.0572603167686184,0.00835284242643472,0.01428138495060923,0.01121367242739338,0.02274481739806256,0.02250964338124475,0.02173664155896101,0.02250964338124487,0.02173664155896113,0.04330376544056254,0.01,0.01,0.01,0.0006367713388195742,0.0006179656970948915,0.0002370436889225693,0.0002755122945598124,0.01834830235442497,0.00232088391991535],[0.2322732577670309,0.2915444013850198,0.4363490506371943,0.4995936151718806,-0.06761992133189787,0.008246962264462761,1.029407273508337,-0.01208610166773035,0.03019808849605047,-0.42,-0.29,0.04,-0.62,-1.65,0.07000000000000001,0.16,1.43,0.09,0.24,-0.03,-0.03,0.06,0.01,-0.12,0.51,1.24,-0.2184573280268352,0.07768303963127363,-0.53,0.2,0.53,-0.87,-0.22,0.33,-0.2548711293770983,0.04076156837395783,-0.324358223717493,-0.3671860125444159,-0.1185855149068735,-0.4900550262668635,0.03905887430225879,-0.00218126466585494,0.03434315018627792,-0.375456074980708,-0.01745204356160573,-0.2438602611325511,-0.9583851103229668,-0.48,-0.8100000000000001,0.27,-0.0843212525669557,0.01432287999736367,0.2176078690292224,0.00671563363751507,-0.07777564424290136,-0.009319947868551439],[0.4782711826272321,1.549014105676149,1.416018087886686,0.6699878443007753,0.1139290936002414,0.3528214827267061,1.158311548526296,0.0223862434648375,0.7033098982850906,0.33,0.54,0.87,0.35,-0.7,0.96,0.89,2.29,0.44,0.62,0.31,0.34,0.4,0.38,0.38,1.26,2.06,0.08262403467506757,0.3758790817043377,0.19,0.93,1.61,0.15,0.5,1.07,0.306041541668978,0.8197552872890786,0.1631338111549888,0.3293094917006667,0.2396785188190456,-0.02159641154722607,0.4541658195444431,0.5890090279350881,0.6224691435359677,0.2024833066603241,0.5706739497880855,0.3340791205084825,-0.1426504835809973,-0.02,-0.34,0.73,0.01459731546168645,0.1117698301181291,0.2779610639857429,0.07178200070318043,0.4532115056007045,0.1795282204227702],["Rice (1992)","Rice (1996)","Rice (1996)","Rice (1996)","Rice (1996)","Rice (1996)","Rice (1996)","Rice (1996)","Rice (1996)","Radwan et al. (2004)","Radwan et al. (2004)","Radwan et al. (2004)","Radwan et al. (2004)","Prasad et al. (2007)","Prasad et al. (2007)","Morrow et al. (2008)","Morrow et al. (2008)","Prasad et al. (2007)","Prasad et al. (2007)","Prasad et al. (2007)","Prasad et al. (2007)","Prasad et al. (2007)","Prasad et al. (2007)","Prasad et al. (2007)","Abbott et al. (2013)","Abbott et al. (2013)","Martinossi-Allibert et al. (2019)","Martinossi-Allibert et al. (2019)","Abbott et al. (2013)","Abbott et al. (2013)","Abbott et al. (2013)","Abbott et al. (2013)","Abbott et al. (2013)","Abbott et al. (2013)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Nordén et al. (2020)","Nordén et al. (2020)","Nordén et al. (2020)","Nordén et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Grieshop et al. (2025)","Grieshop et al. (2025)","Thyagarajan et al. (2025)","Thyagarajan et al. (2025)","Thyagarajan et al. (2025)","Thyagarajan et al. (2025)"],["Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific relaxation of selection","Sex-specific relaxation of selection","Sex-specific relaxation of selection","Sex-specific relaxation of selection","Sex-specific inheritance","Sex-specific inheritance","Sex-specific relaxation of selection","Sex-specific relaxation of selection","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific relaxation of selection","Sex-specific relaxation of selection","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance"],["Feminising artificial sex determination locus","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Female-limited MCN","Female-limited MCN","Female-limited MCN","Female-limited MCN","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited and female-limited MCN","Male-limited and female-limited MCN","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited X chromosomes","Male-limited X chromosomes","Female-limited MCN","Female-limited MCN","Male-limited X chromosomes","Male-limited X chromosomes","Male-limited X chromosomes","Male-limited X chromosomes","Male-limited X chromosomes","Male-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Artifical sex determination locus (one for each sex)","Artifical sex determination locus (one for each sex)","Artifical sex determination locus (one for each sex)","Artifical sex determination locus (one for each sex)","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Masculinising artificial sex determination locus","Masculinising artificial sex determination locus","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes"],["Male","Male","Male","Male","Male","Male","Female","Female","Male","Both","Female","Female","Male","Male","Female","Male","Female","Female","Male","Female","Male","Female","Male","Male","Male","Both","Female","Male","Female","Male","Female","Male","Both","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Female","Male","Male","Male","Male","Male","Male","Female","Male","Female","Male","Male","Male"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Study<\/th>\n      <th>Trait<\/th>\n      <th>Generations<\/th>\n      <th>Organism<\/th>\n      <th>Interpretation<\/th>\n      <th>Estimate<\/th>\n      <th>Var<\/th>\n      <th>Lower_95_CI<\/th>\n      <th>Upper_95_CI<\/th>\n      <th>Origin_of_lines<\/th>\n      <th>Experiment_type1<\/th>\n      <th>Experiment_type2<\/th>\n      <th>Sex<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"autoWidth":true,"dom":"Bfrtip","deferRender":true,"scrollX":true,"scrollY":1000,"scrollCollapse":true,"buttons":["pageLength","colvis","csv",{"extend":"pdf","pageSize":"A4","orientation":"landscape","filename":"Trait_data"}],"pageLength":100,"columnDefs":[{"targets":5,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":6,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":7,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":8,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"className":"dt-right","targets":[2,5,6,7,8]},{"name":"Study","targets":0},{"name":"Trait","targets":1},{"name":"Generations","targets":2},{"name":"Organism","targets":3},{"name":"Interpretation","targets":4},{"name":"Estimate","targets":5},{"name":"Var","targets":6},{"name":"Lower_95_CI","targets":7},{"name":"Upper_95_CI","targets":8},{"name":"Origin_of_lines","targets":9},{"name":"Experiment_type1","targets":10},{"name":"Experiment_type2","targets":11},{"name":"Sex","targets":12}],"order":[],"orderClasses":false}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.columnDefs.2.render","options.columnDefs.3.render"],"jsHooks":[]}</script>
+</div>
+<div id="meta-analysis-without-moderators" class="section level2">
+<h2>Meta-analysis without moderators</h2>
+<p>This meta-analysis can be used to calculate the grand mean effect
+size. It’s a mixed effects meta-analysis with the random effects
+structure <code>~ 1 | Origin_of_lines/Study</code>. This means we fit a
+random intercept for <code>Origin_of_lines</code>, a variable which
+gives the name of the study that first created the experimental
+evolution lines being measured. We also fit a random intercept for
+<code>Study</code> nested within <code>Origin_of_lines</code>, where
+<code>Study</code> is a variable giving the name of the study doing the
+measuring (which is often the same study, but not always, since some
+studies re-measured lines that were created in an earlier study).</p>
+<pre class="r"><code>meta_analysis &lt;- rma.mv(
+  yi = Estimate,
+  V = Var,
+  random = ~ 1 | Origin_of_lines/Study,
+  data = meta_analysis_data,
+  method = &quot;REML&quot;
+)
+
+summary(meta_analysis)</code></pre>
+<pre><code>
+Multivariate Meta-Analysis Model (k = 56; method: REML)
+
+   logLik   Deviance        AIC        BIC       AICc   
+-480.3230   960.6459   966.6459   972.6679   967.1165   
+
+Variance Components:
+
+            estim    sqrt  nlvls  fixed                 factor 
+sigma^2.1  0.0192  0.1387     11     no        Origin_of_lines 
+sigma^2.2  0.1198  0.3462     16     no  Origin_of_lines/Study 
+
+Test for Heterogeneity:
+Q(df = 55) = 1259.9840, p-val &lt; .0001
+
+Model Results:
+
+estimate      se    zval    pval   ci.lb   ci.ub    
+  0.2588  0.1009  2.5653  0.0103  0.0611  0.4565  * 
+
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>The above results table shows that the grand mean effect size is
+0.259, with a standard error of 0.101 and 95% CIs of 0.061 to 0.457.</p>
+</div>
+<div id="testing-for-effects-of-moderators" class="section level2">
+<h2>Testing for effects of moderators</h2>
+<p>Here, I use AICc model selection to compare 7 competing meta-analysis
+models, which fit <code>Generations</code>, <code>Sex</code>,
+<code>Experiment_type</code>, a combination of 2 or all of these, or the
+intercept-only null model. <code>Generations</code> gives the number of
+generations of selection at the time the focal trait was measured,
+<code>Sex</code> gives the sex of the individuals expressing the trait
+(male, female, or both sexes), and <code>Experiment_type</code> is
+either “Sex-specific inheritance” or “Sex-specific relaxation of
+selection”.</p>
+<p>The top model includes the moderator <code>Generations</code>, and it
+is ahead of second-best model (which also includes <code>Sex</code>) by
+much more than 2 AICc, suggesting that <code>Generations</code> explains
+substantial variation in the data but the other moderators do not.</p>
+<pre class="r"><code>fit_ma &lt;- function(formula){
+  
+  scaled_meta_analysis_data &lt;-
+    meta_analysis_data %&gt;% 
+    mutate(Generations = as.numeric(scale(Generations)))
+  
+  if(formula == &quot;Intercept only&quot;){
+    return(meta_analysis)
+  }
+  
+  rma.mv(
+    yi = Estimate,
+    V = Var,
+    mods = as.formula(formula),
+    random = ~ 1 | Origin_of_lines/Short_name,
+    data = scaled_meta_analysis_data,
+    method = &quot;REML&quot;
+  )
+}
+
+fit_all &lt;- function(formulae){
+  meta &lt;- lapply(formulae, fit_ma)
+  get_p &lt;- function(ma) as.numeric(ma$p)
+  get_logLik &lt;- function(ma) as.numeric(logLik(ma))
+  get_AICc &lt;- function(ma) as.numeric(AIC(ma, correct = T))
+  
+  data.frame(
+    Model = formulae,
+    k     = sapply(meta, get_p),
+    logLik = sapply(meta, get_logLik),
+    AICc   = sapply(meta, get_AICc)) %&gt;% 
+    arrange(AICc) %&gt;% 
+    mutate(Model = str_remove_all(Model, &quot;~ &quot;),
+           delta_AICc = round(AICc - AICc[1], 2),
+           delta_AICc = c(&quot; &quot;, delta_AICc[2:length(delta_AICc)]))
+}
+
+fit_all(c(&quot;~ Generations + Sex + Experiment_type1&quot;,
+          &quot;~ Generations + Sex&quot;,
+          &quot;~ Sex + Experiment_type1&quot;,
+          &quot;~ Generations&quot;,
+          &quot;~ Sex&quot;,
+          &quot;~ Experiment_type1&quot;,
+          &quot;Intercept only&quot;)) %&gt;% 
+  kable() %&gt;% 
+  kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Model
+</th>
+<th style="text-align:right;">
+k
+</th>
+<th style="text-align:right;">
+logLik
+</th>
+<th style="text-align:right;">
+AICc
+</th>
+<th style="text-align:left;">
+delta_AICc
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Generations
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-474.0118
+</td>
+<td style="text-align:right;">
+956.8400
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Generations + Sex
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-475.7599
+</td>
+<td style="text-align:right;">
+965.3864
+</td>
+<td style="text-align:left;">
+8.55
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Intercept only
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-480.3230
+</td>
+<td style="text-align:right;">
+967.1165
+</td>
+<td style="text-align:left;">
+10.28
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Generations + Sex + Experiment_type1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+-475.4378
+</td>
+<td style="text-align:right;">
+967.4803
+</td>
+<td style="text-align:left;">
+10.64
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Experiment_type1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-479.5911
+</td>
+<td style="text-align:right;">
+967.9986
+</td>
+<td style="text-align:left;">
+11.16
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sex
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+-482.4367
+</td>
+<td style="text-align:right;">
+976.1500
+</td>
+<td style="text-align:left;">
+19.31
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sex + Experiment_type1
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+-481.7395
+</td>
+<td style="text-align:right;">
+977.3457
+</td>
+<td style="text-align:left;">
+20.51
+</td>
+</tr>
+</tbody>
+</table>
+<p>Here are the results of the top model, showing the significant
+negative effect of the moderator <code>Generations</code> on effect size
+(note: <code>Generations</code> was scaled to have mean 0, SD 1, prior
+to analysis). This is a counter-intuitive result since we might expect
+greater effects after more generations of selection, but it is not very
+informative since <code>Generations</code> is likely confounded with
+other factors (e.g. species, type of experimental design, type of trait
+being measured). The grand mean effect size (predicted here for the
+average value of <code>Generations</code>, which is 54.1) is much the
+same after adjusting for the effect of <code>Generations</code>.</p>
+<pre class="r"><code>fit_ma(&quot;~ Generations&quot;)</code></pre>
+<pre><code>
+Multivariate Meta-Analysis Model (k = 56; method: REML)
+
+Variance Components:
+
+            estim    sqrt  nlvls  fixed                      factor 
+sigma^2.1  0.0000  0.0001     11     no             Origin_of_lines 
+sigma^2.2  0.1184  0.3440     16     no  Origin_of_lines/Short_name 
+
+Test for Residual Heterogeneity:
+QE(df = 54) = 1249.3315, p-val &lt; .0001
+
+Test of Moderators (coefficient 2):
+QM(df = 1) = 14.0147, p-val = 0.0002
+
+Model Results:
+
+             estimate      se     zval    pval    ci.lb    ci.ub      
+intrcpt        0.2512  0.0900   2.7923  0.0052   0.0749   0.4276   ** 
+Generations   -0.1151  0.0307  -3.7436  0.0002  -0.1754  -0.0548  *** 
+
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="forest-plot-of-effect-sizes" class="section level2">
+<h2>Forest plot of effect sizes</h2>
+<pre class="r"><code>plot_data &lt;- meta_analysis_data %&gt;% 
+  select(Origin_of_lines, Short_name, 
+         Experiment_type1, Experiment_type2, Trait, Estimate, 
+         Lower_95_CI, 
+         Upper_95_CI) 
+
+plot_data$Trait[plot_data$Trait == &quot;Male fitness&quot; &amp; plot_data$Short_name == &quot;Abbott et al. (2013)&quot;] &lt;- &quot;Male fitness (2013)&quot;
+plot_data$Trait[plot_data$Trait == &quot;Male fitness&quot; &amp; plot_data$Short_name == &quot;Abbott et al. (2020)&quot;] &lt;- &quot;Male fitness (2020)&quot;
+
+plot_data &lt;- plot_data %&gt;% 
+  group_by(Origin_of_lines) %&gt;% 
+  mutate(Short_name = paste0(unique(Short_name), collapse = &quot;;\n&quot;)) %&gt;% 
+  bind_rows(tibble(
+    Origin_of_lines = &quot; &quot;, Short_name = &quot;Mean effect size&quot;, 
+         Experiment_type1 = &quot;  &quot;, Trait = &quot; &quot;, 
+    Estimate = as.numeric(meta_analysis$b), 
+         Lower_95_CI = as.numeric(meta_analysis$ci.lb), 
+    Upper_95_CI  = as.numeric(meta_analysis$ci.ub)
+  )) 
+
+
+levs &lt;- plot_data$Short_name %&gt;% unique()
+
+plot_data &lt;- plot_data %&gt;% 
+  mutate(Short_name = factor(Short_name, levs)) 
+
+bands &lt;- plot_data %&gt;% 
+  mutate(y = 1:n()) %&gt;% 
+  group_by(Short_name) %&gt;% 
+  summarise(
+    ymin = min(y) -0.5,
+    ymax = max(y) + 0.5,
+    .groups = &quot;drop&quot;)  %&gt;% 
+  dplyr::mutate(
+    stripe = row_number() %% 2
+  )
+
+plot_data %&gt;% 
+  mutate(Short_name = factor(Short_name, levs)) %&gt;% 
+  ggplot(aes(y = Trait, x = Estimate)) +
+  geom_vline(xintercept = 0, linetype = 2, colour = &quot;grey10&quot;) +
+  geom_errorbar(aes(xmin = Lower_95_CI, 
+                    xmax = Upper_95_CI, 
+                    colour = Experiment_type1)) +
+  geom_point(aes(colour = Experiment_type1)) + 
+  facet_grid2( rows = vars(Short_name),
+    scales = &quot;free_y&quot;,
+    space = &quot;free_y&quot;) +
+  theme_minimal()+
+  theme(legend.position = &quot;top&quot;,
+        panel.grid.major.y = element_blank(),
+        strip.text.y = element_text(angle = 0))+ 
+  labs(x = &quot;Effect size (Cohen&#39;s d) \u00B1 95% CIs&quot;, 
+       y = NULL,
+       colour = NULL) +  #geom_stripped_rows()
+  geom_rect(
+    data = bands,
+    aes(ymin = ymin, ymax = ymax, xmin = -Inf, xmax = Inf, fill = factor(stripe)),
+    alpha = 0.1,
+    inherit.aes = FALSE,
+    fill = rep(c(&quot;green&quot;, &quot;steelblue&quot;), 6)
+  )</code></pre>
+<p><img src="figure/meta_analysis.Rmd/unnamed-chunk-9-1.png" alt="" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="plotting-effect-of-moderator-generations"
+class="section level2">
+<h2>Plotting effect of moderator <code>Generations</code></h2>
+<p>On the right of x-axis (high generation number), this result is
+driven by a couple of studies, Lund-Hansen et al. (2020) and Manat et
+al. (2021), which both relate to the same set of experimental evolution
+lines, and which both focus on female-limited evolution of X chromosomes
+(uniquely in the full dataset). I also calculated the effect sizes from
+the raw data for these studies, avoiding issues with falsely inflating
+them. to the left of the x-axis (short generation number), the trend is
+driven by a couple of older studies I calculated the effect sizes from
+summary statistics, possibly inflating them.</p>
+<p>Therefore, I don’t feel there is good evidence for a true negative
+effect of <code>Generations</code>, and this result instead reflects
+confounding.</p>
+<pre class="r"><code>library(ggrepel)
+meta_analysis_data %&gt;% 
+  ggplot(aes(Generations, Estimate)) + 
+  geom_point() + 
+  geom_text_repel(aes(label = Short_name), size = 2, max.overlaps = 1000)</code></pre>
+<p><img src="figure/meta_analysis.Rmd/unnamed-chunk-10-1.png" alt="" width="672" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.5.2 (2025-10-31)
+Platform: aarch64-apple-darwin20
+Running under: macOS Tahoe 26.2
+
+Matrix products: default
+BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: Europe/London
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] ggrepel_0.9.6       kableExtra_1.4.0    ggh4x_0.3.1        
+ [4] DT_0.34.0           metafor_4.8-0       numDeriv_2016.8-1.1
+ [7] metadat_1.4-0       Matrix_1.7-4        lubridate_1.9.4    
+[10] forcats_1.0.1       stringr_1.6.0       dplyr_1.2.0        
+[13] purrr_1.2.1         readr_2.1.6         tidyr_1.3.2        
+[16] tibble_3.3.1        ggplot2_4.0.2       tidyverse_2.0.0    
+
+loaded via a namespace (and not attached):
+ [1] gtable_0.3.6       xfun_0.56          bslib_0.10.0       htmlwidgets_1.6.4 
+ [5] lattice_0.22-7     mathjaxr_2.0-0     tzdb_0.5.0         crosstalk_1.2.2   
+ [9] vctrs_0.7.1        tools_4.5.2        generics_0.1.4     parallel_4.5.2    
+[13] pkgconfig_2.0.3    RColorBrewer_1.1-3 S7_0.2.1           lifecycle_1.0.5   
+[17] compiler_4.5.2     farver_2.1.2       git2r_0.36.2       textshaping_1.0.4 
+[21] httpuv_1.6.16      htmltools_0.5.9    sass_0.4.10        yaml_2.3.12       
+[25] crayon_1.5.3       later_1.4.5        pillar_1.11.1      jquerylib_0.1.4   
+[29] cachem_1.1.0       nlme_3.1-168       tidyselect_1.2.1   digest_0.6.39     
+[33] stringi_1.8.7      labeling_0.4.3     rprojroot_2.1.1    fastmap_1.2.0     
+[37] grid_4.5.2         cli_3.6.5          magrittr_2.0.4     withr_3.0.2       
+[41] scales_1.4.0       promises_1.5.0     bit64_4.6.0-1      timechange_0.4.0  
+[45] rmarkdown_2.30     bit_4.6.0          otel_0.2.0         workflowr_1.7.2   
+[49] hms_1.1.4          evaluate_1.0.5     knitr_1.51         viridisLite_0.4.2 
+[53] rlang_1.1.7        Rcpp_1.1.1         glue_1.8.0         xml2_1.5.2        
+[57] vroom_1.7.0        svglite_2.2.2      rstudioapi_0.18.0  jsonlite_2.0.0    
+[61] R6_2.6.1           systemfonts_1.3.1  fs_1.6.6          </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Lund-Hansen et al. (2020) Evolution 74, 2703–2713",Male locomotion,123,Drosophila melanogaster,A positive effect would mean that males carrying female-evolved X chromosomes are less active than males carrying the control FM genotype (actually it's significant in the opposite direction).,-0.2558257189070448,0.014281384950609235,-0.49005502626686354,-0.021596411547226073

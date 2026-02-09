@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Manat et al. (2021) Biol. Lett. 17, 20200915",Male mating success,107,Drosophila melanogaster,A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have lower mating success compared to males carrying control X chromosomes (there is a non-significant trend in the opposite direction).,-0.550517796951982,0.043303765440562546,-0.9583851103229668,-0.14265048358099733

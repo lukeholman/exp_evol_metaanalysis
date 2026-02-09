@@ -1,0 +1,1997 @@
+---
+title: "Collecting primary data"
+output: 
+  workflowr::wflow_html:
+    code_folding: hide 
+editor_options:
+  chunk_output_type: console
+  code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Overview
+
+## Cohen's $d$
+
+This document describes how I estimated Cohen's $d$ for each primary study in the meta-analysis. Cohen's $d$ is a standardised measure of the effect size, defined as the difference between two means, expressed in standard deviations of the variable of interest. Conventionally, Cohen's $d > |0.5|$ is considered a 'large' effect. 
+
+## Meaning of effect size sign
+
+Crucially, effect sizes have a sign (positive or negative, depending on whether mean 1 or mean 2 is the larger) as well as a magnitude. The sign is arbitrary, as it flips from positive depending on which mean is designated as mean 1 versus mean 2.
+
+To ensure the effect size sign is meaningful and comparable across studies, I defined a positive effect size to indicate that the two means differ in the direction that one would predict if intralocus sexual conflict is present, and a negative effect to mean that the means differ in a direction opposite to this prediction. For example, for a study like Prasad et al. (2007) that removed selection on females and then measured mean male and female fitness relative to a control, we would predict male-evolved populations to have higher male fitness and lower female fitness if intralocus sexual conflict is present. So, a positive effect size should indicate higher male fitness but lower female fitness in the experimental group relative to the control. To clarify the meaning of each effect size, I provide a column called 'interpretation' in the final table of effect sizes, and document the more confusing/ambiguous decisions in this document below.
+
+## How Cohen's $d$ was calculated
+
+### Preferred method: from the raw data
+
+If the primary study's raw data were available (e.g. on Dryad or Figshare, or as a table in the original paper), I calculated the effect size from an appropriate statistical model that accounted for the structure of the experimental design (e.g. the use of replicate experimental evolution lines), block effects, etc. (following the model used by the original authors wherever possible). The models chosen are documented in the code below.
+
+For response variables where it was appropriate to use Gaussian linear (mixed) models, I first transformed the response variable to have a mean of zero and variance of 1, such that the difference between treatment means estimates by the statistical model is equal to Cohen's d. 
+
+For generalised (e.g. binomial) models that estimated treatment means as a log odds ratio ($\log(\mathrm{OR})$), or a log hazard ratio (for survival models), I converted this effect size to Cohen's d using the standard approximation:
+
+$\log(\mathrm{OR}) = \frac{\sqrt{3}}{\pi}$
+
+For studies where the original data represent counts of binary events tallied up in a $2\times2$ contingency table (e.g. number of surviving and non-surviving individuals from the treatment and control groups) with elements $a$,$b$,$c$ and $d$, I estimated the log odds ratio as $log(a\times d / b\times c)$ and found the SE of the log odds ratio using Woolf's method, i.e. 
+
+\[SE\!\left(\log(\mathrm{OR})\right)
+=\sqrt{\frac{1}{a}+\frac{1}{b}+\frac{1}{c}+\frac{1}{d}}\]
+
+### Fall-back method: from the group means
+
+For many studies, the raw data were not available, but the paper provided numerical or graphical information about 1) the means of each treatment group, 2) either the group standard deviations or the standard errors of the means (which allow calculation of the standard deviation as $SD = SE\times\sqrt{N}$), and 3) the sample size N. From these three quantities, one can estimate Cohen's d (I used the function `mes()` from the `compute.es` package). Where possible I obtained these numbers from tables or the main text, but often the data were only contained in figures (e.g. bar charts showing the mean and standard errors). In the latter case, I measured the means and standard errors using the web application [PlotDigitizer](https://plotdigitizer.com/) - this data extraction step is expected to add some inaccuracy, but not consistently bias the meta-analysis.
+
+Using group means is a less accurate method because it is not possible to account for the structure of the experimental design, incurring pseudoreplication. For example, in studies where the authors had 4 replicate experimental evolution lines for 2 treatments and measured 20 individuals per line, the sample size is not really 80 per treatment, since there are 20 replicate measurements of only 8 lines. This will make the effect size measurements appear more precise than they should be, giving extra weight to those studies in the meta-analysis. 
+
+
+
+### Preferred method: from the raw data
+
+Load packages and define some custom functions:
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(lme4)
+library(car)
+library(lmerTest)
+library(emmeans)
+library(survival)
+library(kableExtra)
+library(compute.es)
+
+# Function to parse results of compute.es::mes(), fes(), etc.
+parse_es <- function(x, study, trait, generations, organism, interpretation){
+  x %>% 
+    as.list() %>% enframe() %>% unnest(value) %>% 
+    filter(name %in% c("d", "var.d", "l.d", "u.d")) %>% 
+    mutate(type = c("Estimate", "Var", "Lower_95_CI", "Upper_95_CI")) %>% 
+    select(-name) %>% 
+    pivot_wider(names_from = type, values_from = value) %>% 
+    mutate(Study = study, Trait = trait, Generations = generations, 
+           Organism = organism, Interpretation = interpretation, 
+           .before = 1)
+}
+
+# Function to calculate Cohen's d effect size from a 2x2 contingency table
+# It first calculates the log odds ratio, then converts this to Cohen's d via logOR * sqrt(3) / pi
+# SE of the LOR is calculated using Woolf's method
+get_effect_size_2x2_matrix <- function(x){
+  
+  # calculate log odds ratio as log(a*d / b*c)
+  logOR <- as.numeric(log((x[1,1] * x[2,2]) / 
+                            (x[2,1] * x[1,2])))
+  
+  # Standard error of the log OR (Woolf method)
+  SE_logOR <- 1/x[1,1] + 1/x[1,2] + 1/x[2,1] + 1/x[2,2]
+  
+  # 95% CIs of the log OR
+  CI_logOR <- logOR + c(-1, 1) * 1.96 *  SE_logOR
+  
+  # Convert LOR to d:
+  d <- logOR * sqrt(3) / pi
+  SE_d <- SE_logOR * sqrt(3) / pi
+  CI_d <- CI_logOR * sqrt(3) / pi
+  
+  tibble(Estimate = d,
+         Var = SE_d ^ 2,
+         Lower_95_CI = CI_d[1],
+         Upper_95_CI = CI_d[2])
+}
+```
+
+# Sex-limited evolution experiments
+
+## Rice (1992)
+
+Rice, W. R. (1992). Sexually antagonistic genes: experimental evidence. _Science_, 256, 1436-1439.
+
+### Rice's original data
+
+These data are shown in Table 1. Letters R, P, S and O denote the 4 eye colours of males that females might mate to, where O (orange-eyed) represents non-focal males and R/P/S are the focal male (which differ in how many copies of the evolved genomic region is carried). The focal males carry alleles from either the control or the population undergoing female-limited evolution of a small genomic region. The R,P,S, and O columns are percentages, with the last column giving the total number of females tested. 
+
+```{r}
+df <- tibble(
+  replicate = c(1,2,1,2),
+  treatment = c("control", "control", "experimental", "experimental"),
+  R = c(42, 36, 40, 17),
+  P = c(26, 21, 20, 40),
+  S = c(22, 33, 22, 26),
+  O = c(10, 9, 17, 17),
+  total = c(90, 75, 90, 70)
+)
+
+df %>% kable() %>% kable_styling()
+```
+
+### Calculating effect size
+
+```{r}
+# first convert the 4 percentage columns to counts of females (with rounding)
+df$R <- round((df$R/100) * df$total)
+df$P <- round((df$P/100) * df$total)
+df$S <- round((df$S/100) * df$total)
+df$O <- round((df$O/100) * df$total)
+
+# Pool the females over the 3 types representing focal males
+focal_male_chosen <- rowSums(df %>% select(R, P, S))
+
+# Make a 2x2 contingency table giving number of times the focal vs non-focal male mated, for control vs experimental
+x <- matrix(c(focal_male_chosen[1] + focal_male_chosen[2], 
+         focal_male_chosen[3] + focal_male_chosen[4], 
+         df$O[1] + df$O[2], 
+         df$O[3] + df$O[4]), ncol = 2)
+
+get_effect_size_2x2_matrix(x) %>% 
+    mutate(Study = "Rice (1992) Science 256, 1436-1439", 
+           Trait = "Male fitness", 
+           Generations = "29",
+           Organism = "Drosophila melanogaster",
+           Interpretation = "A positive effect size means that males carrying a genomic region that underwent female-limited evolution had lower fitness compared to males carrying control genomes.",
+           .before = 1) %>% 
+  write_csv("effect_sizes/rice92.csv")
+```
+
+
+## Rice (1996)
+
+Rice, W. R. (1996). Sexually antagonistic male adaptation triggered by experimental arrest of female evolution. _Nature_, 381, 232–234.
+
+### Male fitness
+
+#### Rice's original data
+
+The means for the male fitness were recorded from Figure 1, using PlotDigitizer. 
+
+```{r}
+# These data come from using PlotDigitizer web app on data in the first 2 columns of Figure 2
+rice96 <- tibble(generation = c(rep(31,4), rep(32, 4)),
+       replicate = rep(c("A", "A", "B", "B"), 2),
+       treatment = rep(c("ML", "Control", "ML", "Control"), 2),
+       fitness = c(1.312563038, 1.040288341, 1.240486316, 0.959122165,
+                   1.233782098, 1.018216389, 1.182082107, 0.982122656),
+       sample_size = rep(c(4,8), each=4)) 
+
+rice96 %>% 
+  mutate(fitness = round(fitness,2)) %>% 
+  rename(`Male fitness` = fitness) %>% 
+  kable() %>% kable_styling(full_width = F)
+```
+
+#### Calculating effect size
+
+However the study provides means only means, not a measure of error, which we need to compute effect size variance and confidence limits. To get a rough estimate of these, we assume that the error is comparable to similar male fitness assays carried out in Wong & Holman (2023; _Evolution_). We load that study's raw data, and find the average standard deviation in proportion of offspring sired relative to competitor males. We then use simulation to generate 10,000 possible datasets for Rice (1996) by generating random Normally distributed numbers using the means from Rice's Figure 1 and SD for Wong & Holman, and calculate 10,000 estimates of the standardised effect size Cohen's d comparing the two treatments. From these 10,000 estimates we also obtain the effect size variance and 95% CIs. 
+
+
+```{r}
+# Rice's description of the male fitness trait:
+# Extra vials were constructed by mixing EA, EB, CA', and CB' males with target females (4 and 8 vials each in generations 31 and 32, respectively) using a procedure matching that of the adapting-male compartment of Fig. 1, except that 75% of the males were replaced by competitor males that were homozygous for the marker pP (previously recombined into the genetic background of the LH source stock). Offspring from competitor males were pink-eyed and could be distinguished from red-eyed males carrying the genomic haplotype of the experimental (EA or EB) or control (CA' or CB') males. The ratio of red-eyed to pink-eyed adult male offspring, after adjusting for Mendelian segregation, measured net relative fitness.
+
+# Find the standard deviation in proportion offspring sired in a different study, Wong & Holman 2023 Evolution, for 810 male fitness assays covering 125 fly genotypes
+# Then take the average SD across those 125 genotypes, and assume this is representative of the SD in Rice's study
+estimated_SD <- read_csv("input_data/male_fitness_raw_data_wong_and_holman.csv", show_col_types = FALSE) %>% 
+  mutate(fitness = `Early male focal` / (`Early male focal` + `Early male rival`)) %>% 
+  group_by(Line) %>% 
+  summarise(mean_fitness = mean(fitness),
+            sd_fitness = sd(fitness)) %>% 
+  summarise(x = mean(sd_fitness, na.rm=T)) %>% pull(x)
+
+
+# 
+make_data <- function(mean_fitness, n, sd){
+  rnorm(n, mean_fitness, sd)
+}
+
+bootstrapped_effect_sizes <- lapply(1:1000, function(i){
+  
+  possible_dataset <- map_df(1:8, ~ tibble(
+    generation = rice96$generation[.x],
+    replicate = rice96$replicate[.x],
+    treatment = rice96$treatment[.x],
+    fitness = rnorm(n = rice96$sample_size[.x], 
+                    mean = rice96$fitness[.x], 
+                    sd = estimated_SD))) %>% 
+    mutate(line = paste(treatment, replicate, sep = "_"),
+           fitness = as.numeric(scale(fitness)))
+  
+  as.numeric(summary(lm(fitness ~ treatment + line, data = possible_dataset))$coefficients[2,1:2])
+}) %>% 
+  do.call("rbind", .) %>% 
+  as.data.frame() %>% as_tibble() %>% 
+  mutate(V2 = V2 ^ 2) %>% # Square the SE in the difference in means, to get the variance
+  rename(Estimate = V1, Var = V2)
+
+bootstrapped_effect_sizes %>% 
+  summarise(Estimate = mean(Estimate), # bootstrapped Cohen's d effect size
+            Var = mean(Var)) %>%       # bootstrapped variance in Cohen's d effect size
+  mutate(Lower_95_CI = Estimate - 1.96 * sqrt(Var),
+         Upper_95_CI = Estimate + 1.96 * sqrt(Var)) %>% 
+    mutate(Study = "Rice (1996) Nature 381, 232–234", 
+           Trait = "Male fitness", 
+           Generations = "32",
+           Organism = "Drosophila melanogaster",
+           Interpretation = "The positive effect size means that males carrying a genomic region that underwent male-limited evolution had higher fitness than males carrying control genomes",
+           .before = 1)  %>% 
+  write_csv("effect_sizes/rice96.csv")
+```
+
+
+## Rice (1998)
+
+Rice, W. R. (1998). Male fitness increases when females are eliminated from the gene pool: Implications for the Y chromosome. _PNAS_, 95, 6217–6221.
+
+### Mating speed  
+
+Data obtained from Figure 1A, using PlotDigitiser. Rice placed males with male-evolved or control genomes in vials with virgin females, and counted the number of mating pairs after 15 minutes. This is a rough measure of how quickly males induce virgin females to mate and presumably correlates with males' ability to find/court females, attractiveness and mating duration. 
+
+#### Rice's original data
+
+```{r}
+x <- matrix(c(52, 3, 42, 13), nrow = 2)
+colnames(x) <- c("male-limited", "control")
+rownames(x) <- c("mated", "unmated")
+kable(x) %>% kable_styling(full_width = F)
+```
+
+#### Calculating effect size
+
+```{r}
+get_effect_size_2x2_matrix(x) %>% 
+    mutate(Study = "Rice (1998) PNAS, 95, 6217–6221", 
+           Trait = "Male mating speed", 
+           Generations = "38",
+           Organism = "Drosophila melanogaster",
+           Interpretation = "The positive effect size means that males carrying a haplotype that underwent male-limited evolution mated with previously-unmated females faster than males carrying control haplotypes",
+           .before = 1) %>% 
+  write_csv("effect_sizes/rice98_1.csv")
+```
+
+### Male attractiveness to mated females
+
+This data is from Figure 1B (early measure), and shows the number of female flies mating vs not-mating with either EAB or CAB males. More females remating implies that the male type is better able to achieve matings with mated females (who recently mated with another male, of the same type as the focal male). Females remated more with EAB males than CAB males.
+
+#### Rice's raw data
+```{r}
+x <- matrix(c(54, 25, 140-54, 140-25), nrow=2)
+colnames(x) <- c("n_remating", "n_not_remating")
+rownames(x) <- c("EAB", "CAB")
+kable(x) %>% kable_styling(full_width = F)
+```
+
+#### Effect size
+```{r}
+get_effect_size_2x2_matrix(x) %>% 
+    mutate(Study = "Rice (1998) PNAS, 95, 6217–6221", 
+           Trait = "Male attractiveness to mated females", 
+           Generations = "38",
+           Organism = "Drosophila melanogaster",
+           Interpretation = "The positive effect size means that males carrying a haplotype that underwent male-limited evolution attained more matings with previously-mated females compared to males carrying control haplotypes",
+           .before = 1) %>% 
+  write_csv("effect_sizes/rice98_2.csv")
+```
+
+### Sperm defence
+
+Data collected from Figure 1C using PlotDigitiser. The data shows the proportion sired by the focal male (which carried either EAB or CAB genomes) after the female mated to a second male of a standard genoptype carrying marker mutations. Higher values indicate better 'sperm defence', i.e. reduced paternity loss to the second male.
+
+#### Rice's raw data
+
+```{r}
+m <- as.data.frame(matrix(
+  c(
+    0.8087228560912771, 13.078892347721043,
+    1.1769782848730217, 15.50243925103378,
+    1.826647037173353, 23.728290665799378,
+    2.1877806404122193, 19.96520001858477,
+    2.8175193227824806, 19.078474190400968,
+    3.191001104158999, 19.057008781303722,
+    3.830622009569378, 49.462760767550996,
+    4.195491350754509, 49.75561027737769),
+  ncol = 2,
+  byrow = TRUE)) %>% 
+  mutate(treatment = rep(c("EAB", "CAB"), 4), 
+         type = rep(c("all_pink", "most_pink", "most_red", "all_red"), each=2),
+         n = round(V2)) %>% select(treatment, type, n)
+
+kable(m) %>% kable_styling(full_width = F)
+```
+
+#### Effect size
+To get a Cohen's d effect size, I first reduce the results from a 4x2 contingency table to a 2x2 one, by pooling the all-red and mostly-red categories, and the all-pink and mostly-pink categories. A positive effect size here would mean better sperm defence in EAB males than CAB (though the effect size does not differ significantly from zero).
+
+```{r}
+x <- matrix(c(m$n[1] + m$n[3],
+         m$n[2] + m$n[4],
+         m$n[5] + m$n[7],
+         m$n[6] + m$n[8]), nrow = 2)
+
+get_effect_size_2x2_matrix(x) %>% 
+    mutate(Study = "Rice (1998) PNAS, 95, 6217–6221", 
+           Trait = "Male sperm defence", 
+           Generations = "40",
+           Organism = "Drosophila melanogaster",
+           Interpretation = "A positive effect size means that males carrying a haplotype that underwent male-limited evolution fertilise more offspring when mating first in twice-mated females, compared to males carrying control haplotypes (though there is no significant difference between the two treatments)",
+           .before = 1) %>% 
+  write_csv("effect_sizes/rice98_3.csv")
+```
+
+### Sperm offence
+
+Data collected from Figure 1D using PlotDigitiser. Rice mated females to a pink-eyed male first, then put them with a tester EAB or CAB male, and recorded the progeny genotypes qualitatively (mostly- or all-red vs pink). He reports a significant difference using a "directed $\chi^2$ contingency test" (perhaps meaning a 1-tail test), but the result appears non-significant with a standard 2-tailed test.
+
+#### Rice's raw data
+
+```{r}
+m <- as.data.frame(matrix(
+  c(
+    0.8123905550128108, 10.75088339222615,
+    1.1750935466627344, 16.231552691748078,
+    1.8095150319809772, 2.1388484722510914,
+    2.169287202079224, 0.6308459779671587,
+    2.7968885366168363, 11.076699230929123,
+    3.1919042966949918, 21.357825815838705,
+    3.8175517501981533, 76.27520266056953,
+    4.176346979779175, 61.42434005404282
+  ),
+  ncol = 2,
+  byrow = TRUE
+)) %>% 
+  mutate(treatment = rep(c("EAB", "CAB"), 4), 
+         type = rep(c("all_pink", "most_pink", "most_red", "all_red"), each=2),
+         n = round(V2)) %>% select(treatment, type, n)
+
+m %>% 
+  pivot_wider(names_from = type, values_from = n) %>% 
+  kable() %>% 
+  kable_styling(full_width = F)
+```
+
+
+#### Effect size
+To get a Cohen's d effect size, I first reduce the results from a 4x2 contingency table to a 2x2 one, by pooling the all-red and mostly-red categories, and the all-pink and mostly-pink categories. A positive effect size here would mean better sperm offence in EAB males than CAB (though the effect size does not differ significantly from zero).
+
+```{r}
+x <- matrix(c(m$n[5] + m$n[7],
+         m$n[6] + m$n[8],
+         m$n[1] + m$n[3],
+         m$n[2] + m$n[4]), nrow = 2)
+
+# positive effect means higher sperm offence for EAB males. It is not significant, contra Rice's analysis
+get_effect_size_2x2_matrix(x) %>% 
+    mutate(Study = "Rice (1998) PNAS, 95, 6217–6221", 
+           Trait = "Male sperm offence", 
+           Generations = "40",
+           Organism = "Drosophila melanogaster",
+           Interpretation = "A positive effect size means that males carrying a haplotype that underwent male-limited evolution fertilise more offspring when mating second in twice-mated females, compared to males carrying control haplotypes (though there is no significant difference between the two treatments)",
+           .before = 1) %>% 
+  write_csv("effect_sizes/rice98_4.csv")
+```
+
+### Sex-specific development time
+
+#### Rice's original data
+
+These data were extracted from Figure 2A using PlotDigitizer. The data show the numbers of females eclosed in each of the 4 replicate lines over a few days. We do not know what fraction of eggs hatched, so this data tells us only the development time of females who eventually hatched. It's also unclear if more females would have hatched on later days.
+
+Additionally, Rice does not present data on male development time for the other half of this progeny pool. I assume these data would have been collected, since Rice would have had to sex the flies to find all these females and could have easily counted the pile of males as well, so I do wonder if these results were left out since they were not significant in the predicted direction (i.e. masculinised, longer development in male EAB flies).
+
+```{r}
+dt <- read_csv("input_data/rice98_development_time.csv") %>% 
+  mutate(n_females_emerged = round(prop_emerged * overall_eclosed),
+         n_females_not_emerged = overall_eclosed - n_females_emerged) %>% 
+  mutate(treatment = substr(population, 1, 1),
+         line = population, .before = 1,
+         replicate = paste(population, generation, sep = "_"), 
+         day_centered = as.numeric(scale(day))) # mean-centre day and scale by dividing by its SD 
+
+kable(dt) %>% kable_styling()
+```
+
+#### Calculating effect size
+
+Here, I fit a binomial GLMM using the lme4 package with the form 
+
+$$Y = day \times treatment + (1 | line)$$
+
+With Y being a 2-column response variable giving the number of females eclosed or not yet eclosed, day in standard units, treatment being male-limited or control, and line being a 4-level factor (2 replicate lines each of the 2 treatments).
+
+I then used the fitted model to estimate the expected day on which 50% of the females had eclosed for each treatment, and used parametric bootstrapping to find the difference in number of days between the treatments (i.e. Cohen's d since day was standardised).
+
+The positive effect size indicates **slower** emergence of females carrying male-limited genomes (i.e. masculinisation of the phenotype). Rice interprets this result as extra female-harming mutations accumulating under male-limited selection, which is an additional valid interpretation.
+
+```{r}
+resp <- with(dt, cbind(n_females_emerged, n_females_not_emerged))
+model <- glmer(
+  resp ~ day_centered + treatment + (1 | line),
+  family = binomial,
+  data = dt,
+  control = glmerControl(optimizer = "bobyqa")
+)
+
+# Get the log odds ratio effect size (+ SE) of treatment on Prob(eclosion) at the average value of day (i.e. day = 11.42)
+LOR <- coef(summary(model))[2,1:2] %>% as.numeric()
+
+
+tibble(
+  Estimate = LOR[1] * sqrt(3) / pi,
+  Var = (LOR[2]^2) * sqrt(3) / pi,
+  Lower_95_CI = (LOR[1] - LOR[2]*1.96) * sqrt(3) / pi,
+  Upper_95_CI = (LOR[1] + LOR[2]*1.96) * sqrt(3) / pi) %>% 
+    mutate(Study = "Rice (1998) PNAS, 95, 6217–6221", 
+           Trait = "Female development time", 
+           Generations = "30",
+           Organism = "Drosophila melanogaster",
+           Interpretation = "The positive effect size means females carrying haplotypes that underwent male-limited evolution took longer to complete development than females carrying control genomes.",
+           .before = 1) %>% 
+  write_csv("effect_sizes/rice98_5.csv")
+```
+
+
+### Female productivity
+
+The data are from Figure 2B (captured with PlotDigitizer). Rice counted the "total number of adult offspring (measures net female fitness independent of development time) produced by EAB or CAB females (red-eyed offspring) in competition with tester-females (pink-eyed offspring)." There was no difference, implying that EAB and CAB are equally good at producing eggs and their offspring have equal survival rates (or if there are differences in these fitness components, then they cancel out). Note that in the methods and the figure axis label, Rice mentions that he only counted the daughters, while in the figure caption (quoted here) he says that all offspring were counted (meaning, sons too). It's unclear which was measured, but it likely does qualitatively change the result.
+
+#### Rice's original data
+```{r}
+x <- matrix(c(349, 344, 197, 196), nrow = 2)
+colnames(x) <- c("focal_female_offspring", "rival_female_offspring")
+rownames(x) <- c("CAB", "EAB")
+
+kable(x) %>% kable_styling(full_width = F)
+```
+
+#### Calculating effect size
+Here, we define a positive effect to mean that EAB females are *less* productive (which is what we'd predict if male-limited selection harms female fitness), though the observed effect size is zero or close to it.
+```{r}
+get_effect_size_2x2_matrix(x) %>% 
+    mutate(Study = "Rice (1998) PNAS, 95, 6217–6221", 
+           Trait = "Female productivity", 
+           Generations = "30",
+           Organism = "Drosophila melanogaster",
+           Interpretation = "A positive effect size means that females carrying a haplotype that underwent male-limited evolution produced fewer offspring than females carrying a control haplotype (though there is no significant difference).",
+           .before = 1) %>% 
+  write_csv("effect_sizes/rice98_6.csv")
+```
+
+### Mortality of males' mates
+
+#### Rice's original data
+Data extracted from Figure 3A with PlotDigitizer. 
+
+```{r}
+mortality <- tibble(
+  treatment = rep(c("EAB", "CAB"), each = 7),
+  day = c(
+    0,1,2,3,4,5,12, 0,1,2,3,4,5,12),
+  n_dead_females = c(
+    0,4,7,8,9,15,29,0,0,2,2,2,5,16),
+  n_live_females = 140 - n_dead_females)
+
+kable(mortality) %>% 
+  kable_styling(full_width = F)
+```
+
+
+#### Calculating effect size
+To calculate the effect size, I fit a Cox's proportional hazard model to the female surivivorship data, and measured the difference between the male-limited and control treatments in the per-day risk of death (conditional on being alive), taking into account the right censoring of the data (since the experiment ended on day 15, when most females were still alive). There is a weakly significant difference, such that females die faster when mated to EAB males, which is qualitatively the same conclusion Rice reached (using a bunch of pairwise t-tests focusing on specific days, which is a weaker approach, but understandable given the lower capabilities of statistical software in 1998). 
+
+The positive effect size means that females die faster when mated to males carrying male-evolved compared to control genomes.
+
+```{r}
+make_surv_data <- function(day, cum_dead, treatment) {
+  new_deaths <- c(cum_dead[1], diff(cum_dead))
+  death_times <- rep(day, new_deaths)
+  data.frame(
+    time = death_times,
+    event = 1,
+    treatment = treatment
+  )
+}
+
+surv_A <- make_surv_data(
+  day = mortality$day[mortality$treatment == "EAB"],
+  cum_dead = mortality$n_dead_females[mortality$treatment == "EAB"],
+  treatment = "EAB"
+)
+
+surv_B <- make_surv_data(
+  day = mortality$day[mortality$treatment == "CAB"],
+  cum_dead = mortality$n_dead_females[mortality$treatment == "CAB"],
+  treatment = "CAB"
+)
+
+surv_data <- bind_rows(surv_A, surv_B)
+
+censored_A <- data.frame(
+  time = 12,
+  event = 0,
+  treatment = "EAB"
+)[rep(1, 140 - nrow(surv_A)), ]
+
+censored_B <- data.frame(
+  time = 12,
+  event = 0,
+  treatment = "CAB"
+)[rep(1, 140 - nrow(surv_B)), ]
+
+surv_data <- bind_rows(surv_data, censored_A, censored_B)
+
+cox <- coxph(
+  Surv(time, event) ~ treatment,
+  data = surv_data
+)
+
+logHR <- coef(cox)["treatmentEAB"]
+Var_HR <- vcov(cox)["treatmentEAB", "treatmentEAB"]
+CI_logHR <- logHR + c(-1, 1) * 1.96 * sqrt(Var_HR)
+
+d <- logHR * sqrt(3) / pi
+Var_d <- Var_HR * sqrt(3) / pi
+CI_d <- CI_logHR * sqrt(3) / pi
+
+tibble(
+  Estimate = d,
+  Var = Var_d,
+  Lower_95_CI = CI_d[1],
+  Upper_95_CI = CI_d[2]) %>% 
+    mutate(Study = "Rice (1998) PNAS, 95, 6217–6221", 
+           Trait = "Male harmfulness to females", 
+           Generations = "30",
+           Organism = "Drosophila melanogaster",
+           Interpretation = "A positive effect size means that males carrying a haplotype that underwent male-limited evolution have a negative effect on the survival of their mates.",
+           .before = 1) %>% 
+  write_csv("effect_sizes/rice98_7.csv")
+```
+
+## Prasad et al. (2008)
+
+Prasad, N. G., Bedhomme, S., Day, T., & Chippindale, A. K. (2007). An evolutionary cost of separate genders revealed by male-limited evolution. _The American Naturalist_, 169, 29–37.
+
+### Male and female fitness
+
+#### Prasad et al.'s original data
+
+The data come from Figure 2 (transcribed with PlotDigitizer). 
+```{r}
+df <- data.frame(
+  treatment = c(
+    "control","control", "male_evolved", "male_evolved"),
+  sex = c(
+    "female","male","female","male"),
+  mean = c(
+    0.858247281,0.73376332,0.785461824,0.845795256),
+  SE = c(
+    0.015168311,0.015320071,0.015529016,0.015670879
+  )
+)
+
+kable(df) %>% 
+  kable_styling(full_width = F)
+```
+
+#### Calculating effect size
+The effect size was calculated from the means and standard errors for each treatment, separately for both male fitness and female fitness. 
+
+<!-- This approach is not ideal because it ignores the experimental design (there were 4 replicate lines, and the study does not show the data for each one). -->
+
+```{r}
+# mes(m.1 = df$mean[df$treatment == "control" & df$sex == "female"],
+#     m.2 = df$mean[df$treatment == "male_evolved" & df$sex == "female"],
+#     sd.1 = df$SE[df$treatment == "control" & df$sex == "female"] * sqrt(15),
+#     sd.2 = df$SE[df$treatment == "male_evolved" & df$sex == "female"] * sqrt(15),
+#     n.1 = 15, n.2 = 15, verbose=F) %>% 
+#   parse_es()
+# 
+# mes(m.1 = df$mean[df$treatment == "control" & df$sex == "male"],
+#     m.2 = df$mean[df$treatment == "male_evolved" & df$sex == "male"],
+#     sd.1 = df$SE[df$treatment == "control" & df$sex == "male"] * sqrt(15),
+#     sd.2 = df$SE[df$treatment == "male_evolved" & df$sex == "male"] * sqrt(15),
+#     n.1 = 15, n.2 = 15, verbose=F) %>% 
+#   parse_es()
+
+```
+
+### Development time
+to do...
+
+### Dry mass
+to do...
+
+```{r}
+# development time and dry mass data:
+# 
+# treatment	sex	trait	mean	se	n
+# ml	male	dt	229.8	0.54	
+# 
+# sample sizes and ANOVA degrees of freedom are not given - ask Adam or jsut guess them. Ideally get the raw data.
+```
+
+
+
+
+
+## Bedhomme et al. (2008)
+
+Bedhomme, S., Prasad, N. G., Jiang, P. P., & Chippindale, A. K. (2008). Reproductive behaviour evolves rapidly when intralocus sexual conflict is removed. _PLOS ONE_, 3, e2187.
+
+Note: these authors also recorded the number of matings observed (in mixed-sex vials where either the males or the females carried either male-evolved or control genomes, while the other sex was a standard genotype). We did not include these data, since the authors mention that the observed number of matings probably differs substantially from the actual number of matings. They also measured the number of flies present near the yeast food source in those vials, but they did not score the sex of the flies at the yeast - this makes it unclear whether the two genome types directly affecting feeding rate, or something else (e.g. they might affect social behaviours in a way that causes space use near the food). These yeast data are thus difficult to interpret and we leave them out of the meta-analysis.
+
+This leaves the data on courthsip. The authors measured the number of observed courtship events in A) vials where the males carried either of the 2 evolved genomes and females were a standard genotype, and B) vials where the females carried either of the 2 evolved genomes and males were a standard genotype. For brevity, we report these two traits as 'male courtship rate' and 'female attractivenss' respectively, though these names are a little simplistic and hide some of the nuance in interpreting these data.
+
+### Male courtship rate
+
+#### Bedhomme et al.'s original data
+
+The data come from Table 1. The means represent the number of courtship events towards females per vial, in vials where the males carried either MLE or control genomes (females were a standard genotype). There were 40 vials in total, 10 vials per evolving population, with 4 replicate populations of the MLE treatment and 4 of the control.
+
+```{r}
+# This is a bit pseudoreplicated as it assumes the vials are all independent
+# The authors were surprised to see LESS courtship by the MLE males, though they note they mate just as often as controls,
+# and suggest this finding reflects increased attractiveness of MLE males so they do not need to court as much
+
+df <- tibble(
+  mean = c(13.6, 22.03),
+  SE = c(1.13, 1.14),
+  SD = SE * sqrt(40),
+  n = c(40,40),
+  treatment = c("MLE", "control")
+)
+```
+
+#### Calculating effect size
+```{r}
+mes(m.1 = df$mean[1], m.2 = df$mean[2],
+    sd.1 = df$SD[1], sd.2 = df$SD[2],
+    n.1 = 40, n.2 = 40, verbose = F) %>% 
+  parse_es(study = "Bedhomme et al. (2008) PLOS ONE 3, e2187",
+           generations = 52,
+           organism = "Drosophila melanogaster",
+           trait = "Male courtship rate",
+           interpretation = "This negative effect size indicates that males carrying male-evolved haplotypes courted females less often than males carrying control haplotypes. This might be because the former males are more attractive and thus need to court less."
+          ) %>% 
+  write_csv("effect_sizes/bedhomme2008_1.csv")
+```
+
+### Female attractiveness
+
+#### Bedhomme et al.'s original data
+
+The data come from Table 1. The means represent the number of courtship events towards females per vial, in vials where the females carried either MLE or control genomes (males were a standard genotype). There were 40 vials in total, 10 vials per evolving population, with 4 replicate populations of the MLE treatment and 4 of the control.
+
+
+```{r}
+# This is a bit pseudoreplicated as it assumes the vials are all independent
+# The MLE females are courted slightly less, implying they are less attractive in some way (pheromones, behaviour, smaller body size?)
+
+df <- tibble(
+  mean = c(4.65, 8),
+  SE = c(0.66, 1.31),
+  SD = SE * sqrt(40),
+  n = c(40,40),
+  treatment = c("MLE", "control")
+)
+```
+
+#### Calculating effect size
+```{r}
+mes(m.2 = df$mean[1], m.1 = df$mean[2],
+    sd.2 = df$SD[1], sd.1 = df$SD[2],
+    n.1 = 40, n.2 = 40, verbose = F) %>% 
+  parse_es(study = "Bedhomme et al. (2008) PLOS ONE 3, e2187",
+           generations = 52,
+           organism = "Drosophila melanogaster",
+           trait = "Female attractiveness",
+           interpretation = "This positive effect size indicates that females carrying male-evolved haplotypes were courted less often by standard males, compared to females carrying control haplotypes. This may imply these females have a masculinised phenotype that elicits less courtship."
+          ) %>% 
+  write_csv("effect_sizes/bedhomme2008_2.csv")
+```
+
+
+## Abbott et al. (2010) 
+
+Abbott, J. K., Bedhomme, S., & Chippindale, A. K. (2010). Sexual conflict in wing size and shape in _Drosophila melanogaster_. _Journal of Evolutionary Biology_, 23(9), 1989–1997.
+
+The means for each sex/trait/treatment combination come from the Dryad supplementary material. That supplement gives the sample sizes and means for each of the 8 replicate evolution lines (not raw data), so I took a weighted average (weighting by sample size) across the 4 lines within each treatment to get an overall mean for both treatments, for three male and three female traits (body mass, wing size, and fitness). I also got the sample sizes from this same file.
+
+To get the standard deviations needed for calculating effect size, I used PlotDigitizer to get the standard error of the mean from the error bars in Figure 2, then multiplied these by $\sqrt{N}$. I then calculated Cohen's d from the mean, SD and N using the function `compute.es::mes()`. Positive effect sizes mean the male-limited evolution caused phenotypic masculinisation (i.e. _smaller_ body mass and wing size, _higher_ male fitness, and _lower_ female fitness).
+
+
+### Abbott et al.'s original data
+
+```{r}
+abb <- read_excel("input_data/Abbottetal.JEBdryaddata.xlsx") %>% 
+  select(treatment = `Selection treatment`,
+         sex = Sex, N, body_mass = Mass, wing_size = `Wing Size`, fitness = `Relative fitness`) %>% 
+  filter(!is.na(sex)) %>% 
+  group_by(sex, treatment) %>% 
+  summarise(
+    body_mass = sum(body_mass * N) / sum(N),
+    wing_size = sum(wing_size * N) / sum(N),
+    fitness = sum(fitness * N) / sum(N),
+    N = sum(N), .groups = "drop") %>% 
+  mutate(bodymass_SE = c(0.42645353268463704 - 0.4156004674677981, # digitised from error bars in Figure S1A
+                     0.3828284977515815 - 0.3764849724346434,
+                     0.24649113335535175 - 0.24378064581692538,
+                     0.2303028378344046 - 0.22852442773303525)) %>% 
+  mutate(wingsize_SE = c(2.328553386369538 - 2.3147954486437996, # digitised from error bars in Figure 2a
+                     2.3005653785321405 - 2.2892625292131914,
+                     2.0457272019074146 - 2.036586718915984,
+                     2.021764122659994 - 2.008893793819787)) %>% 
+  mutate(fitness_SE = c(1.074087075863868 - 1.0575940429537967, # digitised from error bars in Figure 2c
+                     0.9990512054171464 - 0.9711295362645963,
+                     1.0687912935478567 - 1.0388472684583931,
+                     0.9872709537285416 - 0.9570842005569136)) %>% 
+  mutate(bodymass_SD = bodymass_SE * sqrt(N),
+         wingsize_SD = wingsize_SE * sqrt(N),
+         fitness_SD = fitness_SE * sqrt(N))
+  
+abb %>% 
+  kable() %>% 
+  kable_styling(full_width = F)
+```
+
+### Female body mass effect size
+
+```{r}
+mes(m.1 = abb$body_mass[1], m.2 = abb$body_mass[2],
+    sd.1 = abb$bodymass_SD[1], sd.2 = abb$bodymass_SD[2],
+    n.1 = abb$N[1], n.2 = abb$N[2], verbose=F) %>% 
+  parse_es(study = "Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997", 
+           trait = "Female body mass", 
+           generations = 82, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "The positive effect size indicates that females carrying male-evolved haplotypes have lower body mass than females carrying control genotypes.") %>% 
+  write_csv("effect_sizes/abbott2010_1.csv")
+```
+
+### Male body mass effect size
+
+```{r}
+mes(m.1 = abb$body_mass[3], m.2 = abb$body_mass[4],
+    sd.1 = abb$bodymass_SD[3], sd.2 = abb$bodymass_SD[4],
+    n.1 = abb$N[3], n.2 = abb$N[4], verbose=F) %>% 
+  parse_es(study = "Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997", 
+           trait = "Male body mass", 
+           generations = 82, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "The positive effect size indicates that males carrying male-evolved haplotypes have lower body mass than males carrying control genotypes.") %>% 
+  write_csv("effect_sizes/abbott2010_2.csv")
+```
+
+### Female wing size effect size
+
+```{r}
+mes(m.1 = abb$wing_size[1], m.2 = abb$wing_size[2],
+    sd.1 = abb$wingsize_SD[1], sd.2 = abb$wingsize_SD[2],
+    n.1 = abb$N[1], n.2 = abb$N[2], verbose=F) %>% 
+  parse_es(study = "Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997", 
+           trait = "Female wing size", 
+           generations = 82, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "A positive effect size would indicate that females carrying male-evolved haplotypes have smaller wings than females carrying control genotypes (though wing size does not differ consistently).") %>% 
+  write_csv("effect_sizes/abbott2010_3.csv")
+```
+
+### Male wing size effect size
+
+```{r}
+mes(m.1 = abb$wing_size[3], m.2 = abb$wing_size[4],
+    sd.1 = abb$wingsize_SD[3], sd.2 = abb$wingsize_SD[4],
+    n.1 = abb$N[3], n.2 = abb$N[4], verbose=F) %>% 
+  parse_es(study = "Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997", 
+           trait = "Male wing size", 
+           generations = 82, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "A positive effect size would indicate that males carrying male-evolved haplotypes have smaller wings than males carrying control genotypes (though wing size does not differ consistently).") %>% 
+  write_csv("effect_sizes/abbott2010_4.csv")
+```
+
+### Female fitness effect size
+
+```{r}
+mes(m.1 = abb$fitness[1], m.2 = abb$fitness[2],
+    sd.1 = abb$fitness_SD[1], sd.2 = abb$fitness_SD[2],
+    n.1 = abb$N[1], n.2 = abb$N[2], verbose=F) %>% 
+  parse_es(study = "Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997", 
+           trait = "Female fitness", 
+           generations = 82, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "The positive effect size indicates that females carrying male-evolved haplotypes have lower fitness thanthan females carrying control genotypes.") %>% 
+  write_csv("effect_sizes/abbott2010_5.csv")
+```
+
+### Male fitness effect size
+
+```{r}
+mes(m.2 = abb$fitness[3], m.1 = abb$fitness[4],
+    sd.2 = abb$fitness_SD[3], sd.1 = abb$fitness_SD[4],
+    n.2 = abb$N[3], n.1 = abb$N[4], verbose=F) %>% 
+  parse_es(study = "Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997", 
+           trait = "Male fitness", 
+           generations = 82, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "The positive effect size indicates that males carrying male-evolved haplotypes have higher fitness than males carrying control genotypes.") %>% 
+  write_csv("effect_sizes/abbott2010_6.csv")
+```
+
+
+
+## Jiang et al. (2011)
+
+Jiang, P. P., Bedhomme, S., Prasad, N. G., & Chippindale, A. K. (2011). Sperm competition and mate harm unresponsive to male-limited selection in _Drosophila_: An evolving genetic architecture under domestication. _Evolution_, 65(9), 2448–2460.
+
+```{r}
+# IDEALLY ASK ADAM FOR THE RAW DATA - complex design, sample size info is incomplete
+```
+
+## Bedhomme et al. (2011)
+
+Bedhomme, S., Chippindale, A. K., Prasad, N. G., Delcourt, M., Abbott, J. K., Mallet, M. A., & Rundle, H. D. (2011). Male-limited evolution suggests no extant intralocus sexual conflict over the sexually dimorphic cuticular hydrocarbons of _Drosophila melanogaster_. _Journal of Genetics_, 90(3), 443–452.
+
+This paper measured the abundance of dozens of hydrocarbons present on the body surface of both sexes, in the male-limited evolution treatment or the control lines. The authors analysed each hydrocarbon with its own univariate test, and largely found no differences between treatments. Since there are many hydrocarbons, we have not included them all here: we focus on a single male-unique hydrocarbon, 7-C_{23:1}, which is known to function as a male sex pheromone (e.g. Grillet et al., 2006; https://doi.org/10.1098/rspb.2005.3332). The means and standard errors in the code chunk below come from row M7 of Table 1, and the sample sizes are inferred from the methods (30 males per selection line, 4 selection lines per treatment = 120 males per treatment assuming no missing samples). The positive (non-significant) effect size implies more sex pheromones in the ML males.
+
+The authors also carried out multivariate tests on the first 3 principal components, but the results for those tests are not detailed enough to include in this meta-analysis. The multivariate tests suggest no difference in CHCs between treatments, for either males or females.
+
+### Bedhomme et al.'s original data 
+
+```{r}
+tibble(treatment = c("Control", "Male-limited evolution"),
+       mean = c(34.518, 35.003),
+       SE = c(0.351, 0.322),
+       N = c(120, 120)) %>% 
+  kable() %>% kable_styling(full_width = F)
+```
+
+### Calculating effect size
+
+```{r}
+mes(m.2 = 34.518, m.1 = 35.003,
+    sd.2 = 0.351 * sqrt(120), sd.1 = 0.322 * sqrt(120),
+    n.1 = 120, n.2 = 120, verbose = F) %>% 
+  parse_es(study = "Bedhomme et al. (2011) J. Genetics 90, 443–452", 
+           trait = "Male 7-C23:1 sex pheromone", 
+           generations = 82, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "A positive effect size would imply that males carrying male-limited haplotypes produce more 7-C23:1 than males carrying control genomes (though there is no significant difference).") %>% 
+  write_csv("effect_sizes/bedhomme2011.csv")
+```
+
+
+## Abbott et al. (2013)
+
+Abbott, J. K., Innocenti, P., Chippindale, A. K., & Morrow, E. H. (2013). Epigenetics and sex-specific fitness: An experimental test using male-limited evolution in _Drosophila melanogaster_. _PLOS ONE_, 8, e70493.
+
+Here we focus on the effect size comparing the CDX and MLX treatments, since CDX is a stronger control than the other group (labelled C).
+
+Two traits are recorded here: 1) male fitness, and 2) the proportion of males among the progeny that survived to adulthood. Both have positive effect sizes, indicating higher values in the male-limited (MLX) treatment relative to the control (CDX). 
+
+For the second trait, the excess of males among surviving progeny implies either a negative genetic effect of male-limited evolution on female survival to adulthood, or some sort of non-genetic effect of the father's genotype on offspring sex ratio - it cannot be that the male-limited X has a positive genetic effect on male survival (since males do not pass on the X chromosome to their sons).
+
+### Abbott et al.'s original data
+
+The data were extracted from Figures 3 and S4 using PlotDigitizer. I have assumed that the standard errors were calculated using individual vials (rather that experimental evolution lines) as replicates, given the small error bars, for a sample of 60 per treatment (20 for each of 3 replicate lines).
+
+```{r}
+df <- tibble(
+  trait = c("Male fitness", "Male fitness", "Proportion of sons", "Proportion of sons"),
+  treatment = c("CDX", "MLX", "CDX", "MLX"),
+  mean  = c(0.7781242592641365, 1.2066580631567856, 0.3816372189736579, 0.4524972141486783),
+  SE = c(0.8454581369011561 - 0.7781242592641365,
+         1.2642102768047616 - 1.2066580631567856,
+         0.38419101175227177 - 0.3816372189736579, 
+         0.45990786586556687 - 0.4524972141486783),
+  N = c(60, 60, 60, 60)) 
+
+df %>% 
+  kable() %>% 
+  kable_styling(full_width = F)
+```
+
+
+### Male fitness
+
+Fitness was measured as the proportion of adult offspring sired when in competition for matings with marked competitor males.
+
+```{r}
+df <- df %>% mutate(SD = SE * sqrt(N))
+
+mes(m.1 = df$mean[2], m.2 = df$mean[1],
+    sd.1 = df$SD[2], sd.2 = df$SD[1],
+    n.1 = df$N[2], n.2 = df$N[1], verbose = F) %>% 
+  parse_es(study = "Abbott et al. (2013) PLOS ONE 8, e70493", 
+           trait = "Male fitness", 
+           generations = 40, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "Male fitness is higher in males carrying an X chromosome that underwent male-limited evolution compared to males carrying an X that experienced only 1 generation of father-to-son inheritance.") %>% 
+  write_csv("effect_sizes/abbott_2013_1.csv")
+```
+
+
+```{r}
+mes(m.1 = df$mean[4], m.2 = df$mean[3],
+    sd.1 = df$SD[4], sd.2 = df$SD[3],
+    n.1 = df$N[4], n.2 = df$N[3], verbose = F) %>% 
+  parse_es(study = "Abbott et al. (2013) PLOS ONE 8, e70493", 
+           trait = "Proportion of males among surviving progeny", 
+           generations = 40, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "The proportion of males among the progeny of males carrying an X chromosome that underwent male-limited evolution is higher than that of males carrying an X that experienced only 1 generation of father-to-son inheritance.") %>% 
+  write_csv("effect_sizes/abbott_2013_2.csv")
+```
+
+
+## Abbott et al. (2020)
+
+Abbott, J. K., Chippindale, A. K., & Morrow, E. H. (2020). The microevolutionary response to male-limited X-chromosome evolution in Drosophila melanogaster reflects macroevolutionary patterns. _Journal of Evolutionary Biology_, 33, 738–750.
+
+All data transcribed using PlotDigitiser from Figures 2A, 2B, S1 and S2. Sample sizes given in the Methods, bottom left of page 741.
+
+When deciding on coding the sign of the effect sizes, I considered high locomotion a male-typical trait and so predicted by female and male locomotion to increase in the MLX treatment. I also predicted increased offspring survival in MLX, due to the unmasking of deleterious alleles in males, and an elevated proportion of sons (whether the X was present in the mother or the father) due to the removal of selection on female-harming alleles and (in the case of the X coming from the mother) extra purging of male-harming alleles.
+
+### Abbott et al.'s original data
+
+```{r}
+df <- tibble(
+  trait = c("Female fitness", "Female fitness",
+            "Male fitness", "Male fitness", 
+            "Female locomotion", "Female locomotion",
+            "Male locomotion", "Male locomotion",
+            "Female effect on % sons", "Female effect on % sons",
+            "Male effect on % sons", "Male effect on % sons",
+            "Egg-to-adult survival", "Egg-to-adult survival"),
+  treatment = rep(c("CDX", "MLX"), 7),
+  mean  = c(0.9502716648321987, 1.0522634062212999, 
+            0.8833110159213118, 1.117530268720336,
+            0.13367807311356172, 0.33332353958957683,
+            0.44689179218981584, 0.3798242349453836,
+            0.18625256770849793, 0.34924785892614485,
+            0.3340217425654963, 0.4002676737351073,
+            0.4647589355305646,0.5514258496331762),
+  SE = c(1.0482869341484446 - 0.9502716648321987,
+         1.0971487461353486 - 1.0522634062212999,
+         0.9376523952074818 - 0.8833110159213118, 
+         1.1710079291077475 - 1.117530268720336,
+         0.16792026586749717 - 0.13367807311356172,
+         0.367418826187165 - 0.33332353958957683,
+         0.4805985936183966 - 0.44689179218981584,
+         0.3798242349453836 - 0.3454253422913443,
+         0.20611478052017823 - 0.18625256770849793,
+         0.3695196409948488 - 0.34924785892614485,
+         0.34469898555762735 - 0.3340217425654963,
+         0.4139503207660462 - 0.4002676737351073,
+         0.5538655680510708 - 0.4647589355305646,
+         0.6240087097452648 - 0.5514258496331762),
+  N = c(rep(60, 4), rep(30, 4), rep(60, 6))) 
+
+df %>% 
+  kable() %>% kable_styling(full_width = F)
+```
+
+### Female fitness effect size
+
+```{r}
+df <- df %>% mutate(SD = SE * sqrt(N))
+
+mes(m.1 = df$mean[1], m.2 = df$mean[2],
+    sd.1 = df$SD[1], sd.2 = df$SD[2],
+    n.1 = df$N[1], n.2 = df$N[2], verbose = F) %>% 
+  parse_es(study = "Abbott et al. (2020) J. Evol. Biol. 33, 738–750", 
+           trait = "Female fitness", 
+           generations = 40, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "A positive effect size would mean that females carrying a male-evolved X chromosome have lower fitness than females carrying a control genome (the effect is non-significantly negative).") %>% 
+  write_csv("effect_sizes/abbott_2020_1.csv")
+```
+
+### Male fitness effect size
+
+```{r}
+mes(m.1 = df$mean[4], m.2 = df$mean[3],
+    sd.1 = df$SD[4], sd.2 = df$SD[3],
+    n.1 = df$N[4], n.2 = df$N[3], verbose = F) %>% 
+  parse_es(study = "Abbott et al. (2020) J. Evol. Biol. 33, 738–750", 
+           trait = "Male fitness", 
+           generations = 40, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "The positive effect size indicates that males carrying a male-evolved X chromosome have higher fitness than males carrying a control genome.") %>% 
+  write_csv("effect_sizes/abbott_2020_2.csv")
+```
+
+### Female locomotion
+
+```{r}
+mes(m.1 = df$mean[6], m.2 = df$mean[5],
+    sd.1 = df$SD[6], sd.2 = df$SD[5],
+    n.1 = df$N[6], n.2 = df$N[5], verbose = F) %>% 
+  parse_es(study = "Abbott et al. (2020) J. Evol. Biol. 33, 738–750", 
+           trait = "Female locomotion", 
+           generations = 40, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "The positive effect size indicates that females carrying a male-evolved X chromosome have greater locomotory activity than females with a control genome.") %>% 
+  write_csv("effect_sizes/abbott_2020_3.csv")
+```
+
+### Male locomotion
+
+```{r}
+mes(m.1 = df$mean[8], m.2 = df$mean[7],
+    sd.1 = df$SD[8], sd.2 = df$SD[7],
+    n.1 = df$N[8], n.2 = df$N[7], verbose = F) %>% 
+  parse_es(study = "Abbott et al. (2020) J. Evol. Biol. 33, 738–750", 
+           trait = "Male locomotion", 
+           generations = 40, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "The positive effect size would indicate that males carrying a male-evolved X chromosome have greater locomotory activity than males with a control genome (there is no significant difference though).") %>% 
+  write_csv("effect_sizes/abbott_2020_4.csv")
+```
+
+### Female effect on % sons
+
+```{r}
+mes(m.1 = df$mean[10], m.2 = df$mean[9],
+    sd.1 = df$SD[10], sd.2 = df$SD[9],
+    n.1 = df$N[10], n.2 = df$N[9], verbose = F) %>% 
+  parse_es(study = "Abbott et al. (2020) J. Evol. Biol. 33, 738–750", 
+           trait = "Female effect on % sons", 
+           generations = 40, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "The positive effect size indicates that females carrying a male-evolved X chromosome have a greater proportion of sons among their progeny that reach adulthood (indicating enhanced male survival, reduced female survival, and/or changes to the primary sex ratio). Note that all sons and 50% daughters actually inherit the male-evolved X from the tester females.") %>% 
+  write_csv("effect_sizes/abbott_2020_5.csv")
+```
+
+### Male effect on % sons
+
+```{r}
+mes(m.1 = df$mean[12], m.2 = df$mean[11],
+    sd.1 = df$SD[12], sd.2 = df$SD[11],
+    n.1 = df$N[12], n.2 = df$N[11], verbose = F) %>% 
+  parse_es(study = "Abbott et al. (2020) J. Evol. Biol. 33, 738–750", 
+           trait = "Male effect on % sons", 
+           generations = 40, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "The positive effect size indicates that males carrying a male-evolved X chromosome have a greater proportion of sons among their progeny that reach adulthood (indicating enhanced male survival, reduced female survival, and/or changes to the primary sex ratio). Note that all daughters and none of the sons actually inherit the male-evolved X from the tester males.") %>% 
+  write_csv("effect_sizes/abbott_2020_6.csv")
+```
+
+### Egg-to-adult survival
+
+```{r}
+mes(m.1 = df$mean[14], m.2 = df$mean[13],
+    sd.1 = df$SD[14], sd.2 = df$SD[13],
+    n.1 = df$N[14], n.2 = df$N[13], verbose = F) %>% 
+  parse_es(study = "Abbott et al. (2020) J. Evol. Biol. 33, 738–750", 
+           trait = "Egg-to-adult survival", 
+           generations = 40, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "A positive effect size would indicates elevated egg-to-adult survival in the progeny of females carrying a male-evolved X chromosome relative to females carrying control genomes. Note that all sons and 50% daughters actually inherit the male-evolved X from the tester females. There is seemingly no difference based on the available data, though the authors find that MLX has greater survival than the control in a quasibinomial GLM presented in the supplement.") %>% 
+  write_csv("effect_sizes/abbott_2020_5.csv")
+```
+
+
+## Lund-Hansen et al. (2020)
+
+Lund-Hansen, K. K., Abbott, J. K., & Morrow, E. H. (2020). Feminization of complex traits in _Drosophila melanogaster_ via female-limited X chromosome evolution. _Evolution_, 74, 2703–2713.
+
+Here, I focus on comparisons between the female-limited X chromosome treatment and the 'control FM' treatment (ignoring the wild-type control), since differences between the former 2 treatments are expected to arise due to female-limited inheritance of the X (rather than adaption to the FM balancer chromosome). I also focus on the later measurements made around generations 39-41, rather than the early measurements, since the late measurements have given more time for experimental evolution to produce evolution.
+
+Effect sizes are calculated from models that motly follow those in the authors' archived code, with a couple of differences. First, I did not run one model for both sexes (with sex as a predictor) as in the original, but rather split the data by sex and ran two model (running with both sexes together gave warnings about rank deficiency and convergence). Second, I treated the experimental replicate lines as fixed rather than random factors (since there are only 3 replicates per treatment, and it's recommended to have more levels in order to use random factors). The results are nevertheless very similar to those in the paper. Third, for the development time data, the response variable (time until development) was not normal, as is common for time-to-event data, and so I used a Cox PH model instead of linear (mixed) model as in the original paper. The treatment effect (as a proportional hazard ratio) was converted to Cohen's d effect size. 
+
+### Female fitness data
+
+These are for generation 39-41, from the file StandardFitnessG3941.csv. I ran a model following that used by the authors, as shown in their archived code.
+
+```{r}
+SF.data <- read_csv("input_data/lundhansen_github_data_FLXevoexp-master/StandardFitnessGeneration39-41 /StandardFitnessG3941.csv")
+female_SF <- SF.data[SF.data$sex == "f", ] %>% 
+  mutate(standard = as.numeric(scale(standard)))
+male_SF <- SF.data[SF.data$sex == "m", ] %>% 
+  mutate(standard = as.numeric(scale(standard)))
+
+# control FM populations have non-sig higher female fitness than FLX populations (i.e. unexpected direction)
+lund_females <- lm(standard ~ regime + rep_population, data = female_SF)
+
+coef <- coefficients(summary(lund_females))
+
+effects <- tibble(Estimate = coef[2,1],
+                  Var = coef[2,2] ^ 2,
+                  Lower_95_CI = coef[2,1] - coef[2,2]*1.96,
+                  Upper_95_CI = coef[2,1] + coef[2,2]*1.96)
+
+
+tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
+       Trait = "Female fitness",
+       Generations = 41,
+       Organism = "Drosophila melanogaster",
+       Interpretation = "A positive effect would mean that females carrying female-evolved X chromosomes have higher fitness than the control FM genotype (there is no difference, though).",
+       Estimate = effects$Estimate,
+       Var = effects$Var,
+       Lower_95_CI = effects$Lower_95_CI,
+       Upper_95_CI = effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/lundhansen_1.csv")
+```
+
+### Male fitness
+
+```{r}
+# control FM populations have higher male fitness than FLX populations 
+lund_males <- lm(standard ~ regime + rep_population, data = male_SF)
+
+coef <- coefficients(summary(lund_males))
+
+effects <- tibble(Estimate = coef[2,1],
+                  Var = coef[2,2] ^ 2,
+                  Lower_95_CI = coef[2,1] - coef[2,2]*1.96,
+                  Upper_95_CI = coef[2,1] + coef[2,2]*1.96)
+
+
+tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
+       Trait = "Male fitness",
+       Generations = 41,
+       Organism = "Drosophila melanogaster",
+       Interpretation = "A positive effect would mean that males carrying female-evolved X chromosomes have lower fitness than the control FM genotype (there is no difference, though).",
+       Estimate = effects$Estimate,
+       Var = effects$Var,
+       Lower_95_CI = effects$Lower_95_CI,
+       Upper_95_CI = effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/lundhansen_2.csv")
+```
+
+### Female development time
+
+```{r}
+dev_time <- read_csv("input_data/lundhansen_github_data_FLXevoexp-master/DevelopmentTimeGeneration/DevelopmentTimeG43.csv")
+dev_time_females <- dev_time %>% 
+  filter(sex == "f") %>% 
+  mutate(dev_time = as.numeric(scale(dev_time)))
+dev_time_males <- dev_time %>% 
+  filter(sex == "m") %>% 
+  mutate(dev_time = as.numeric(scale(dev_time)))
+
+# CFM females take non-sig longer to develop than FLX (this is the prediction, since shorter development is a feminine trait)
+surv_obj <- Surv(dev_time_females$dev_time, event = rep(1, nrow(dev_time_females)))
+cox <- coxph(surv_obj ~ regime, data = dev_time_females)
+
+logHR <- coef(cox)["regimebCFM"]
+Var_HR <- vcov(cox)["regimebCFM", "regimebCFM"]
+CI_logHR <- logHR + c(-1, 1) * 1.96 * sqrt(Var_HR)
+
+effects <- tibble(Estimate = logHR * sqrt(3) / pi,
+                  Var = Var_HR * sqrt(3) / pi,
+                  Lower_95_CI = CI_logHR[1] * sqrt(3) / pi,
+                  Upper_95_CI = CI_logHR[2] * sqrt(3) / pi)
+
+tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
+       Trait = "Female development time",
+       Generations = 43,
+       Organism = "Drosophila melanogaster",
+       Interpretation = "A positive effect would mean that females carrying female-evolved X chromosomes take less time to develop higher fitness than the control FM genotype (there is no difference, though).",
+       Estimate = effects$Estimate,
+       Var = effects$Var,
+       Lower_95_CI = effects$Lower_95_CI,
+       Upper_95_CI = effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/lundhansen_3.csv")
+```
+
+### Male development time
+
+```{r}
+# CFM males take non-sig longer to develop than FLX (this is the prediction, since shorter development is a feminine trait)
+surv_obj <- Surv(dev_time_males$dev_time, event = rep(1, nrow(dev_time_males)))
+cox <- coxph(surv_obj ~ regime, data = dev_time_males)
+
+logHR <- coef(cox)["regimebCFM"]
+Var_HR <- vcov(cox)["regimebCFM", "regimebCFM"]
+CI_logHR <- logHR + c(-1, 1) * 1.96 * sqrt(Var_HR)
+
+effects <- tibble(Estimate = logHR * sqrt(3) / pi,
+                  Var = Var_HR * sqrt(3) / pi,
+                  Lower_95_CI = CI_logHR[1] * sqrt(3) / pi,
+                  Upper_95_CI = CI_logHR[2] * sqrt(3) / pi)
+
+tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
+       Trait = "Male development time",
+       Generations = 43,
+       Organism = "Drosophila melanogaster",
+       Interpretation = "A positive effect would mean that males carrying female-evolved X chromosomes take less time to develop higher fitness than the control FM genotype (there is no difference, though).",
+       Estimate = effects$Estimate,
+       Var = effects$Var,
+       Lower_95_CI = effects$Lower_95_CI,
+       Upper_95_CI = effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/lundhansen_4.csv")
+```
+
+### Female locomotion
+
+```{r}
+loco <- read_csv("input_data/lundhansen_github_data_FLXevoexp-master/LocomotionAssayGeneration123/LocoAssayG123.csv")
+female_loco <- loco %>% filter(sex == "f")
+male_loco <- loco %>% filter(sex == "m")
+
+# CFM > FLX for activity (on-sig), which is the prediction (so we need a positive effect size)
+female_loco_model <- glm((cbind(active, inactive)) ~ regime + rep_population, 
+                          data = female_loco, family = "binomial")
+
+# calculate effect of regime on % active flies (as a log odds ratio) separately for each sex
+LOR_effects <- contrast(emmeans(female_loco_model, ~ regime), method = "pairwise")[1,] %>% 
+  as_tibble() %>% 
+  rename(logOR = estimate) %>% 
+  mutate(logOR = -1 * logOR) %>% 
+  mutate(Estimate = logOR * sqrt(3) / pi,
+         Var = (SE * sqrt(3) / pi)^2,
+         Lower_95_CI = (logOR - SE * 1.96) * sqrt(3) / pi,
+         Upper_95_CI = (logOR + SE * 1.96) * sqrt(3) / pi)
+
+tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
+       Trait = "Female locomotion",
+       Generations = 123,
+       Organism = "Drosophila melanogaster",
+       Interpretation = "A positive effect would mean that females carrying female-evolved X chromosomes are less active than females carrying the control FM genotype (there is no difference, though).",
+       Estimate = LOR_effects$Estimate,
+       Var = LOR_effects$Var,
+       Lower_95_CI = LOR_effects$Lower_95_CI,
+       Upper_95_CI = LOR_effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/lundhansen_5.csv")
+```
+
+### Male locomotion
+
+```{r}
+male_loco %>% 
+  ggplot(aes(regime, locoactive)) + 
+  geom_boxplot()
+
+# CFM < FLX for activity (and it's significant), which is the opposite of the prediction (so we need a negative effect size)
+male_loco_model <- glm((cbind(active, inactive)) ~ regime + rep_population, 
+                          data = male_loco, family = "binomial")
+
+# calculate effect of regime on % active flies (as a log odds ratio) separately for each sex
+LOR_effects <- contrast(emmeans(male_loco_model, ~ regime), method = "pairwise")[1,] %>% 
+  as_tibble() %>% 
+  rename(logOR = estimate) %>% 
+  mutate(logOR = -1 * logOR) %>% 
+  mutate(Estimate = logOR * sqrt(3) / pi,
+         Var = (SE * sqrt(3) / pi)^2,
+         Lower_95_CI = (logOR - SE * 1.96) * sqrt(3) / pi,
+         Upper_95_CI = (logOR + SE * 1.96) * sqrt(3) / pi)
+
+tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
+       Trait = "Male locomotion",
+       Generations = 123,
+       Organism = "Drosophila melanogaster",
+       Interpretation = "A positive effect would mean that males carrying female-evolved X chromosomes are less active than males carrying the control FM genotype (actually it's significant in the opposite direction).",
+       Estimate = LOR_effects$Estimate,
+       Var = LOR_effects$Var,
+       Lower_95_CI = LOR_effects$Lower_95_CI,
+       Upper_95_CI = LOR_effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/lundhansen_6.csv")
+```
+
+### Female thorax size
+
+```{r}
+thorax <- read_csv("input_data/lundhansen_github_data_FLXevoexp-master/ThoraxSizeGeneration72/ThoraxSizeG72.csv")
+female_thorax <- thorax %>% 
+  filter(sex == "f") %>% 
+  mutate(size_mm = as.numeric(scale(size_mm)))
+male_thorax <- thorax %>% 
+  filter(sex == "m") %>% 
+  mutate(size_mm = as.numeric(scale(size_mm)))
+
+# FLX > CFM, which is predicted since large size is a feminine trait 
+model_female_thorax <- lm(size_mm ~ regime + rep_population, data = female_thorax)
+
+coef <- coefficients(summary(model_female_thorax))
+
+effects <- tibble(Estimate = coef[2,1] * -1,
+                  Var = coef[2,2] ^ 2,
+                  Lower_95_CI = Estimate - coef[2,2]*1.96,
+                  Upper_95_CI = Estimate + coef[2,2]*1.96)
+
+
+tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
+       Trait = "Female thorax size",
+       Generations = 72,
+       Organism = "Drosophila melanogaster",
+       Interpretation = "A positive effect would mean that females carrying female-evolved X chromosomes had larger thoraxes than females with the control FM genotype (there is no difference, though).",
+       Estimate = effects$Estimate,
+       Var = effects$Var,
+       Lower_95_CI = effects$Lower_95_CI,
+       Upper_95_CI = effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/lundhansen_7.csv")
+```
+
+### Male thorax size
+
+```{r}
+# FLX > CFM, which is predicted since large size is a feminine trait 
+model_male_thorax <- lm(size_mm ~ regime + rep_population, data = male_thorax)
+
+coef <- coefficients(summary(model_male_thorax))
+
+effects <- tibble(Estimate = coef[2,1] * -1,
+                  Var = coef[2,2] ^ 2,
+                  Lower_95_CI = Estimate - coef[2,2]*1.96,
+                  Upper_95_CI = Estimate + coef[2,2]*1.96)
+
+
+tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
+       Trait = "Male thorax size",
+       Generations = 72,
+       Organism = "Drosophila melanogaster",
+       Interpretation = "A positive effect would mean that males carrying female-evolved X chromosomes had larger thoraxes than males with the control FM genotype (there is no difference, though).",
+       Estimate = effects$Estimate,
+       Var = effects$Var,
+       Lower_95_CI = effects$Lower_95_CI,
+       Upper_95_CI = effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/lundhansen_8.csv")
+```
+
+
+## Manat et al. (2021)
+
+Manat, Y., Lund-Hansen, K. K., Katsianis, G., & Abbott, J. K. (2021). Female-limited X-chromosome evolution effects on male pre- and post-copulatory success. _Biology Letters_, 17, 20200915.
+
+### Male mating success
+
+#### Manat et al.'s original data
+
+The data were extracted from Figure 2a using PlotDigitizer. 
+
+```{r}
+df <- tibble(
+  treatment = c("FLX", "FLX", "CFM", "CFM"),
+  status = c("unmated", "mated", "unmated", "mated"),
+  n = c(4,76,10,70)) %>% 
+  pivot_wider(names_from = status, values_from = n)
+
+kable(df) %>% 
+  kable_styling(full_width = F)
+```
+
+#### Calculating effect size
+
+```{r}
+x <- as.matrix(df[,2:3])
+
+get_effect_size_2x2_matrix(x) %>% 
+    mutate(Study = "Manat et al. (2021) Biol. Lett. 17, 20200915", 
+           Trait = "Male mating success", 
+           Generations = "107",
+           Organism = "Drosophila melanogaster",
+           Interpretation = "A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have lower mating success compared to males carrying control X chromosomes (there is a non-significant trend in the opposite direction).",
+           .before = 1) %>% 
+  write_csv("effect_sizes/manat_1.csv")
+```
+
+### Mating speed
+
+#### Manat et al.'s original data
+
+The data were extracted from Figure 2b using PlotDigitizer. 
+
+```{r}
+df <- tibble(
+  treatment = c("FLX", "CFM"),
+  mean = c(10.14735444556975, 12.273534242844619),
+  SE = c(11.07794959957106 - 10.14735444556975, 
+         13.353237048825946 - 12.273534242844619),
+  n = c(80,80))
+
+kable(df) %>% 
+  kable_styling(full_width = F)
+```
+
+#### Calculating effect size
+
+```{r}
+mes(m.1 = df$mean[1],
+    m.2 = df$mean[2],
+    sd.1 = df$SE[1] * sqrt(80),
+    sd.2 = df$SE[2] * sqrt(80),
+    n.1 = 880, n.2 = 80, verbose = F) %>% 
+  parse_es(study = "Manat et al. (2021) Biol. Lett. 17, 20200915", 
+           trait = "Male mating speed", 
+           generations = "107",
+           organism = "Drosophila melanogaster",
+           interpretation = "A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would take longer to induce females to mate compared to males carrying control X chromosomes (there is a non-significant trend in the opposite direction).") %>% 
+  write_csv("effect_sizes/manat_2.csv")
+```
+
+### Male sperm offence
+
+#### Manat et al.'s original data
+
+The data were extracted from Figure 2c using PlotDigitizer. 
+
+```{r}
+df <- tibble(
+  treatment = c("FLX", "CFM"),
+  mean = c(0.21776979298517823, 0.1056360840036476),
+  SE = c(0.26085500796210853 - 0.21776979298517823, 
+         0.1243885508962476 - 0.1056360840036476),
+  n = c(123,123))
+
+kable(df) %>% 
+  kable_styling(full_width = F)
+```
+
+#### Calculating effect size
+
+```{r}
+mes(m.1 = df$mean[2],
+    m.2 = df$mean[1],
+    sd.1 = df$SE[2] * sqrt(80),
+    sd.2 = df$SE[1] * sqrt(80),
+    n.1 = 880, n.2 = 80, verbose = F) %>% 
+  parse_es(study = "Manat et al. (2021) Biol. Lett. 17, 20200915", 
+           trait = "Male sperm offence", 
+           generations = "160",
+           organism = "Drosophila melanogaster",
+           interpretation = "A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have worse sperm offence (i.e. sire fewer offspring with previously mated females) compared to males carrying control X chromosomes (however the finding is significant in the opposite direction).") %>% 
+  write_csv("effect_sizes/manat_3.csv")
+```
+
+### Male sperm defence
+
+#### Manat et al.'s original data
+
+The data were extracted from Figure 2d using PlotDigitizer. 
+
+```{r}
+df <- tibble(
+  treatment = c("FLX", "CFM"),
+  mean = c(0.8606096836369432, 0.9267285480341434),
+  SE = c(0.8815000797066794 - 0.8606096836369432, 
+         0.9407380838514268 - 0.9267285480341434),
+  n = c(123,123))
+
+kable(df) %>% 
+  kable_styling(full_width = F)
+```
+
+#### Calculating effect size
+
+```{r}
+mes(m.1 = df$mean[2],
+    m.2 = df$mean[1],
+    sd.1 = df$SE[2] * sqrt(80),
+    sd.2 = df$SE[1] * sqrt(80),
+    n.1 = 880, n.2 = 80, verbose = F) %>% 
+  parse_es(study = "Manat et al. (2021) Biol. Lett. 17, 20200915", 
+           trait = "Male sperm defence", 
+           generations = "160",
+           organism = "Drosophila melanogaster",
+           interpretation = "The positive effect indicates that males carrying an X chromosome that underwent female-limited evolution have worse sperm defence (i.e. sire fewer offspring when after the female remates) compared to males carrying control X chromosomes.") %>% 
+  write_csv("effect_sizes/manat_4.csv")
+```
+
+## Grieshop et al. (2025)
+
+Grieshop, K., Liu, M. J., Frost, R. S., Lindsay, M. P., Bayoumi, M., Brengdahl, M. I., Molnar, R. I., & Agrawal, A. F. (2025). Expression divergence in response to sex-biased selection. _Molecular Biology and Evolution_, 42(7) msaf099.
+
+Here, I obtained the raw data from the authors, and re-ran a binomial GLMM that followed the original analysis as closely as I could figure out. The model measures the probability of mating (vs not mating) for males and females and flies carrying 'Red' chromosomes (copies of Chromosome 2 which spent most of their recent evolutionary history in males) versus 'Non-Red' chromosomes (which spent a majority of generations in females). From the binomial GLM I get the treatment effect size as a log odds ratio, and then convert that to Cohen's d.
+
+```{r}
+# Here, I could not reproduce the original analysis as the archived code doesn't work. I did get this file from the authors, and here I do a simpler GLMM that replicates the original more or less, but does not include an offset term.
+
+# tally up the total observed maters and non-maters for each sex and population
+DsRed_Data <-  read_csv("input_data/grieshop_2025_DsRed_Data_Formatted.csv")  %>% 
+  group_by(Population, Sex, Marker) %>% 
+  summarise(n_mated = sum(`Mating Status` == "Mated"),
+            n_non_mated = sum(`Mating Status` == "Non-Mated")) %>% 
+  mutate(Marker = factor(Marker, c("Red", "Non-Red")))
+
+# binomial GLMM that finds the sex-specific effects of the Red marker (vs non-red) on mating propensity
+# This model assumes that all mated and non-mated flies were counted, which I think is not the case, but this should add random error rather than biasing the effect size estimates 
+model <- glmer(cbind(n_mated, n_non_mated) ~ Sex * Marker + (1 | Population), data = DsRed_Data, family = binomial)
+
+# calculate effect of marker on mating rate (as a log odds ratio) separately for each sex
+LOR_effects <- contrast(emmeans(model, ~ Marker | Sex), method = "pairwise") %>% 
+  as_tibble() %>% 
+  mutate(estimate = c(-1,1) * estimate) %>% # change sign of the effect size for females
+  rename(logOR = estimate) %>% 
+  mutate(Estimate = logOR * sqrt(3) / pi,
+         Var = (SE * sqrt(3) / pi)^2,
+         Lower_95_CI = (logOR - SE * 1.96) * sqrt(3) / pi,
+         Upper_95_CI = (logOR + SE * 1.96) * sqrt(3) / pi)
+
+tibble(Study = "Grieshop et al. (2025) Molec. Biol. Evol. 42 msaf099.",
+       Trait = c("Female mating rate", "Male mating rate"),
+       Generations = 103,
+       Organism = "Drosophila melanogaster",
+       Interpretation = c("A positive effect would mean that females carrying primarily male-evolved copies of chromosome 2 mate less often, compared to females with primarily female-evolved copies of chromosome 2 (there is no difference, though).", 
+                          "This positive effect means that males carrying primarily male-evolved copies of chromosome 2 mate more often, compared to males with primarily female-evolved copies of chromosome 2."),
+       Estimate = LOR_effects$Estimate,
+       Var = LOR_effects$Var,
+       Lower_95_CI = LOR_effects$Lower_95_CI,
+       Upper_95_CI = LOR_effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/grieshop2025.csv")
+```
+
+## Thyagarajan et al. (2025)
+
+Thyagarajan, H., Sayyed, I., Baroody, M. G., Kowal, J. A., Day, T., & Chippindale, A. K. (2025). Mixed evidence for intralocus sexual conflict from male-limited selection in _Drosophila melanogaster_. _Journal of Heredity_, esaf072.
+
+### Female and male fitness
+
+These variables are referred to as 'competitive reproductive fitness' in the paper. I obtained the raw data from Dryad and ran one model for each sex. The models were binomial GLMs with treatment (male-evolved or control), replicate, and generation as fixed effects (no interactions are fitted, i.e. I estimate the average treatment effect across the 3 starting genomes, labelled 'replicates'). From the binomial GLM I get the treatment effect size as a log odds ratio, and then convert that to Cohen's d.
+
+```{r}
+female_CRF <- read_csv("input_data/Thyagarajan_2025_dryad_data/F_CRF_wt.cr.csv") %>% 
+  mutate(Sex = "F", Replicate = factor(Replicate))
+male_CRF <- read_csv("input_data/Thyagarajan_2025_dryad_data/M_CRF_wt.cr.csv") %>% 
+  mutate(Sex = "M", Replicate = factor(Replicate)) %>% 
+  filter(Treatment %in% c("MLSD", "MC"))
+
+
+# calculate effect of marker on mating rate (as a log odds ratio) separately for each sex
+## GLM for females:
+model <- glm(cbind(Red, Brown) ~ Treatment + Replicate + Gen, data = female_CRF, family = "quasibinomial")
+female_effects <- contrast(emmeans(model, ~ Treatment), method = "pairwise") %>% 
+  as_tibble() %>% 
+  rename(logOR = estimate) %>% 
+  mutate(Estimate = logOR * sqrt(3) / pi,
+         Var = (SE * sqrt(3) / pi)^2,
+         Lower_95_CI = (logOR - SE * 1.96) * sqrt(3) / pi,
+         Upper_95_CI = (logOR + SE * 1.96) * sqrt(3) / pi)
+
+## GLM for males:
+model2 <- glm(cbind(Red, Brown) ~ Treatment + Replicate + Gen, data = male_CRF, family = "quasibinomial")
+male_effects <- contrast(emmeans(model2, ~ Treatment), method = "pairwise") %>% 
+  as_tibble() %>% 
+  mutate(estimate = estimate * -1) %>% # change sign of effect size (it goes in the predicted direction)
+  rename(logOR = estimate) %>% 
+  mutate(Estimate = logOR * sqrt(3) / pi,
+         Var = (SE * sqrt(3) / pi)^2,
+         Lower_95_CI = (logOR - SE * 1.96) * sqrt(3) / pi,
+         Upper_95_CI = (logOR + SE * 1.96) * sqrt(3) / pi)
+
+LOR_effects <- bind_rows(female_effects, male_effects)
+
+tibble(Study = "Thyagarajan et al. (2025) J. Hered. esaf072",
+       Trait = c("Female fitness", "Male fitness"),
+       Generations = c(50, 64),
+       Organism = "Drosophila melanogaster",
+       Interpretation = c("This positive effect means that females carrying male-evolved haplotypes have lower fitness than females carrying control genomes.", 
+                          "This positive effect means that males carrying male-evolved haplotypes have higher fitness than males carrying control genomes."),
+       Estimate = LOR_effects$Estimate,
+       Var = LOR_effects$Var,
+       Lower_95_CI = LOR_effects$Lower_95_CI,
+       Upper_95_CI = LOR_effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/thyagarajan2025_1.csv")
+
+```
+
+### Male mating success
+
+```{r}
+mating_competition <- read_csv("input_data/Thyagarajan_2025_dryad_data/M_MC_wt.cr.csv") %>% 
+  filter(!is.na(Mated.male)) %>% 
+  group_by(Selection, Replicate) %>% 
+  summarise(n_wt = sum(Mated.male == "wt"),
+            n_bw = sum(Mated.male == "bw"))
+
+model <- glm(cbind(n_wt, n_bw) ~ Selection + Replicate, data = mating_competition, family = "binomial")
+
+LOR_effects <- contrast(emmeans(model, ~ Selection), method = "pairwise") %>% 
+  as_tibble() %>% 
+  mutate(estimate = estimate * -1) %>% # change sign of effect size (it goes in the predicted direction)
+  rename(logOR = estimate) %>% 
+  mutate(Estimate = logOR * sqrt(3) / pi,
+         Var = (SE * sqrt(3) / pi)^2,
+         Lower_95_CI = (logOR - SE * 1.96) * sqrt(3) / pi,
+         Upper_95_CI = (logOR + SE * 1.96) * sqrt(3) / pi)
+
+tibble(
+  Study = "Thyagarajan et al. (2025) J. Hered. esaf072",
+  Trait = "Male mating success",
+  Generations = 64,
+  Organism = "Drosophila melanogaster",
+  Interpretation = "A positive effectwould mean that males carrying male-evolved haplotypes are more likely to mate with females (over standard male competitors) compared to males carrying control genomes (there is no signficant difference).",
+  Estimate = LOR_effects$Estimate,
+  Var = LOR_effects$Var,
+  Lower_95_CI = LOR_effects$Lower_95_CI,
+  Upper_95_CI = LOR_effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/thyagarajan2025_2.csv")
+```
+
+
+### Male sperm offence
+
+```{r}
+sperm_comp_data <- read_csv("input_data/Thyagarajan_2025_dryad_data/M_SC_wt.cr.csv") %>% 
+  filter(Treatment %in% c("MC", "MLSD")) %>% 
+  mutate(Replicate = factor(Replicate))
+
+model <- glm(cbind(WT, U) ~ Treatment + Replicate, family = "binomial", data = sperm_comp_data)
+LOR_effects <- contrast(emmeans(model, ~ Treatment), method = "pairwise") %>% 
+  as_tibble() %>% 
+  mutate(estimate = estimate * -1) %>% # change sign of effect size (it goes in the predicted direction)
+  rename(logOR = estimate) %>% 
+  mutate(Estimate = logOR * sqrt(3) / pi,
+         Var = (SE * sqrt(3) / pi)^2,
+         Lower_95_CI = (logOR - SE * 1.96) * sqrt(3) / pi,
+         Upper_95_CI = (logOR + SE * 1.96) * sqrt(3) / pi)
+
+tibble(
+  Study = "Thyagarajan et al. (2025) J. Hered. esaf072",
+  Trait = "Male sperm offence",
+  Generations = 64,
+  Organism = "Drosophila melanogaster",
+  Interpretation = "A positive effect would indicate that males carrying male-evolved haplotypes sire more offspring when mating with previously-mated females, compared to males carrying control genomes (there is no significant effect).",
+  Estimate = LOR_effects$Estimate,
+  Var = LOR_effects$Var,
+  Lower_95_CI = LOR_effects$Lower_95_CI,
+  Upper_95_CI = LOR_effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/thyagarajan2025_3.csv")
+```
+
+## Nordén et al. (2023) 
+
+Nordén, A. K., Ramm, S. A., & Abbott, J. K. (2023). Rapid evolution of sex role specialization in a hermaphrodite under sex-limited selection. _Evolution_, 77(4), 1066-1076.
+
+The raw data were taken from the Dryad repository, and analysed using the same model as in the original study (copying the R code). The fitness data were mean-centered and scaled prior to analysis, such that model-estimated differences in treatment means are equal to Cohen's d. 
+
+Note that this study has both a female-limited and a male-limited evolution treatment, unlike all the others in this section, and it measured both male and female fitness. To address this, I include 4 contrasts in the meta-analysis: female-limited evolution vs the control for both sexes' fitnesses, and male-limited evolution vs the control for both sexes' fitnesses. I predict elevated fitness in the selected sex and reduced fitness in the non-selected sex, and adjust the effect size signs to reflect this.
+
+```{r}
+fitness.dataCS <- read.csv("input_data/norden_dryad_data/Mlig_fitness_data_C_standard.csv", 
+                           sep=";", dec=",", header=TRUE, stringsAsFactors = T) %>% 
+  as_tibble() %>% 
+  mutate(Stand_Fitness = as.numeric(scale(Stand_Fitness)))
+
+modfitCS <- lmer(Stand_Fitness~Treatment*sex_role + (1|ID) + (1|Treatment:sex_role:Population), data = fitness.dataCS)
+summary(modfitCS)
+
+emmeans(modfitCS, ~ Treatment | sex_role) %>% plot()
+
+cohens_d <- emmeans(modfitCS, ~ Treatment | sex_role) %>% 
+  pairs() %>% as_tibble() %>% 
+  filter(str_detect(contrast, "Control")) %>% 
+  select(trait = contrast, Estimate = estimate, SE)
+
+cohens_d$trait <- c(
+  "Female fitness (effect of feminising allele)",
+  "Female fitness (effect of masculinising allele)",
+  "Male fitness (effect of feminising allele)",
+  "Male fitness (effect of masculinising allele)")
+
+cohens_d$Estimate <- cohens_d$Estimate * c(-1, 1, 1, -1) 
+
+cohens_d$Lower_95_CI <- cohens_d$Estimate - cohens_d$SE * 1.96
+cohens_d$Upper_95_CI <- cohens_d$Estimate + cohens_d$SE * 1.96
+
+tibble(Study = "Nordén et al. (2020) Evolution 77, 1066-1076",
+       Trait = cohens_d$trait,
+       Generations = 14,
+       Organism = "Macrostomum lignano",
+       Interpretation = c(
+         "The positive effect size means that worms carrying the feminising allele had higher fitness when breeding in the female sex role compared to worms carrying the control allele.",
+         "A positive effect would mean that worms carrying the masculinising allele had lower fitness when breeding in the female sex role compared to worms carrying the control allele (actually, they had non-significantly higher fitness).",
+         "A positive effect would mean that worms carrying the feminising allele had lower fitness when breeding in the male sex role compared to worms carrying the control allele (they did, but the difference is not significant).",
+         "A positive effect would mean that worms carrying the masculinising allele had higher fitness when breeding in the male sex role compared to worms carrying the control allele (they did, but the difference is not significant)."
+       ),
+       Estimate = cohens_d$Estimate,
+       Var = cohens_d$SE ^ 2,
+       Lower_95_CI = cohens_d$Lower_95_CI,
+       Upper_95_CI = cohens_d$Upper_95_CI) %>% 
+  write_csv("effect_sizes/norden2020.csv")
+```
+
+
+# Middle-class neighbourhood experiments
+
+## Radwan et al. (2004)
+
+Radwan, J., Unrug, J., Snigórska, K., & Gawrońska, K. (2004). Effectiveness of sexual selection in preventing fitness deterioration in bulb mite populations under relaxed natural selection. _Journal of Evolutionary Biology_, 17(1), 94–99.
+
+### Radwan's original data
+
+The means and standard errors for each variable and treatment group were extracted from Table 1. Sample sizes for individual treatments are not given, so I divided the total sample size by 3 and rounded off to estimate them. 
+
+```{r}
+df <- tibble(
+  Variable = rep(c("Viability",
+                   "Female longevity",
+                   "Female fecundity",
+                   "Male fitness"),2),
+  
+  Treatment = c(rep("SS", 4), rep("C", 4)),
+  
+  mean = c(0.761, 23.74, 108.7, 0.543, 0.733, 25.35, 131.7, 0.596),
+  SE   = c(0.102, 2.45, 4.47, 0.077, 0.066, 1.17, 9.51, 0.061),
+  n = round(rep(c(161/3, 136/3, 139/3, 100/3), 2))
+)
+
+kable(df) %>% 
+  kable_styling(full_width = F)
+```
+
+### Viability
+
+```{r}
+mes(m.2 = df$mean[df$Treatment=="SS" & df$Variable == "Viability"],
+    m.1 = df$mean[df$Treatment=="C" & df$Variable == "Viability"],
+    sd.2 = df$SE[df$Treatment=="SS" & df$Variable == "Viability"] * 
+      sqrt(df$n[df$Treatment=="SS" & df$Variable == "Viability"]),
+    sd.1 = df$SE[df$Treatment=="C" & df$Variable == "Viability"] * 
+      sqrt(df$n[df$Treatment=="C" & df$Variable == "Viability"]),
+    n.2 = df$n[df$Treatment=="SS" & df$Variable == "Viability"],
+    n.1 = df$n[df$Treatment=="C" & df$Variable == "Viability"], verbose=F) %>% 
+  parse_es(study = "Radwan et al. (2004) J. Evol. Biol. 17, 94–99.",
+           generations = 11,
+           organism = "Rhizoglyphus robini",
+           trait = "Viability",
+           interpretation = "A positive effect size would indicate lower viability in populations that experienced relaxed selection on females relative to those experiencing selection on both sexes (the difference is non-significant and in the opposite direction)."
+          ) %>% 
+  write_csv("effect_sizes/radwan2004_1.csv")
+```
+
+### Female longevity
+
+```{r}
+mes(m.2 = df$mean[df$Treatment=="SS" & df$Variable == "Female longevity"],
+    m.1 = df$mean[df$Treatment=="C" & df$Variable == "Female longevity"],
+    sd.2 = df$SE[df$Treatment=="SS" & df$Variable == "Female longevity"] * 
+      sqrt(df$n[df$Treatment=="SS" & df$Variable == "Female longevity"]),
+    sd.1 = df$SE[df$Treatment=="C" & df$Variable == "Female longevity"] * 
+      sqrt(df$n[df$Treatment=="C" & df$Variable == "Female longevity"]),
+    n.2 = df$n[df$Treatment=="SS" & df$Variable == "Female longevity"],
+    n.1 = df$n[df$Treatment=="C" & df$Variable == "Female longevity"], verbose=F) %>% 
+  parse_es(study = "Radwan et al. (2004) J. Evol. Biol. 17, 94–99.",
+           generations = 11,
+           organism = "Rhizoglyphus robini",
+           trait = "Female longevity",
+           interpretation = "A positive effect size would indicate reduced female longevity in populations that experienced relaxed selection on females relative to those experiencing selection on both sexes (the difference is non-significant and in the predicted direction).") %>% 
+  write_csv("effect_sizes/radwan2004_2.csv")
+```
+
+### Female fecundity
+
+```{r}
+mes(m.2 = df$mean[df$Treatment=="SS" & df$Variable == "Female fecundity"],
+    m.1 = df$mean[df$Treatment=="C" & df$Variable == "Female fecundity"],
+    sd.2 = df$SE[df$Treatment=="SS" & df$Variable == "Female fecundity"] * 
+      sqrt(df$n[df$Treatment=="SS" & df$Variable == "Female fecundity"]),
+    sd.1 = df$SE[df$Treatment=="C" & df$Variable == "Female fecundity"] * 
+      sqrt(df$n[df$Treatment=="C" & df$Variable == "Female fecundity"]),
+    n.2 = df$n[df$Treatment=="SS" & df$Variable == "Female fecundity"],
+    n.1 = df$n[df$Treatment=="C" & df$Variable == "Female fecundity"], verbose=F) %>% 
+  parse_es(study = "Radwan et al. (2004) J. Evol. Biol. 17, 94–99.",
+           generations = 11,
+           organism = "Rhizoglyphus robini",
+           trait = "Female fecundity",
+           interpretation = "The positive effect size indicates reduced fecundity in populations that experienced relaxed selection on females relative to those experiencing selection on both sexes.") %>% 
+  write_csv("effect_sizes/radwan2004_3.csv")
+```
+
+### Male fitness
+
+```{r}
+mes(m.1 = df$mean[df$Treatment=="SS" & df$Variable == "Male fitness"],
+    m.2 = df$mean[df$Treatment=="C" & df$Variable == "Male fitness"],
+    sd.1 = df$SE[df$Treatment=="SS" & df$Variable == "Male fitness"] * 
+      sqrt(df$n[df$Treatment=="SS" & df$Variable == "Male fitness"]),
+    sd.2 = df$SE[df$Treatment=="C" & df$Variable == "Male fitness"] * 
+      sqrt(df$n[df$Treatment=="C" & df$Variable == "Male fitness"]),
+    n.1 = df$n[df$Treatment=="SS" & df$Variable == "Male fitness"],
+    n.2 = df$n[df$Treatment=="C" & df$Variable == "Male fitness"], verbose=F) %>% 
+  parse_es(study = "Radwan et al. (2004) J. Evol. Biol. 17, 94–99.",
+           generations = 11,
+           organism = "Rhizoglyphus robini",
+           trait = "Male fitness",
+           interpretation = "A positive effect size would indicate increased fitness in populations that experienced relaxed selection on females relative to those experiencing selection on both sexes (the difference is non-significant and in the opposite direction).") %>% 
+  write_csv("effect_sizes/radwan2004_4.csv")
+```
+
+## Morrow et al. (2008)
+
+Morrow, E. H., Stewart, A. D., & Rice, W. R. (2008). Assessing the extent of genome-wide intralocus sexual conflict via experimentally enforced gender-limited selection. _Journal of Evolutionary Biology_, 21(4), 1046–1054.
+
+### Morrow et al.'s original data
+
+```{r}
+df <- tibble(treatment = c("selected sex", "non-selected sex","selected sex", "non-selected sex"),
+       trait = c("male fitness", "male fitness", "female fitness", "female fitness"),
+       mean = c(9.761182759612618, 8.5105834691725, 38.60211669355156, 33.71168902702915),
+       SE = c(10.07670917633522 - 9.761182759612618,
+              8.812266276728353 - 8.5105834691725,
+              38.99686561487718 - 38.60211669355156,
+              33.985783792999435 - 33.71168902702915),
+       N = c(60, 60, 60, 60))
+
+kable(df) %>% 
+  kable_styling(full_width = F)
+```
+
+### Male fitness effect size
+
+```{r}
+mes(m.1 = df$mean[df$trait == "male fitness" & df$treatment == "selected sex"],
+    m.2 = df$mean[df$trait == "male fitness" & df$treatment == "non-selected sex"],
+    sd.1 = df$SE[df$trait == "male fitness" & df$treatment == "selected sex"] * sqrt(60),
+    sd.2 = df$SE[df$trait == "male fitness" & df$treatment == "non-selected sex"] * sqrt(60),
+    n.1 = 60, n.2 = 60, verbose = F) %>% 
+  parse_es(study = "Morrow et al. (2008) J. Evol. Biol. 21, 1046–1054",
+           trait = "Male fitness", 
+           generations = 26, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "The positive effect sie indicates that male fitness was higher in lines where selection was relaxed on females compared to lines where selection was relaxed on males.") %>% 
+  write_csv("effect_sizes/morrow2008_1.csv")
+```
+
+### Female fitness effect size
+
+```{r}
+mes(m.1 = df$mean[df$trait == "female fitness" & df$treatment == "selected sex"],
+    m.2 = df$mean[df$trait == "female fitness" & df$treatment == "non-selected sex"],
+    sd.1 = df$SE[df$trait == "female fitness" & df$treatment == "selected sex"] * sqrt(60),
+    sd.2 = df$SE[df$trait == "female fitness" & df$treatment == "non-selected sex"] * sqrt(60),
+    n.1 = 60, n.2 = 60, verbose = F) %>% 
+  parse_es(study = "Morrow et al. (2008) J. Evol. Biol. 21, 1046–1054",
+           trait = "Female fitness", 
+           generations = 26, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "The positive effect sie indicates that female fitness was higher in lines where selection was relaxed on males compared to lines where selection was relaxed on females.") %>% 
+  write_csv("effect_sizes/morrow2008_2.csv")
+```
+
+## Martinossi-Allibert et al. (2019)
+
+Martinossi-Allibert, I., Thilliez, E., Arnqvist, G., & Berger, D. (2019). Sexual selection, environmental robustness, and evolutionary demography of maladapted populations: A test using experimental evolution in seed beetles. Evolutionary Applications, 12(7), 1371–1384.
+
+I obtained the raw data from Dryad, ran a GLMM with formula `LRS ~ treatment*sex*environment + (1 | line)`, and used emmeans to get the treatment effect on LRS for each sex (averaging over levels of environment). I scaled LRS first, so the treatment effects are equal to Cohen's d. 
+
+I focus on the difference between the female-specific middle class neighbourhood treatment and the monogamy treatment (the latter has natural selection on both sexes but not sexual selection, while the former has natural and sexual selection on males and relaxed selection on females). The authors re-branded the female-MCN treatment as a "sexual selection only" (S treatment) in a later paper (Baur and Berger 2020, below), though it would seem to allow for natural selection on males as well. 
+
+### Female fitness
+
+```{r}
+Martinossi_Allibert <- read_excel("input_data/MartinossiAllibert_dryad_data.xlsx", sheet = "LRS") %>% 
+  select(treatment = Evolution_tSeatment_type, 
+         replicate = Evolution_treatment_replicate,
+         line = Evolution_treatment_unique,
+         environment = Assay_environment,
+         sex = Sex,
+         LRS = Rel_to_pol29_persex) %>% 
+  mutate(treatment = replace(treatment, treatment == "F", "Monogamy"),
+         treatment = replace(treatment, treatment == "M", "Malelimited"),
+         treatment = replace(treatment, treatment == "S", "Polygamy"),
+         LRS = as.numeric(scale(LRS)))
+
+Martinossi_Allibert %>% 
+  group_by(treatment, environment, sex) %>% 
+  summarise(mean = mean(LRS),
+            se = sd(LRS) / sqrt(n()),
+            ymin = mean-se,
+            ymax = mean+se) %>% 
+  ggplot(aes(environment, mean, colour = treatment, group = paste(treatment, sex))) +
+  geom_errorbar(aes(ymin=ymin, ymax=ymax), width = 0.1) + 
+  geom_line() +
+  geom_point() + 
+  facet_wrap(~ sex)
+
+es <- (emmeans(lmer(LRS~ treatment*sex*environment + (1 | line), 
+             data = Martinossi_Allibert), specs = c("treatment", "sex")) %>% 
+  pairs() %>% 
+  as_tibble() %>% 
+  filter(str_detect(contrast, "Malelimited") & str_detect(contrast, "Monogamy")))[c(1,4), ] 
+
+es$estimate[1] <- es$estimate[1] * -1 # flip effect size sign for females 
+
+es <- es %>% 
+  mutate(Lower_95_CI = estimate - SE*1.96,
+         Upper_95_CI = estimate + SE*1.96)
+
+tibble(
+  Study = "Martinossi-Allibert et al. (2019) Evol. Applic., 12, 1371–1384",
+  Trait = "Female fitness",
+  Generations = 16,
+  Organism = "Callosobruchus maculatus",
+  Interpretation = "A positive effect would indicate that the relaxation of selection on females reduced female fitness, relative to the monogamy treatment which removed sexual selection yet maintained natural selection on both sexes (there is non-significant difference in the opposite direction).",
+  Estimate = es$estimate[1],
+  Var = es$SE[1] ^ 2,
+  Lower_95_CI = es$Lower_95_CI[1],
+  Upper_95_CI = es$Upper_95_CI[1]) %>% 
+  write_csv("effect_sizes/martinossiAllibert2019_1.csv")
+```
+
+### Male fitness
+
+```{r}
+tibble(
+  Study = "Martinossi-Allibert et al. (2019) Evol. Applic., 12, 1371–1384",
+  Trait = "Male fitness",
+  Generations = 16,
+  Organism = "Callosobruchus maculatus",
+  Interpretation = "The positive effect indicates that the relaxation of selection on females increased male fitness, relative to the monogamy treatment which removed sexual selection yet maintained natural selection on both sexes.",
+  Estimate = es$estimate[2],
+  Var = es$SE[2] ^ 2,
+  Lower_95_CI = es$Lower_95_CI[2],
+  Upper_95_CI = es$Upper_95_CI[2]) %>% 
+  write_csv("effect_sizes/martinossiAllibert2019_2.csv")
+```
+
+
+
+## Baur and Berger (2020)
+
+Baur, J., & Berger, D. (2020). Experimental evidence for effects of sexual selection on condition-dependent mutation rates. Nature Ecology & Evolution, 4(5), 737–744.
+
+This study is mentioned in the paper, but I elected not to include it in the meta-analysis as it's unclear what the predictions should be under our hypothesis that there is intralocus sexual conflict. The study compares an 'N' treatment that was essentially enforced random monogamy with an 'S' treatment that relaxed selection on females and allowed sexual (and natural) selection on males. The S populations experience a lower fitness decline after irradiation, suggesting they are more resistant to mutation. But it's unclear whether the fixation of male-benefit female-detriment alleles in the S treatment should necessarily improve or reduce mutation resistance.
+
+<!-- ```{r} -->
+<!-- dominant_load <- read_xlsx("input_data/baur_berger2020_figshare_data/dominant load.xlsx") -->
+
+<!-- # fit a sensible-seeming Poisson GLMM, accounting for block effects, genetic similarity in the F2, and replicate line -->
+<!-- # The sociosex experimental factor is added as a main effect since we're not much interested in it here -->
+<!-- fit <- glmer(offspring ~ regime*rad + sociosex + block + (1 | m_F0maleID) + (1 | f_F0maleID) + (1 | line),  -->
+<!--              data = dominant_load, family = "poisson") -->
+
+
+<!-- emm <- emmeans(fit, ~ regime | rad)  -->
+<!-- emmeans(fit, ~ rad | regime) %>% plot() -->
+
+<!-- delta <- contrast( -->
+<!--   emm, -->
+<!--   method = "revpairwise",   -->
+<!--   by = "regime" -->
+<!-- ) -->
+
+<!-- delta %>% plot() -->
+
+<!-- delta_diff <- contrast( -->
+<!--   delta, -->
+<!--   method = "pairwise", -->
+<!--   by = NULL -->
+<!-- ) -->
+
+<!-- df <- as_tibble(delta_diff[2,]) %>%  -->
+<!--   mutate(Cohens_d = -1 * estimate * sqrt(3) / pi, -->
+<!--          Cohens_SE = SE * sqrt(3) / pi, -->
+<!--          Cohens_Var = (SE^2) * sqrt(3) / pi, -->
+<!--          Lower_95_CI = (-1 * estimate - SE*1.96) * sqrt(3) / pi, -->
+<!--          Upper_95_CI = (-1 * estimate + SE*1.96) * sqrt(3) / pi) %>%  -->
+<!--   select(starts_with("Cohen"), ends_with("CI")) -->
+
+
+
+<!-- tibble(Study = "Baur and Berger (2020)", -->
+<!--        Trait = "Resistance to mutation", -->
+<!--        Generations = 41, -->
+<!--        Organism = "Callosobruchus maculatus", -->
+<!--        interpretation = "The positive effect size indicates that populations in which... .", -->
+<!--        Estimate = df$Cohens_d, -->
+<!--        Var = df$Cohens_Var, -->
+<!--        Lower_95_CI = df$Lower_95_CI, -->
+<!--        Upper_95_CI = df$Upper_95_CI) %>%  -->
+<!--   write_csv("effect_sizes/baur2020.csv") -->
+
+<!-- ``` -->
+
+
+

@@ -1,0 +1,260 @@
+---
+title: "Running the meta-analysis"
+output: 
+  workflowr::wflow_html:
+    code_folding: hide 
+editor_options:
+  chunk_output_type: console
+  code_folding: hide
+---
+
+```{r include=FALSE}
+pretty3 <- function(x) {
+  formatC(x, format = "f", digits = 3)
+}
+```
+
+
+Load packages, the meta-analysis data, and a helper function.
+
+```{r message=F}
+library(tidyverse)
+library(metafor)
+library(DT)
+library(ggh4x)
+library(kableExtra)
+
+
+# function to make the searchable, exportable HTML table
+my_data_table <- function(df){
+
+  num_cols <- names(df)[sapply(df, is.numeric)]
+  num_cols <- num_cols[num_cols != "Generations"]
+
+  datatable(
+    df, rownames = FALSE,
+    autoHideNavigation = TRUE,
+    extensions = c("Scroller", "Buttons"),
+    options = list(
+      autoWidth = TRUE,
+      dom = 'Bfrtip',
+      deferRender = TRUE,
+      scrollX = TRUE,
+      scrollY = 1000,
+      scrollCollapse = TRUE,
+      buttons = list(
+        'pageLength', 'colvis', 'csv',
+        list(
+          extend = 'pdf',
+          pageSize = 'A4',
+          orientation = 'landscape',
+          filename = 'Trait_data'
+        )
+      ),
+      pageLength = 100
+    )
+  ) %>%
+    formatRound(
+      columns = num_cols,
+      digits = 3
+    )
+}
+
+# Load up the meta-analysis data:
+meta_analysis_data <- list.files("effect_sizes/", full.names = T) %>% 
+  lapply(read_csv, show_col_types = FALSE) %>% 
+  bind_rows() %>% 
+  left_join(read_csv("input_data/study_metadata.csv"), by = join_by(Study)) %>% 
+  mutate(year = str_extract(Short_name, "[:digit:]+")) %>% 
+  arrange(year) %>% 
+  mutate(Sex = "Both",
+         Sex = replace(Sex, str_detect(Trait, "Male"), "Male"),
+         Sex = replace(Sex, str_detect(Trait, "Female"), "Female"))
+```
+
+## Data collected for the meta-analysis
+
+```{r include = F}
+n_expts <- meta_analysis_data$Origin_of_lines %>% unique() %>% length()
+n_pubs <- meta_analysis_data$Study %>% unique() %>% length()
+n_effects <- nrow(meta_analysis_data)
+```
+
+
+This table is searchable and can be exported as a file. You can also hide columns to help read it. There are `r n_effects` effect sizes from `r n_expts` independent experimental evolution projects, which were published across `r n_pubs` journal articles.
+
+```{r}
+meta_analysis_data %>% 
+  select(-year, -Short_name) %>% 
+  my_data_table()
+```
+
+
+## Meta-analysis without moderators
+
+This meta-analysis can be used to calculate the grand mean effect size. It's a mixed effects meta-analysis with the random effects structure `~ 1 | Origin_of_lines/Study`. This means we fit a random intercept for `Origin_of_lines`, a variable which gives the name of the study that first created the experimental evolution lines being measured. We also fit a random intercept for `Study` nested within `Origin_of_lines`, where `Study` is a variable giving the name of the study doing the measuring (which is often the same study, but not always, since some studies re-measured lines that were created in an earlier study). 
+
+```{r}
+meta_analysis <- rma.mv(
+  yi = Estimate,
+  V = Var,
+  random = ~ 1 | Origin_of_lines/Study,
+  data = meta_analysis_data,
+  method = "REML"
+)
+
+summary(meta_analysis)
+```
+
+The above results table shows that the grand mean effect size is `r pretty3(as.numeric(meta_analysis$b))`, with a standard error of `r pretty3(meta_analysis$se)` and 95% CIs of `r pretty3(meta_analysis$ci.lb)` to `r pretty3(meta_analysis$ci.ub)`.
+
+## Testing for effects of moderators
+
+Here, I use AICc model selection to compare 7 competing meta-analysis models, which fit `Generations`, `Sex`, `Experiment_type`, a combination of 2 or all of these, or the intercept-only null model. `Generations` gives the number of generations of selection at the time the focal trait was measured, `Sex` gives the sex of the individuals expressing the trait (male, female, or both sexes), and `Experiment_type` is either "Sex-specific inheritance" or "Sex-specific relaxation of selection".
+
+The top model includes the moderator `Generations`, and it is ahead of second-best model (which also includes `Sex`) by much more than 2 AICc, suggesting that `Generations` explains substantial variation in the data but the other moderators do not.
+
+```{r}
+fit_ma <- function(formula){
+  
+  scaled_meta_analysis_data <-
+    meta_analysis_data %>% 
+    mutate(Generations = as.numeric(scale(Generations)))
+  
+  if(formula == "Intercept only"){
+    return(meta_analysis)
+  }
+  
+  rma.mv(
+    yi = Estimate,
+    V = Var,
+    mods = as.formula(formula),
+    random = ~ 1 | Origin_of_lines/Short_name,
+    data = scaled_meta_analysis_data,
+    method = "REML"
+  )
+}
+
+fit_all <- function(formulae){
+  meta <- lapply(formulae, fit_ma)
+  get_p <- function(ma) as.numeric(ma$p)
+  get_logLik <- function(ma) as.numeric(logLik(ma))
+  get_AICc <- function(ma) as.numeric(AIC(ma, correct = T))
+  
+  data.frame(
+    Model = formulae,
+    k     = sapply(meta, get_p),
+    logLik = sapply(meta, get_logLik),
+    AICc   = sapply(meta, get_AICc)) %>% 
+    arrange(AICc) %>% 
+    mutate(Model = str_remove_all(Model, "~ "),
+           delta_AICc = round(AICc - AICc[1], 2),
+           delta_AICc = c(" ", delta_AICc[2:length(delta_AICc)]))
+}
+
+fit_all(c("~ Generations + Sex + Experiment_type1",
+          "~ Generations + Sex",
+          "~ Sex + Experiment_type1",
+          "~ Generations",
+          "~ Sex",
+          "~ Experiment_type1",
+          "Intercept only")) %>% 
+  kable() %>% 
+  kable_styling(full_width = FALSE)
+```
+
+```{r include=FALSE}
+mean_gen <- round(mean(meta_analysis_data$Generations),1)
+```
+
+
+
+Here are the results of the top model, showing the significant negative effect of the moderator `Generations` on effect size (note: `Generations` was scaled to have mean 0, SD 1, prior to analysis). This is a counter-intuitive result since we might expect greater effects after more generations of selection, but it is not very informative since `Generations` is likely confounded with other factors (e.g. species, type of experimental design, type of trait being measured). The grand mean effect size (predicted here for the average value of `Generations`, which is `r mean_gen`) is much the same after adjusting for the effect of `Generations`.
+
+```{r}
+fit_ma("~ Generations")
+```
+
+
+## Forest plot of effect sizes
+
+```{r fig.height = 10}
+plot_data <- meta_analysis_data %>% 
+  select(Origin_of_lines, Short_name, 
+         Experiment_type1, Experiment_type2, Trait, Estimate, 
+         Lower_95_CI, 
+         Upper_95_CI) 
+
+plot_data$Trait[plot_data$Trait == "Male fitness" & plot_data$Short_name == "Abbott et al. (2013)"] <- "Male fitness (2013)"
+plot_data$Trait[plot_data$Trait == "Male fitness" & plot_data$Short_name == "Abbott et al. (2020)"] <- "Male fitness (2020)"
+
+plot_data <- plot_data %>% 
+  group_by(Origin_of_lines) %>% 
+  mutate(Short_name = paste0(unique(Short_name), collapse = ";\n")) %>% 
+  bind_rows(tibble(
+    Origin_of_lines = " ", Short_name = "Mean effect size", 
+         Experiment_type1 = "  ", Trait = " ", 
+    Estimate = as.numeric(meta_analysis$b), 
+         Lower_95_CI = as.numeric(meta_analysis$ci.lb), 
+    Upper_95_CI  = as.numeric(meta_analysis$ci.ub)
+  )) 
+
+
+levs <- plot_data$Short_name %>% unique()
+
+plot_data <- plot_data %>% 
+  mutate(Short_name = factor(Short_name, levs)) 
+
+bands <- plot_data %>% 
+  mutate(y = 1:n()) %>% 
+  group_by(Short_name) %>% 
+  summarise(
+    ymin = min(y) -0.5,
+    ymax = max(y) + 0.5,
+    .groups = "drop")  %>% 
+  dplyr::mutate(
+    stripe = row_number() %% 2
+  )
+
+plot_data %>% 
+  mutate(Short_name = factor(Short_name, levs)) %>% 
+  ggplot(aes(y = Trait, x = Estimate)) +
+  geom_vline(xintercept = 0, linetype = 2, colour = "grey10") +
+  geom_errorbar(aes(xmin = Lower_95_CI, 
+                    xmax = Upper_95_CI, 
+                    colour = Experiment_type1)) +
+  geom_point(aes(colour = Experiment_type1)) + 
+  facet_grid2( rows = vars(Short_name),
+    scales = "free_y",
+    space = "free_y") +
+  theme_minimal()+
+  theme(legend.position = "top",
+        panel.grid.major.y = element_blank(),
+        strip.text.y = element_text(angle = 0))+ 
+  labs(x = "Effect size (Cohen's d) \u00B1 95% CIs", 
+       y = NULL,
+       colour = NULL) +  #geom_stripped_rows()
+  geom_rect(
+    data = bands,
+    aes(ymin = ymin, ymax = ymax, xmin = -Inf, xmax = Inf, fill = factor(stripe)),
+    alpha = 0.1,
+    inherit.aes = FALSE,
+    fill = rep(c("green", "steelblue"), 6)
+  )
+```
+
+## Plotting effect of moderator `Generations`
+
+On the right of x-axis (high generation number), this result is driven by a couple of studies, Lund-Hansen et al. (2020) and Manat et al. (2021), which both relate to the same set of experimental evolution lines, and which both focus on female-limited evolution of X chromosomes (uniquely in the full dataset). I also calculated the effect sizes from the raw data for these studies, avoiding issues with falsely inflating them. to the left of the x-axis (short generation number), the trend is driven by a couple of older studies I calculated the effect sizes from summary statistics, possibly inflating them. 
+
+Therefore, I don't feel there is good evidence for a true negative effect of `Generations`, and this result instead reflects confounding.
+
+```{r}
+library(ggrepel)
+meta_analysis_data %>% 
+  ggplot(aes(Generations, Estimate)) + 
+  geom_point() + 
+  geom_text_repel(aes(label = Short_name), size = 2, max.overlaps = 1000)
+  
+```
+

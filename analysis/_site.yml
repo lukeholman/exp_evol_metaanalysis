@@ -1,4 +1,4 @@
-name: "exp_evol_metaanalysis"
+name: "IaSC meta-analysis"
 output_dir: ../docs
 navbar:
   title: "exp_evol_metaanalysis"

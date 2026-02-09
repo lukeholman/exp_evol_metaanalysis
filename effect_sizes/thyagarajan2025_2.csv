@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
+Thyagarajan et al. (2025) J. Hered. esaf072,Male mating success,64,Drosophila melanogaster,A positive effectwould mean that males carrying male-evolved haplotypes are more likely to mate with females (over standard male competitors) compared to males carrying control genomes (there is no signficant difference).,0.18771793067890158,0.018348302354424976,-0.07777564424290136,0.4532115056007045

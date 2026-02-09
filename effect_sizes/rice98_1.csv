@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Rice (1998) PNAS, 95, 6217–6221",Male mating speed,38,Drosophila melanogaster,The positive effect size means that males carrying a haplotype that underwent male-limited evolution mated with previously-unmated females faster than males carrying control haplotypes,0.9261835692619403,0.2499155707269112,0.19864150778234513,1.6537256307415356

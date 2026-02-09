@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Manat et al. (2021) Biol. Lett. 17, 20200915",Male sperm defence,160,Drosophila melanogaster,The positive effect indicates that males carrying an X chromosome that underwent female-limited evolution have worse sperm defence (i.e. sire fewer offspring when after the female remates) compared to males carrying control X chromosomes.,0.5,0.01,0.27,0.73

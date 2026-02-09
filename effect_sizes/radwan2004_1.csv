@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Radwan et al. (2004) J. Evol. Biol. 17, 94–99.",Viability,11,Rhizoglyphus robini,A positive effect size would indicate lower viability in populations that experienced relaxed selection on females relative to those experiencing selection on both sexes (the difference is non-significant and in the opposite direction).,-0.04,0.04,-0.42,0.33
