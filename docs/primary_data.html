@@ -371,7 +371,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -382,8 +382,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -396,9 +396,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>exp_evol_metaanalysis/</code>
@@ -421,21 +421,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -526,13 +523,13 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong718c752">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong7057ba1">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> 718c752
+aria-hidden="true"></span> <strong>Repository version:</strong> 7057ba1
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong718c752"
+<div id="strongRepositoryversionstrong7057ba1"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -541,7 +538,7 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 718c752.
+The results in this page were generated with repository version 7057ba1.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -558,16 +555,20 @@ were generated:
 Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rproj.user/
-
-Untracked files:
-    Untracked:  analysis/ORIGINAL_SCRIPT.Rmd
-    Untracked:  analysis/meta_analysis.Rmd
-    Untracked:  analysis/primary_data.Rmd
-    Untracked:  effect_sizes/
-    Untracked:  input_data/
+    Ignored:    input_data/.DS_Store
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/.DS_Store
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/DevelopmentTimeGeneration/.Rapp.history
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/LocomotionAssayGeneration123/.DS_Store
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/LocomotionAssayGeneration123/.Rapp.history
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/LocomotionAssayGeneration123/.Rhistory
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/ReproductiveFitnessFM/.Rapp.history
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/ReproductiveFitnessFM/.Rhistory
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/StandardFitnessGeneration15-18/.Rapp.history
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/StandardFitnessGeneration39-41 /.Rapp.history
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/ThoraxSizeGeneration15-18/.Rapp.history
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/ThoraxSizeGeneration72/.Rapp.history
 
 Unstaged changes:
-    Modified:   analysis/_site.yml
     Deleted:    output/README.md
 
 </code></pre>
@@ -584,9 +585,72 @@ have uncommitted changes.
 </div>
 <div id="versions" class="tab-pane fade">
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/primary_data.Rmd</code>) and HTML
+(<code>docs/primary_data.html</code>) files. If you’ve configured a
+remote Git repository (see <code>?wflow_git_remote</code>), click on the
+hyperlinks in the table below to view the files as they were in that
+past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+7057ba1
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-09
+</td>
+<td>
+First commit
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+7057ba1
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-09
+</td>
+<td>
+First commit
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -815,7 +879,7 @@ females tested.</p>
 )
 
 df %&gt;% kable() %&gt;% kable_styling()</code></pre>
-<table class="table" style="color: black; margin-left: auto; margin-right: auto;">
+<table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:right;">
@@ -987,7 +1051,7 @@ rice96 %&gt;%
   mutate(fitness = round(fitness,2)) %&gt;% 
   rename(`Male fitness` = fitness) %&gt;% 
   kable() %&gt;% kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:right;">
@@ -1232,7 +1296,7 @@ attractiveness and mating duration.</p>
 colnames(x) &lt;- c(&quot;male-limited&quot;, &quot;control&quot;)
 rownames(x) &lt;- c(&quot;mated&quot;, &quot;unmated&quot;)
 kable(x) %&gt;% kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1297,7 +1361,7 @@ CAB males.</p>
 colnames(x) &lt;- c(&quot;n_remating&quot;, &quot;n_not_remating&quot;)
 rownames(x) &lt;- c(&quot;EAB&quot;, &quot;CAB&quot;)
 kable(x) %&gt;% kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1374,7 +1438,7 @@ defence’, i.e. reduced paternity loss to the second male.</p>
          n = round(V2)) %&gt;% select(treatment, type, n)
 
 kable(m) %&gt;% kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1535,7 +1599,7 @@ m %&gt;%
   pivot_wider(names_from = type, values_from = n) %&gt;% 
   kable() %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1649,7 +1713,7 @@ dbl (4): day, prop_emerged, overall_eclosed, generation
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <pre class="r"><code>kable(dt) %&gt;% kable_styling()</code></pre>
-<table class="table" style="color: black; margin-left: auto; margin-right: auto;">
+<table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -3436,7 +3500,7 @@ colnames(x) &lt;- c(&quot;focal_female_offspring&quot;, &quot;rival_female_offsp
 rownames(x) &lt;- c(&quot;CAB&quot;, &quot;EAB&quot;)
 
 kable(x) %&gt;% kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -3506,7 +3570,7 @@ or close to it.</p>
 
 kable(mortality) %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -3828,7 +3892,7 @@ male-limited evolution. <em>The American Naturalist</em>, 169,
 
 kable(df) %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -4088,7 +4152,7 @@ fitness, and <em>lower</em> female fitness).</p>
 abb %&gt;% 
   kable() %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -4399,7 +4463,7 @@ females.</p>
        SE = c(0.351, 0.322),
        N = c(120, 120)) %&gt;% 
   kable() %&gt;% kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -4500,7 +4564,7 @@ replicate lines).</p>
 df %&gt;% 
   kable() %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -4670,7 +4734,7 @@ extra purging of male-harming alleles.</p>
 
 df %&gt;% 
   kable() %&gt;% kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -5226,6 +5290,43 @@ Auto-detection of the response transformation may be incorrect</code></pre>
   ggplot(aes(regime, locoactive)) + 
   geom_boxplot()</code></pre>
 <p><img src="figure/primary_data.Rmd/unnamed-chunk-53-1.png" alt="" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-53-1">
+Past versions of unnamed-chunk-53-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-53-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+7057ba1
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># CFM &lt; FLX for activity (and it&#39;s significant), which is the opposite of the prediction (so we need a negative effect size)
 male_loco_model &lt;- glm((cbind(active, inactive)) ~ regime + rep_population, 
                           data = male_loco, family = &quot;binomial&quot;)
@@ -5335,7 +5436,7 @@ post-copulatory success. <em>Biology Letters</em>, 17, 20200915.</p>
 
 kable(df) %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -5403,7 +5504,7 @@ get_effect_size_2x2_matrix(x) %&gt;%
 
 kable(df) %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -5481,7 +5582,7 @@ CFM
 
 kable(df) %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -5559,7 +5660,7 @@ CFM
 
 kable(df) %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -5902,6 +6003,43 @@ TrtmntFml:_  0.488 -0.702 -0.345 -0.695
 TrtmntMl:s_  0.497 -0.345 -0.702 -0.707  0.491</code></pre>
 <pre class="r"><code>emmeans(modfitCS, ~ Treatment | sex_role) %&gt;% plot()</code></pre>
 <p><img src="figure/primary_data.Rmd/unnamed-chunk-68-1.png" alt="" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-68-1">
+Past versions of unnamed-chunk-68-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-68-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+7057ba1
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>cohens_d &lt;- emmeans(modfitCS, ~ Treatment | sex_role) %&gt;% 
   pairs() %&gt;% as_tibble() %&gt;% 
   filter(str_detect(contrast, &quot;Control&quot;)) %&gt;% 
@@ -5964,7 +6102,7 @@ estimate them.</p>
 
 kable(df) %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -6213,7 +6351,7 @@ Biology</em>, 21(4), 1046–1054.</p>
 
 kable(df) %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -6407,6 +6545,43 @@ Polygamy at 29, by sex.&#39;</code></pre>
 ℹ Use `summarise(.by = c(treatment, environment, sex))` for per-operation
   grouping (`?dplyr::dplyr_by`) instead.</code></pre>
 <p><img src="figure/primary_data.Rmd/unnamed-chunk-77-1.png" alt="" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-77-1">
+Past versions of unnamed-chunk-77-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-77-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+7057ba1
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>es &lt;- (emmeans(lmer(LRS~ treatment*sex*environment + (1 | line), 
              data = Martinossi_Allibert), specs = c(&quot;treatment&quot;, &quot;sex&quot;)) %&gt;% 
   pairs() %&gt;% 
@@ -6538,34 +6713,37 @@ other attached packages:
  [9] Matrix_1.7-4     readxl_1.4.5     lubridate_1.9.4  forcats_1.0.1   
 [13] stringr_1.6.0    dplyr_1.2.0      purrr_1.2.1      readr_2.1.6     
 [17] tidyr_1.3.2      tibble_3.3.1     ggplot2_4.0.2    tidyverse_2.0.0 
+[21] workflowr_1.7.2 
 
 loaded via a namespace (and not attached):
  [1] tidyselect_1.2.1    viridisLite_0.4.2   farver_2.1.2       
  [4] S7_0.2.1            fastmap_1.2.0       promises_1.5.0     
  [7] digest_0.6.39       timechange_0.4.0    estimability_1.5.1 
-[10] lifecycle_1.0.5     magrittr_2.0.4      compiler_4.5.2     
-[13] rlang_1.1.7         sass_0.4.10         tools_4.5.2        
-[16] yaml_2.3.12         knitr_1.51          labeling_0.4.3     
-[19] bit_4.6.0           xml2_1.5.2          RColorBrewer_1.1-3 
-[22] abind_1.4-8         workflowr_1.7.2     withr_3.0.2        
+[10] lifecycle_1.0.5     processx_3.8.6      magrittr_2.0.4     
+[13] compiler_4.5.2      rlang_1.1.7         sass_0.4.10        
+[16] tools_4.5.2         yaml_2.3.12         knitr_1.51         
+[19] labeling_0.4.3      bit_4.6.0           xml2_1.5.2         
+[22] RColorBrewer_1.1-3  abind_1.4-8         withr_3.0.2        
 [25] numDeriv_2016.8-1.1 grid_4.5.2          git2r_0.36.2       
 [28] scales_1.4.0        MASS_7.3-65         cli_3.6.5          
 [31] mvtnorm_1.3-3       crayon_1.5.3        rmarkdown_2.30     
 [34] reformulas_0.4.4    generics_0.1.4      otel_0.2.0         
-[37] rstudioapi_0.18.0   tzdb_0.5.0          minqa_1.2.8        
-[40] cachem_1.1.0        splines_4.5.2       parallel_4.5.2     
-[43] cellranger_1.1.0    vctrs_0.7.1         boot_1.3-32        
-[46] jsonlite_2.0.0      hms_1.1.4           pbkrtest_0.5.5     
-[49] bit64_4.6.0-1       Formula_1.2-5       systemfonts_1.3.1  
-[52] jquerylib_0.1.4     glue_1.8.0          nloptr_2.2.1       
-[55] stringi_1.8.7       gtable_0.3.6        later_1.4.5        
-[58] pillar_1.11.1       htmltools_0.5.9     R6_2.6.1           
-[61] textshaping_1.0.4   Rdpack_2.6.5        rprojroot_2.1.1    
-[64] vroom_1.7.0         evaluate_1.0.5      lattice_0.22-7     
-[67] backports_1.5.0     rbibutils_2.4.1     broom_1.0.12       
-[70] httpuv_1.6.16       bslib_0.10.0        Rcpp_1.1.1         
-[73] svglite_2.2.2       coda_0.19-4.1       nlme_3.1-168       
-[76] xfun_0.56           fs_1.6.6            pkgconfig_2.0.3    </code></pre>
+[37] rstudioapi_0.18.0   httr_1.4.7          tzdb_0.5.0         
+[40] minqa_1.2.8         cachem_1.1.0        splines_4.5.2      
+[43] parallel_4.5.2      cellranger_1.1.0    vctrs_0.7.1        
+[46] boot_1.3-32         jsonlite_2.0.0      callr_3.7.6        
+[49] hms_1.1.4           pbkrtest_0.5.5      bit64_4.6.0-1      
+[52] Formula_1.2-5       systemfonts_1.3.1   jquerylib_0.1.4    
+[55] glue_1.8.0          nloptr_2.2.1        ps_1.9.1           
+[58] stringi_1.8.7       gtable_0.3.6        later_1.4.5        
+[61] pillar_1.11.1       htmltools_0.5.9     R6_2.6.1           
+[64] textshaping_1.0.4   Rdpack_2.6.5        rprojroot_2.1.1    
+[67] vroom_1.7.0         evaluate_1.0.5      lattice_0.22-7     
+[70] backports_1.5.0     rbibutils_2.4.1     broom_1.0.12       
+[73] httpuv_1.6.16       bslib_0.10.0        Rcpp_1.1.1         
+[76] svglite_2.2.2       coda_0.19-4.1       nlme_3.1-168       
+[79] whisker_0.4.1       xfun_0.56           fs_1.6.6           
+[82] getPass_0.2-4       pkgconfig_2.0.3    </code></pre>
 </div>
 </div>
 </div>

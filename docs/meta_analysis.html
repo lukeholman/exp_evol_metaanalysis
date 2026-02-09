@@ -389,7 +389,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -400,8 +400,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -414,9 +414,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>exp_evol_metaanalysis/</code>
@@ -439,21 +439,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -544,13 +541,13 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong718c752">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong7057ba1">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> 718c752
+aria-hidden="true"></span> <strong>Repository version:</strong> 7057ba1
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong718c752"
+<div id="strongRepositoryversionstrong7057ba1"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -559,7 +556,7 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 718c752.
+The results in this page were generated with repository version 7057ba1.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -576,13 +573,18 @@ were generated:
 Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rproj.user/
-
-Untracked files:
-    Untracked:  analysis/ORIGINAL_SCRIPT.Rmd
-    Untracked:  analysis/meta_analysis.Rmd
-    Untracked:  analysis/primary_data.Rmd
-    Untracked:  effect_sizes/
-    Untracked:  input_data/
+    Ignored:    input_data/.DS_Store
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/.DS_Store
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/DevelopmentTimeGeneration/.Rapp.history
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/LocomotionAssayGeneration123/.DS_Store
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/LocomotionAssayGeneration123/.Rapp.history
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/LocomotionAssayGeneration123/.Rhistory
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/ReproductiveFitnessFM/.Rapp.history
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/ReproductiveFitnessFM/.Rhistory
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/StandardFitnessGeneration15-18/.Rapp.history
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/StandardFitnessGeneration39-41 /.Rapp.history
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/ThoraxSizeGeneration15-18/.Rapp.history
+    Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/ThoraxSizeGeneration72/.Rapp.history
 
 Unstaged changes:
     Deleted:    output/README.md
@@ -601,9 +603,72 @@ have uncommitted changes.
 </div>
 <div id="versions" class="tab-pane fade">
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/meta_analysis.Rmd</code>) and
+HTML (<code>docs/meta_analysis.html</code>) files. If you’ve configured
+a remote Git repository (see <code>?wflow_git_remote</code>), click on
+the hyperlinks in the table below to view the files as they were in that
+past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+7057ba1
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-09
+</td>
+<td>
+First commit
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+7057ba1
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-09
+</td>
+<td>
+First commit
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -671,7 +736,7 @@ independent experimental evolution projects, which were published across
   select(-year, -Short_name) %&gt;% 
   my_data_table()</code></pre>
 <div class="datatables html-widget html-fill-item" id="htmlwidget-175c4e14aa5041d454d2" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-175c4e14aa5041d454d2">{"x":{"filter":"none","vertical":false,"extensions":["Scroller","Buttons"],"autoHideNavigation":true,"data":[["Rice (1992) Science 256, 1436-1439","Rice (1996) Nature 381, 232–234","Rice (1998) PNAS, 95, 6217–6221","Rice (1998) PNAS, 95, 6217–6221","Rice (1998) PNAS, 95, 6217–6221","Rice (1998) PNAS, 95, 6217–6221","Rice (1998) PNAS, 95, 6217–6221","Rice (1998) PNAS, 95, 6217–6221","Rice (1998) PNAS, 95, 6217–6221","Radwan et al. (2004) J. Evol. Biol. 17, 94–99.","Radwan et al. (2004) J. Evol. Biol. 17, 94–99.","Radwan et al. (2004) J. Evol. Biol. 17, 94–99.","Radwan et al. (2004) J. Evol. Biol. 17, 94–99.","Bedhomme et al. (2008) PLOS ONE 3, e2187","Bedhomme et al. (2008) PLOS ONE 3, e2187","Morrow et al. (2008) J. Evol. Biol. 21, 1046–1054","Morrow et al. (2008) J. Evol. Biol. 21, 1046–1054","Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997","Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997","Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997","Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997","Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997","Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997","Bedhomme et al. (2011) J. Genetics 90, 443–452","Abbott et al. (2013) PLOS ONE 8, e70493","Abbott et al. (2013) PLOS ONE 8, e70493","Martinossi-Allibert et al. (2019) Evol. Applic., 12, 1371–1384","Martinossi-Allibert et al. (2019) Evol. Applic., 12, 1371–1384","Abbott et al. (2020) J. Evol. Biol. 33, 738–750","Abbott et al. (2020) J. Evol. Biol. 33, 738–750","Abbott et al. (2020) J. Evol. Biol. 33, 738–750","Abbott et al. (2020) J. Evol. Biol. 33, 738–750","Abbott et al. (2020) J. Evol. Biol. 33, 738–750","Abbott et al. (2020) J. Evol. Biol. 33, 738–750","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Nordén et al. (2020) Evolution 77, 1066-1076","Nordén et al. (2020) Evolution 77, 1066-1076","Nordén et al. (2020) Evolution 77, 1066-1076","Nordén et al. (2020) Evolution 77, 1066-1076","Manat et al. (2021) Biol. Lett. 17, 20200915","Manat et al. (2021) Biol. Lett. 17, 20200915","Manat et al. (2021) Biol. Lett. 17, 20200915","Manat et al. (2021) Biol. Lett. 17, 20200915","Grieshop et al. (2025) Molec. Biol. Evol. 42 msaf099.","Grieshop et al. (2025) Molec. Biol. Evol. 42 msaf099.","Thyagarajan et al. (2025) J. Hered. esaf072","Thyagarajan et al. (2025) J. Hered. esaf072","Thyagarajan et al. (2025) J. Hered. esaf072","Thyagarajan et al. (2025) J. Hered. esaf072"],["Male fitness","Male fitness","Male mating speed","Male attractiveness to mated females","Male sperm defence","Male sperm offence","Female development time","Female productivity","Male harmfulness to females","Viability","Female longevity","Female fecundity","Male fitness","Male courtship rate","Female attractiveness","Male fitness","Female fitness","Female body mass","Male body mass","Female wing size","Male wing size","Female fitness","Male fitness","Male 7-C23:1 sex pheromone","Male fitness","Proportion of males among surviving progeny","Female fitness","Male fitness","Female fitness","Male fitness","Female locomotion","Male locomotion","Egg-to-adult survival","Male effect on % sons","Female fitness","Male fitness","Female development time","Male development time","Female locomotion","Male locomotion","Female thorax size","Male thorax size","Female fitness (effect of feminising allele)","Female fitness (effect of masculinising allele)","Male fitness (effect of feminising allele)","Male fitness (effect of masculinising allele)","Male mating success","Male mating speed","Male sperm offence","Male sperm defence","Female mating rate","Male mating rate","Female fitness","Male fitness","Male mating success","Male sperm offence"],[29,32,38,38,40,40,30,30,30,11,11,11,11,52,52,26,26,82,82,82,82,82,82,82,40,40,16,16,40,40,40,40,40,40,41,41,43,43,123,123,72,72,14,14,14,14,107,107,160,160,103,103,50,64,64,64],["Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Rhizoglyphus robini","Rhizoglyphus robini","Rhizoglyphus robini","Rhizoglyphus robini","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Callosobruchus maculatus","Callosobruchus maculatus","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Macrostomum lignano","Macrostomum lignano","Macrostomum lignano","Macrostomum lignano","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster"],["A positive effect size means that males carrying a genomic region that underwent female-limited evolution had lower fitness compared to males carrying control genomes.","The positive effect size means that males carrying a genomic region that underwent male-limited evolution had higher fitness than males carrying control genomes","The positive effect size means that males carrying a haplotype that underwent male-limited evolution mated with previously-unmated females faster than males carrying control haplotypes","The positive effect size means that males carrying a haplotype that underwent male-limited evolution attained more matings with previously-mated females compared to males carrying control haplotypes","A positive effect size means that males carrying a haplotype that underwent male-limited evolution fertilise more offspring when mating first in twice-mated females, compared to males carrying control haplotypes (though there is no significant difference between the two treatments)","A positive effect size means that males carrying a haplotype that underwent male-limited evolution fertilise more offspring when mating second in twice-mated females, compared to males carrying control haplotypes (though there is no significant difference between the two treatments)","The positive effect size means females carrying haplotypes that underwent male-limited evolution took longer to complete development than females carrying control genomes.","A positive effect size means that females carrying a haplotype that underwent male-limited evolution produced fewer offspring than females carrying a control haplotype (though there is no significant difference).","A positive effect size means that males carrying a haplotype that underwent male-limited evolution have a negative effect on the survival of their mates.","A positive effect size would indicate lower viability in populations that experienced relaxed selection on females relative to those experiencing selection on both sexes (the difference is non-significant and in the opposite direction).","A positive effect size would indicate reduced female longevity in populations that experienced relaxed selection on females relative to those experiencing selection on both sexes (the difference is non-significant and in the predicted direction).","The positive effect size indicates reduced fecundity in populations that experienced relaxed selection on females relative to those experiencing selection on both sexes.","A positive effect size would indicate increased fitness in populations that experienced relaxed selection on females relative to those experiencing selection on both sexes (the difference is non-significant and in the opposite direction).","This negative effect size indicates that males carrying male-evolved haplotypes courted females less often than males carrying control haplotypes. This might be because the former males are more attractive and thus need to court less.","This positive effect size indicates that females carrying male-evolved haplotypes were courted less often by standard males, compared to females carrying control haplotypes. This may imply these females have a masculinised phenotype that elicits less courtship.","The positive effect sie indicates that male fitness was higher in lines where selection was relaxed on females compared to lines where selection was relaxed on males.","The positive effect sie indicates that female fitness was higher in lines where selection was relaxed on males compared to lines where selection was relaxed on females.","The positive effect size indicates that females carrying male-evolved haplotypes have lower body mass than females carrying control genotypes.","The positive effect size indicates that males carrying male-evolved haplotypes have lower body mass than males carrying control genotypes.","A positive effect size would indicate that females carrying male-evolved haplotypes have smaller wings than females carrying control genotypes (though wing size does not differ consistently).","A positive effect size would indicate that males carrying male-evolved haplotypes have smaller wings than males carrying control genotypes (though wing size does not differ consistently).","The positive effect size indicates that females carrying male-evolved haplotypes have lower fitness thanthan females carrying control genotypes.","The positive effect size indicates that males carrying male-evolved haplotypes have higher fitness than males carrying control genotypes.","A positive effect size would imply that males carrying male-limited haplotypes produce more 7-C23:1 than males carrying control genomes (though there is no significant difference).","Male fitness is higher in males carrying an X chromosome that underwent male-limited evolution compared to males carrying an X that experienced only 1 generation of father-to-son inheritance.","The proportion of males among the progeny of males carrying an X chromosome that underwent male-limited evolution is higher than that of males carrying an X that experienced only 1 generation of father-to-son inheritance.","A positive effect would indicate that the relaxation of selection on females reduced female fitness, relative to the monogamy treatment which removed sexual selection yet maintained natural selection on both sexes (there is non-significant difference in the opposite direction).","The positive effect indicates that the relaxation of selection on females increased male fitness, relative to the monogamy treatment which removed sexual selection yet maintained natural selection on both sexes.","A positive effect size would mean that females carrying a male-evolved X chromosome have lower fitness than females carrying a control genome (the effect is non-significantly negative).","The positive effect size indicates that males carrying a male-evolved X chromosome have higher fitness than males carrying a control genome.","The positive effect size indicates that females carrying a male-evolved X chromosome have greater locomotory activity than females with a control genome.","The positive effect size would indicate that males carrying a male-evolved X chromosome have greater locomotory activity than males with a control genome (there is no significant difference though).","A positive effect size would indicates elevated egg-to-adult survival in the progeny of females carrying a male-evolved X chromosome relative to females carrying control genomes. Note that all sons and 50% daughters actually inherit the male-evolved X from the tester females. There is seemingly no difference based on the available data, though the authors find that MLX has greater survival than the control in a quasibinomial GLM presented in the supplement.","The positive effect size indicates that males carrying a male-evolved X chromosome have a greater proportion of sons among their progeny that reach adulthood (indicating enhanced male survival, reduced female survival, and/or changes to the primary sex ratio). Note that all daughters and none of the sons actually inherit the male-evolved X from the tester males.","A positive effect would mean that females carrying female-evolved X chromosomes have higher fitness than the control FM genotype (there is no difference, though).","A positive effect would mean that males carrying female-evolved X chromosomes have lower fitness than the control FM genotype (there is no difference, though).","A positive effect would mean that females carrying female-evolved X chromosomes take less time to develop higher fitness than the control FM genotype (there is no difference, though).","A positive effect would mean that males carrying female-evolved X chromosomes take less time to develop higher fitness than the control FM genotype (there is no difference, though).","A positive effect would mean that females carrying female-evolved X chromosomes are less active than females carrying the control FM genotype (there is no difference, though).","A positive effect would mean that males carrying female-evolved X chromosomes are less active than males carrying the control FM genotype (actually it's significant in the opposite direction).","A positive effect would mean that females carrying female-evolved X chromosomes had larger thoraxes than females with the control FM genotype (there is no difference, though).","A positive effect would mean that males carrying female-evolved X chromosomes had larger thoraxes than males with the control FM genotype (there is no difference, though).","The positive effect size means that worms carrying the feminising allele had higher fitness when breeding in the female sex role compared to worms carrying the control allele.","A positive effect would mean that worms carrying the masculinising allele had lower fitness when breeding in the female sex role compared to worms carrying the control allele (actually, they had non-significantly higher fitness).","A positive effect would mean that worms carrying the feminising allele had lower fitness when breeding in the male sex role compared to worms carrying the control allele (they did, but the difference is not significant).","A positive effect would mean that worms carrying the masculinising allele had higher fitness when breeding in the male sex role compared to worms carrying the control allele (they did, but the difference is not significant).","A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have lower mating success compared to males carrying control X chromosomes (there is a non-significant trend in the opposite direction).","A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would take longer to induce females to mate compared to males carrying control X chromosomes (there is a non-significant trend in the opposite direction).","A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have worse sperm offence (i.e. sire fewer offspring with previously mated females) compared to males carrying control X chromosomes (however the finding is significant in the opposite direction).","The positive effect indicates that males carrying an X chromosome that underwent female-limited evolution have worse sperm defence (i.e. sire fewer offspring when after the female remates) compared to males carrying control X chromosomes.","A positive effect would mean that females carrying primarily male-evolved copies of chromosome 2 mate less often, compared to females with primarily female-evolved copies of chromosome 2 (there is no difference, though).","This positive effect means that males carrying primarily male-evolved copies of chromosome 2 mate more often, compared to males with primarily female-evolved copies of chromosome 2.","This positive effect means that females carrying male-evolved haplotypes have lower fitness than females carrying control genomes.","This positive effect means that males carrying male-evolved haplotypes have higher fitness than males carrying control genomes.","A positive effectwould mean that males carrying male-evolved haplotypes are more likely to mate with females (over standard male competitors) compared to males carrying control genomes (there is no signficant difference).","A positive effect would indicate that males carrying male-evolved haplotypes sire more offspring when mating with previously-mated females, compared to males carrying control genomes (there is no significant effect)."],[0.3552722201971315,0.9202792535305844,0.9261835692619405,0.584790729736328,0.02315458613417177,0.1805342224955844,1.093859411017316,0.00515007089855357,0.3667539933905705,-0.04,0.13,0.46,-0.13,-1.17,0.51,0.52,1.86,0.26,0.43,0.14,0.15,0.23,0.19,0.13,0.88,1.65,-0.06791664667588382,0.2267810606678057,-0.17,0.5600000000000001,1.07,-0.36,0.14,0.7,0.02558520614593986,0.4302584278315182,-0.08061220628125212,-0.01893826042187464,0.06054650195608605,-0.2558257189070448,0.2466123469233509,0.2934138816346166,0.3284061468611228,-0.08648638416019193,0.2766109531132399,0.04510942968796571,-0.550517796951982,-0.25,-0.57,0.5,-0.03486196855263462,0.06304635505774638,0.2477844665074827,0.03924881717034775,0.1877179306789016,0.08510413627710936],[0.00393813639079583,0.1029017894373451,0.06245779249175776,0.0018894596860963,0.00214494252543407,0.00772670242553785,0.00196133488360151,7.733383088679684e-05,0.05348001642700953,0.04,0.04,0.04,0.06,0.06,0.05,0.03,0.05,0.01,0.01,0.01,0.01,0.01,0.01,0.02,0.04,0.04,0.00589923384569155,0.00578670863104179,0.03,0.03,0.08,0.07000000000000001,0.03,0.04,0.02047473868570672,0.03949078600773182,0.028051246180414,0.0572603167686184,0.00835284242643472,0.01428138495060923,0.01121367242739338,0.02274481739806256,0.02250964338124475,0.02173664155896101,0.02250964338124487,0.02173664155896113,0.04330376544056254,0.01,0.01,0.01,0.0006367713388195742,0.0006179656970948915,0.0002370436889225693,0.0002755122945598124,0.01834830235442497,0.00232088391991535],[0.2322732577670309,0.2915444013850198,0.4363490506371943,0.4995936151718806,-0.06761992133189787,0.008246962264462761,1.029407273508337,-0.01208610166773035,0.03019808849605047,-0.42,-0.29,0.04,-0.62,-1.65,0.07000000000000001,0.16,1.43,0.09,0.24,-0.03,-0.03,0.06,0.01,-0.12,0.51,1.24,-0.2184573280268352,0.07768303963127363,-0.53,0.2,0.53,-0.87,-0.22,0.33,-0.2548711293770983,0.04076156837395783,-0.324358223717493,-0.3671860125444159,-0.1185855149068735,-0.4900550262668635,0.03905887430225879,-0.00218126466585494,0.03434315018627792,-0.375456074980708,-0.01745204356160573,-0.2438602611325511,-0.9583851103229668,-0.48,-0.8100000000000001,0.27,-0.0843212525669557,0.01432287999736367,0.2176078690292224,0.00671563363751507,-0.07777564424290136,-0.009319947868551439],[0.4782711826272321,1.549014105676149,1.416018087886686,0.6699878443007753,0.1139290936002414,0.3528214827267061,1.158311548526296,0.0223862434648375,0.7033098982850906,0.33,0.54,0.87,0.35,-0.7,0.96,0.89,2.29,0.44,0.62,0.31,0.34,0.4,0.38,0.38,1.26,2.06,0.08262403467506757,0.3758790817043377,0.19,0.93,1.61,0.15,0.5,1.07,0.306041541668978,0.8197552872890786,0.1631338111549888,0.3293094917006667,0.2396785188190456,-0.02159641154722607,0.4541658195444431,0.5890090279350881,0.6224691435359677,0.2024833066603241,0.5706739497880855,0.3340791205084825,-0.1426504835809973,-0.02,-0.34,0.73,0.01459731546168645,0.1117698301181291,0.2779610639857429,0.07178200070318043,0.4532115056007045,0.1795282204227702],["Rice (1992)","Rice (1996)","Rice (1996)","Rice (1996)","Rice (1996)","Rice (1996)","Rice (1996)","Rice (1996)","Rice (1996)","Radwan et al. (2004)","Radwan et al. (2004)","Radwan et al. (2004)","Radwan et al. (2004)","Prasad et al. (2007)","Prasad et al. (2007)","Morrow et al. (2008)","Morrow et al. (2008)","Prasad et al. (2007)","Prasad et al. (2007)","Prasad et al. (2007)","Prasad et al. (2007)","Prasad et al. (2007)","Prasad et al. (2007)","Prasad et al. (2007)","Abbott et al. (2013)","Abbott et al. (2013)","Martinossi-Allibert et al. (2019)","Martinossi-Allibert et al. (2019)","Abbott et al. (2013)","Abbott et al. (2013)","Abbott et al. (2013)","Abbott et al. (2013)","Abbott et al. (2013)","Abbott et al. (2013)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Nordén et al. (2020)","Nordén et al. (2020)","Nordén et al. (2020)","Nordén et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Grieshop et al. (2025)","Grieshop et al. (2025)","Thyagarajan et al. (2025)","Thyagarajan et al. (2025)","Thyagarajan et al. (2025)","Thyagarajan et al. (2025)"],["Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific relaxation of selection","Sex-specific relaxation of selection","Sex-specific relaxation of selection","Sex-specific relaxation of selection","Sex-specific inheritance","Sex-specific inheritance","Sex-specific relaxation of selection","Sex-specific relaxation of selection","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific relaxation of selection","Sex-specific relaxation of selection","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance"],["Feminising artificial sex determination locus","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Female-limited MCN","Female-limited MCN","Female-limited MCN","Female-limited MCN","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited and female-limited MCN","Male-limited and female-limited MCN","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited X chromosomes","Male-limited X chromosomes","Female-limited MCN","Female-limited MCN","Male-limited X chromosomes","Male-limited X chromosomes","Male-limited X chromosomes","Male-limited X chromosomes","Male-limited X chromosomes","Male-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Artifical sex determination locus (one for each sex)","Artifical sex determination locus (one for each sex)","Artifical sex determination locus (one for each sex)","Artifical sex determination locus (one for each sex)","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Masculinising artificial sex determination locus","Masculinising artificial sex determination locus","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes"],["Male","Male","Male","Male","Male","Male","Female","Female","Male","Both","Female","Female","Male","Male","Female","Male","Female","Female","Male","Female","Male","Female","Male","Male","Male","Both","Female","Male","Female","Male","Female","Male","Both","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Female","Male","Male","Male","Male","Male","Male","Female","Male","Female","Male","Male","Male"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Study<\/th>\n      <th>Trait<\/th>\n      <th>Generations<\/th>\n      <th>Organism<\/th>\n      <th>Interpretation<\/th>\n      <th>Estimate<\/th>\n      <th>Var<\/th>\n      <th>Lower_95_CI<\/th>\n      <th>Upper_95_CI<\/th>\n      <th>Origin_of_lines<\/th>\n      <th>Experiment_type1<\/th>\n      <th>Experiment_type2<\/th>\n      <th>Sex<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"autoWidth":true,"dom":"Bfrtip","deferRender":true,"scrollX":true,"scrollY":1000,"scrollCollapse":true,"buttons":["pageLength","colvis","csv",{"extend":"pdf","pageSize":"A4","orientation":"landscape","filename":"Trait_data"}],"pageLength":100,"columnDefs":[{"targets":5,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":6,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":7,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":8,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"className":"dt-right","targets":[2,5,6,7,8]},{"name":"Study","targets":0},{"name":"Trait","targets":1},{"name":"Generations","targets":2},{"name":"Organism","targets":3},{"name":"Interpretation","targets":4},{"name":"Estimate","targets":5},{"name":"Var","targets":6},{"name":"Lower_95_CI","targets":7},{"name":"Upper_95_CI","targets":8},{"name":"Origin_of_lines","targets":9},{"name":"Experiment_type1","targets":10},{"name":"Experiment_type2","targets":11},{"name":"Sex","targets":12}],"order":[],"orderClasses":false}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.columnDefs.2.render","options.columnDefs.3.render"],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-175c4e14aa5041d454d2">{"x":{"filter":"none","vertical":false,"extensions":["Scroller","Buttons"],"autoHideNavigation":true,"data":[["Rice (1992) Science 256, 1436-1439","Rice (1996) Nature 381, 232–234","Rice (1998) PNAS, 95, 6217–6221","Rice (1998) PNAS, 95, 6217–6221","Rice (1998) PNAS, 95, 6217–6221","Rice (1998) PNAS, 95, 6217–6221","Rice (1998) PNAS, 95, 6217–6221","Rice (1998) PNAS, 95, 6217–6221","Rice (1998) PNAS, 95, 6217–6221","Radwan et al. (2004) J. Evol. Biol. 17, 94–99.","Radwan et al. (2004) J. Evol. Biol. 17, 94–99.","Radwan et al. (2004) J. Evol. Biol. 17, 94–99.","Radwan et al. (2004) J. Evol. Biol. 17, 94–99.","Bedhomme et al. (2008) PLOS ONE 3, e2187","Bedhomme et al. (2008) PLOS ONE 3, e2187","Morrow et al. (2008) J. Evol. Biol. 21, 1046–1054","Morrow et al. (2008) J. Evol. Biol. 21, 1046–1054","Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997","Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997","Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997","Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997","Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997","Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997","Bedhomme et al. (2011) J. Genetics 90, 443–452","Abbott et al. (2013) PLOS ONE 8, e70493","Abbott et al. (2013) PLOS ONE 8, e70493","Martinossi-Allibert et al. (2019) Evol. Applic., 12, 1371–1384","Martinossi-Allibert et al. (2019) Evol. Applic., 12, 1371–1384","Abbott et al. (2020) J. Evol. Biol. 33, 738–750","Abbott et al. (2020) J. Evol. Biol. 33, 738–750","Abbott et al. (2020) J. Evol. Biol. 33, 738–750","Abbott et al. (2020) J. Evol. Biol. 33, 738–750","Abbott et al. (2020) J. Evol. Biol. 33, 738–750","Abbott et al. (2020) J. Evol. Biol. 33, 738–750","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Lund-Hansen et al. (2020) Evolution 74, 2703–2713","Nordén et al. (2020) Evolution 77, 1066-1076","Nordén et al. (2020) Evolution 77, 1066-1076","Nordén et al. (2020) Evolution 77, 1066-1076","Nordén et al. (2020) Evolution 77, 1066-1076","Manat et al. (2021) Biol. Lett. 17, 20200915","Manat et al. (2021) Biol. Lett. 17, 20200915","Manat et al. (2021) Biol. Lett. 17, 20200915","Manat et al. (2021) Biol. Lett. 17, 20200915","Grieshop et al. (2025) Molec. Biol. Evol. 42 msaf099.","Grieshop et al. (2025) Molec. Biol. Evol. 42 msaf099.","Thyagarajan et al. (2025) J. Hered. esaf072","Thyagarajan et al. (2025) J. Hered. esaf072","Thyagarajan et al. (2025) J. Hered. esaf072","Thyagarajan et al. (2025) J. Hered. esaf072"],["Male fitness","Male fitness","Male mating speed","Male attractiveness to mated females","Male sperm defence","Male sperm offence","Female development time","Female productivity","Male harmfulness to females","Viability","Female longevity","Female fecundity","Male fitness","Male courtship rate","Female attractiveness","Male fitness","Female fitness","Female body mass","Male body mass","Female wing size","Male wing size","Female fitness","Male fitness","Male 7-C23:1 sex pheromone","Male fitness","Proportion of males among surviving progeny","Female fitness","Male fitness","Female fitness","Male fitness","Female locomotion","Male locomotion","Egg-to-adult survival","Male effect on % sons","Female fitness","Male fitness","Female development time","Male development time","Female locomotion","Male locomotion","Female thorax size","Male thorax size","Female fitness (effect of feminising allele)","Female fitness (effect of masculinising allele)","Male fitness (effect of feminising allele)","Male fitness (effect of masculinising allele)","Male mating success","Male mating speed","Male sperm offence","Male sperm defence","Female mating rate","Male mating rate","Female fitness","Male fitness","Male mating success","Male sperm offence"],[29,32,38,38,40,40,30,30,30,11,11,11,11,52,52,26,26,82,82,82,82,82,82,82,40,40,16,16,40,40,40,40,40,40,41,41,43,43,123,123,72,72,14,14,14,14,107,107,160,160,103,103,50,64,64,64],["Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Rhizoglyphus robini","Rhizoglyphus robini","Rhizoglyphus robini","Rhizoglyphus robini","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Callosobruchus maculatus","Callosobruchus maculatus","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Macrostomum lignano","Macrostomum lignano","Macrostomum lignano","Macrostomum lignano","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster","Drosophila melanogaster"],["A positive effect size means that males carrying a genomic region that underwent female-limited evolution had lower fitness compared to males carrying control genomes.","The positive effect size means that males carrying a genomic region that underwent male-limited evolution had higher fitness than males carrying control genomes","The positive effect size means that males carrying a haplotype that underwent male-limited evolution mated with previously-unmated females faster than males carrying control haplotypes","The positive effect size means that males carrying a haplotype that underwent male-limited evolution attained more matings with previously-mated females compared to males carrying control haplotypes","A positive effect size means that males carrying a haplotype that underwent male-limited evolution fertilise more offspring when mating first in twice-mated females, compared to males carrying control haplotypes (though there is no significant difference between the two treatments)","A positive effect size means that males carrying a haplotype that underwent male-limited evolution fertilise more offspring when mating second in twice-mated females, compared to males carrying control haplotypes (though there is no significant difference between the two treatments)","The positive effect size means females carrying haplotypes that underwent male-limited evolution took longer to complete development than females carrying control genomes.","A positive effect size means that females carrying a haplotype that underwent male-limited evolution produced fewer offspring than females carrying a control haplotype (though there is no significant difference).","A positive effect size means that males carrying a haplotype that underwent male-limited evolution have a negative effect on the survival of their mates.","A positive effect size would indicate lower viability in populations that experienced relaxed selection on females relative to those experiencing selection on both sexes (the difference is non-significant and in the opposite direction).","A positive effect size would indicate reduced female longevity in populations that experienced relaxed selection on females relative to those experiencing selection on both sexes (the difference is non-significant and in the predicted direction).","The positive effect size indicates reduced fecundity in populations that experienced relaxed selection on females relative to those experiencing selection on both sexes.","A positive effect size would indicate increased fitness in populations that experienced relaxed selection on females relative to those experiencing selection on both sexes (the difference is non-significant and in the opposite direction).","This negative effect size indicates that males carrying male-evolved haplotypes courted females less often than males carrying control haplotypes. This might be because the former males are more attractive and thus need to court less.","This positive effect size indicates that females carrying male-evolved haplotypes were courted less often by standard males, compared to females carrying control haplotypes. This may imply these females have a masculinised phenotype that elicits less courtship.","The positive effect sie indicates that male fitness was higher in lines where selection was relaxed on females compared to lines where selection was relaxed on males.","The positive effect sie indicates that female fitness was higher in lines where selection was relaxed on males compared to lines where selection was relaxed on females.","The positive effect size indicates that females carrying male-evolved haplotypes have lower body mass than females carrying control genotypes.","The positive effect size indicates that males carrying male-evolved haplotypes have lower body mass than males carrying control genotypes.","A positive effect size would indicate that females carrying male-evolved haplotypes have smaller wings than females carrying control genotypes (though wing size does not differ consistently).","A positive effect size would indicate that males carrying male-evolved haplotypes have smaller wings than males carrying control genotypes (though wing size does not differ consistently).","The positive effect size indicates that females carrying male-evolved haplotypes have lower fitness thanthan females carrying control genotypes.","The positive effect size indicates that males carrying male-evolved haplotypes have higher fitness than males carrying control genotypes.","A positive effect size would imply that males carrying male-limited haplotypes produce more 7-C23:1 than males carrying control genomes (though there is no significant difference).","Male fitness is higher in males carrying an X chromosome that underwent male-limited evolution compared to males carrying an X that experienced only 1 generation of father-to-son inheritance.","The proportion of males among the progeny of males carrying an X chromosome that underwent male-limited evolution is higher than that of males carrying an X that experienced only 1 generation of father-to-son inheritance.","A positive effect would indicate that the relaxation of selection on females reduced female fitness, relative to the monogamy treatment which removed sexual selection yet maintained natural selection on both sexes (there is non-significant difference in the opposite direction).","The positive effect indicates that the relaxation of selection on females increased male fitness, relative to the monogamy treatment which removed sexual selection yet maintained natural selection on both sexes.","A positive effect size would mean that females carrying a male-evolved X chromosome have lower fitness than females carrying a control genome (the effect is non-significantly negative).","The positive effect size indicates that males carrying a male-evolved X chromosome have higher fitness than males carrying a control genome.","The positive effect size indicates that females carrying a male-evolved X chromosome have greater locomotory activity than females with a control genome.","The positive effect size would indicate that males carrying a male-evolved X chromosome have greater locomotory activity than males with a control genome (there is no significant difference though).","A positive effect size would indicates elevated egg-to-adult survival in the progeny of females carrying a male-evolved X chromosome relative to females carrying control genomes. Note that all sons and 50% daughters actually inherit the male-evolved X from the tester females. There is seemingly no difference based on the available data, though the authors find that MLX has greater survival than the control in a quasibinomial GLM presented in the supplement.","The positive effect size indicates that males carrying a male-evolved X chromosome have a greater proportion of sons among their progeny that reach adulthood (indicating enhanced male survival, reduced female survival, and/or changes to the primary sex ratio). Note that all daughters and none of the sons actually inherit the male-evolved X from the tester males.","A positive effect would mean that females carrying female-evolved X chromosomes have higher fitness than the control FM genotype (there is no difference, though).","A positive effect would mean that males carrying female-evolved X chromosomes have lower fitness than the control FM genotype (there is no difference, though).","A positive effect would mean that females carrying female-evolved X chromosomes take less time to develop higher fitness than the control FM genotype (there is no difference, though).","A positive effect would mean that males carrying female-evolved X chromosomes take less time to develop higher fitness than the control FM genotype (there is no difference, though).","A positive effect would mean that females carrying female-evolved X chromosomes are less active than females carrying the control FM genotype (there is no difference, though).","A positive effect would mean that males carrying female-evolved X chromosomes are less active than males carrying the control FM genotype (actually it's significant in the opposite direction).","A positive effect would mean that females carrying female-evolved X chromosomes had larger thoraxes than females with the control FM genotype (there is no difference, though).","A positive effect would mean that males carrying female-evolved X chromosomes had larger thoraxes than males with the control FM genotype (there is no difference, though).","The positive effect size means that worms carrying the feminising allele had higher fitness when breeding in the female sex role compared to worms carrying the control allele.","A positive effect would mean that worms carrying the masculinising allele had lower fitness when breeding in the female sex role compared to worms carrying the control allele (actually, they had non-significantly higher fitness).","A positive effect would mean that worms carrying the feminising allele had lower fitness when breeding in the male sex role compared to worms carrying the control allele (they did, but the difference is not significant).","A positive effect would mean that worms carrying the masculinising allele had higher fitness when breeding in the male sex role compared to worms carrying the control allele (they did, but the difference is not significant).","A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have lower mating success compared to males carrying control X chromosomes (there is a non-significant trend in the opposite direction).","A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would take longer to induce females to mate compared to males carrying control X chromosomes (there is a non-significant trend in the opposite direction).","A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have worse sperm offence (i.e. sire fewer offspring with previously mated females) compared to males carrying control X chromosomes (however the finding is significant in the opposite direction).","The positive effect indicates that males carrying an X chromosome that underwent female-limited evolution have worse sperm defence (i.e. sire fewer offspring when after the female remates) compared to males carrying control X chromosomes.","A positive effect would mean that females carrying primarily male-evolved copies of chromosome 2 mate less often, compared to females with primarily female-evolved copies of chromosome 2 (there is no difference, though).","This positive effect means that males carrying primarily male-evolved copies of chromosome 2 mate more often, compared to males with primarily female-evolved copies of chromosome 2.","This positive effect means that females carrying male-evolved haplotypes have lower fitness than females carrying control genomes.","This positive effect means that males carrying male-evolved haplotypes have higher fitness than males carrying control genomes.","A positive effectwould mean that males carrying male-evolved haplotypes are more likely to mate with females (over standard male competitors) compared to males carrying control genomes (there is no signficant difference).","A positive effect would indicate that males carrying male-evolved haplotypes sire more offspring when mating with previously-mated females, compared to males carrying control genomes (there is no significant effect)."],[0.3552722201971315,0.9202792535305844,0.9261835692619405,0.584790729736328,0.02315458613417177,0.1805342224955844,1.093859411017316,0.00515007089855357,0.3667539933905705,-0.04,0.13,0.46,-0.13,-1.17,0.51,0.52,1.86,0.26,0.43,0.14,0.15,0.23,0.19,0.13,0.88,1.65,-0.06791664667588382,0.2267810606678057,-0.17,0.5600000000000001,1.07,-0.36,0.14,0.7,0.02558520614593986,0.4302584278315182,-0.08061220628125212,-0.01893826042187464,0.06054650195608605,-0.2558257189070448,0.2466123469233509,0.2934138816346166,0.3284061468611228,-0.08648638416019193,0.2766109531132399,0.04510942968796571,-0.550517796951982,-0.25,-0.57,0.5,-0.03486196855263462,0.06304635505774638,0.2477844665074827,0.03924881717034775,0.1877179306789016,0.08510413627710936],[0.00393813639079583,0.1029017894373451,0.2499155707269112,0.0434679155941058,0.04631352421738247,0.08790166338322535,0.00196133488360151,7.733383088679684e-05,0.05348001642700953,0.04,0.04,0.04,0.06,0.06,0.05,0.03,0.05,0.01,0.01,0.01,0.01,0.01,0.01,0.02,0.04,0.04,0.00589923384569155,0.00578670863104179,0.03,0.03,0.08,0.07000000000000001,0.03,0.04,0.02047473868570672,0.03949078600773182,0.028051246180414,0.0572603167686184,0.00835284242643472,0.01428138495060923,0.01121367242739338,0.02274481739806256,0.02250964338124475,0.02173664155896101,0.02250964338124487,0.02173664155896113,0.04330376544056254,0.01,0.01,0.01,0.0006367713388195742,0.0006179656970948915,0.0002370436889225693,0.0002755122945598124,0.01834830235442497,0.00232088391991535],[0.2322732577670309,0.2915444013850198,0.1986415077823451,0.2813695754157307,-0.2900408057701502,-0.2509451072084043,1.029407273508337,-0.01208610166773035,0.03019808849605047,-0.42,-0.29,0.04,-0.62,-1.65,0.07000000000000001,0.16,1.43,0.09,0.24,-0.03,-0.03,0.06,0.01,-0.12,0.51,1.24,-0.2184573280268352,0.07768303963127363,-0.53,0.2,0.53,-0.87,-0.22,0.33,-0.2548711293770983,0.04076156837395783,-0.324358223717493,-0.3671860125444159,-0.1185855149068735,-0.4900550262668635,0.03905887430225879,-0.00218126466585494,0.03434315018627792,-0.375456074980708,-0.01745204356160573,-0.2438602611325511,-0.9583851103229668,-0.48,-0.8100000000000001,0.27,-0.0843212525669557,0.01432287999736367,0.2176078690292224,0.00671563363751507,-0.07777564424290136,-0.009319947868551439],[0.4782711826272321,1.549014105676149,1.653725630741536,0.8882118840569252,0.3363499780384936,0.6120135521995733,1.158311548526296,0.0223862434648375,0.7033098982850906,0.33,0.54,0.87,0.35,-0.7,0.96,0.89,2.29,0.44,0.62,0.31,0.34,0.4,0.38,0.38,1.26,2.06,0.08262403467506757,0.3758790817043377,0.19,0.93,1.61,0.15,0.5,1.07,0.306041541668978,0.8197552872890786,0.1631338111549888,0.3293094917006667,0.2396785188190456,-0.02159641154722607,0.4541658195444431,0.5890090279350881,0.6224691435359677,0.2024833066603241,0.5706739497880855,0.3340791205084825,-0.1426504835809973,-0.02,-0.34,0.73,0.01459731546168645,0.1117698301181291,0.2779610639857429,0.07178200070318043,0.4532115056007045,0.1795282204227702],["Rice (1992)","Rice (1996)","Rice (1996)","Rice (1996)","Rice (1996)","Rice (1996)","Rice (1996)","Rice (1996)","Rice (1996)","Radwan et al. (2004)","Radwan et al. (2004)","Radwan et al. (2004)","Radwan et al. (2004)","Prasad et al. (2007)","Prasad et al. (2007)","Morrow et al. (2008)","Morrow et al. (2008)","Prasad et al. (2007)","Prasad et al. (2007)","Prasad et al. (2007)","Prasad et al. (2007)","Prasad et al. (2007)","Prasad et al. (2007)","Prasad et al. (2007)","Abbott et al. (2013)","Abbott et al. (2013)","Martinossi-Allibert et al. (2019)","Martinossi-Allibert et al. (2019)","Abbott et al. (2013)","Abbott et al. (2013)","Abbott et al. (2013)","Abbott et al. (2013)","Abbott et al. (2013)","Abbott et al. (2013)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Nordén et al. (2020)","Nordén et al. (2020)","Nordén et al. (2020)","Nordén et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Lund-Hansen et al. (2020)","Grieshop et al. (2025)","Grieshop et al. (2025)","Thyagarajan et al. (2025)","Thyagarajan et al. (2025)","Thyagarajan et al. (2025)","Thyagarajan et al. (2025)"],["Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific relaxation of selection","Sex-specific relaxation of selection","Sex-specific relaxation of selection","Sex-specific relaxation of selection","Sex-specific inheritance","Sex-specific inheritance","Sex-specific relaxation of selection","Sex-specific relaxation of selection","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific relaxation of selection","Sex-specific relaxation of selection","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance","Sex-specific inheritance"],["Feminising artificial sex determination locus","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Female-limited MCN","Female-limited MCN","Female-limited MCN","Female-limited MCN","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited and female-limited MCN","Male-limited and female-limited MCN","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited X chromosomes","Male-limited X chromosomes","Female-limited MCN","Female-limited MCN","Male-limited X chromosomes","Male-limited X chromosomes","Male-limited X chromosomes","Male-limited X chromosomes","Male-limited X chromosomes","Male-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Artifical sex determination locus (one for each sex)","Artifical sex determination locus (one for each sex)","Artifical sex determination locus (one for each sex)","Artifical sex determination locus (one for each sex)","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Female-limited X chromosomes","Masculinising artificial sex determination locus","Masculinising artificial sex determination locus","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes","Male-limited genomic haplotypes"],["Male","Male","Male","Male","Male","Male","Female","Female","Male","Both","Female","Female","Male","Male","Female","Male","Female","Female","Male","Female","Male","Female","Male","Male","Male","Both","Female","Male","Female","Male","Female","Male","Both","Male","Female","Male","Female","Male","Female","Male","Female","Male","Female","Female","Male","Male","Male","Male","Male","Male","Female","Male","Female","Male","Male","Male"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Study<\/th>\n      <th>Trait<\/th>\n      <th>Generations<\/th>\n      <th>Organism<\/th>\n      <th>Interpretation<\/th>\n      <th>Estimate<\/th>\n      <th>Var<\/th>\n      <th>Lower_95_CI<\/th>\n      <th>Upper_95_CI<\/th>\n      <th>Origin_of_lines<\/th>\n      <th>Experiment_type1<\/th>\n      <th>Experiment_type2<\/th>\n      <th>Sex<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"autoWidth":true,"dom":"Bfrtip","deferRender":true,"scrollX":true,"scrollY":1000,"scrollCollapse":true,"buttons":["pageLength","colvis","csv",{"extend":"pdf","pageSize":"A4","orientation":"landscape","filename":"Trait_data"}],"pageLength":100,"columnDefs":[{"targets":5,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":6,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":7,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"targets":8,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\", null);\n  }"},{"className":"dt-right","targets":[2,5,6,7,8]},{"name":"Study","targets":0},{"name":"Trait","targets":1},{"name":"Generations","targets":2},{"name":"Organism","targets":3},{"name":"Interpretation","targets":4},{"name":"Estimate","targets":5},{"name":"Var","targets":6},{"name":"Lower_95_CI","targets":7},{"name":"Upper_95_CI","targets":8},{"name":"Origin_of_lines","targets":9},{"name":"Experiment_type1","targets":10},{"name":"Experiment_type2","targets":11},{"name":"Sex","targets":12}],"order":[],"orderClasses":false}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.columnDefs.2.render","options.columnDefs.3.render"],"jsHooks":[]}</script>
 </div>
 <div id="meta-analysis-without-moderators" class="section level2">
 <h2>Meta-analysis without moderators</h2>
@@ -698,26 +763,26 @@ summary(meta_analysis)</code></pre>
 Multivariate Meta-Analysis Model (k = 56; method: REML)
 
    logLik   Deviance        AIC        BIC       AICc   
--480.3230   960.6459   966.6459   972.6679   967.1165   
+-409.4493   818.8986   824.8986   830.9206   825.3692   
 
 Variance Components:
 
             estim    sqrt  nlvls  fixed                 factor 
-sigma^2.1  0.0192  0.1387     11     no        Origin_of_lines 
-sigma^2.2  0.1198  0.3462     16     no  Origin_of_lines/Study 
+sigma^2.1  0.0181  0.1344     11     no        Origin_of_lines 
+sigma^2.2  0.1217  0.3488     16     no  Origin_of_lines/Study 
 
 Test for Heterogeneity:
-Q(df = 55) = 1259.9840, p-val &lt; .0001
+Q(df = 55) = 1124.9593, p-val &lt; .0001
 
 Model Results:
 
 estimate      se    zval    pval   ci.lb   ci.ub    
-  0.2588  0.1009  2.5653  0.0103  0.0611  0.4565  * 
+  0.2574  0.1009  2.5518  0.0107  0.0597  0.4551  * 
 
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>The above results table shows that the grand mean effect size is
-0.259, with a standard error of 0.101 and 95% CIs of 0.061 to 0.457.</p>
+0.257, with a standard error of 0.101 and 95% CIs of 0.060 to 0.455.</p>
 </div>
 <div id="testing-for-effects-of-moderators" class="section level2">
 <h2>Testing for effects of moderators</h2>
@@ -780,7 +845,7 @@ fit_all(c(&quot;~ Generations + Sex + Experiment_type1&quot;,
           &quot;Intercept only&quot;)) %&gt;% 
   kable() %&gt;% 
   kable_styling(full_width = FALSE)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -803,52 +868,35 @@ delta_AICc
 <tbody>
 <tr>
 <td style="text-align:left;">
-Generations
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
--474.0118
-</td>
-<td style="text-align:right;">
-956.8400
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
 Generations + Sex
 </td>
 <td style="text-align:right;">
 4
 </td>
 <td style="text-align:right;">
--475.7599
+-390.7805
 </td>
 <td style="text-align:right;">
-965.3864
+795.4276
 </td>
 <td style="text-align:left;">
-8.55
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Intercept only
+Generations
 </td>
 <td style="text-align:right;">
-1
+2
 </td>
 <td style="text-align:right;">
--480.3230
+-393.9770
 </td>
 <td style="text-align:right;">
-967.1165
+796.7703
 </td>
 <td style="text-align:left;">
-10.28
+1.34
 </td>
 </tr>
 <tr>
@@ -859,30 +907,13 @@ Generations + Sex + Experiment_type1
 5
 </td>
 <td style="text-align:right;">
--475.4378
+-390.4218
 </td>
 <td style="text-align:right;">
-967.4803
+797.4483
 </td>
 <td style="text-align:left;">
-10.64
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Experiment_type1
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
--479.5911
-</td>
-<td style="text-align:right;">
-967.9986
-</td>
-<td style="text-align:left;">
-11.16
+2.02
 </td>
 </tr>
 <tr>
@@ -893,13 +924,13 @@ Sex
 3
 </td>
 <td style="text-align:right;">
--482.4367
+-396.5731
 </td>
 <td style="text-align:right;">
-976.1500
+804.4229
 </td>
 <td style="text-align:left;">
-19.31
+9
 </td>
 </tr>
 <tr>
@@ -910,13 +941,47 @@ Sex + Experiment_type1
 4
 </td>
 <td style="text-align:right;">
--481.7395
+-395.8836
 </td>
 <td style="text-align:right;">
-977.3457
+805.6338
 </td>
 <td style="text-align:left;">
-20.51
+10.21
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Intercept only
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-409.4493
+</td>
+<td style="text-align:right;">
+825.3692
+</td>
+<td style="text-align:left;">
+29.94
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Experiment_type1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+-408.7125
+</td>
+<td style="text-align:right;">
+826.2413
+</td>
+<td style="text-align:left;">
+30.81
 </td>
 </tr>
 </tbody>
@@ -938,20 +1003,20 @@ Multivariate Meta-Analysis Model (k = 56; method: REML)
 Variance Components:
 
             estim    sqrt  nlvls  fixed                      factor 
-sigma^2.1  0.0000  0.0001     11     no             Origin_of_lines 
-sigma^2.2  0.1184  0.3440     16     no  Origin_of_lines/Short_name 
+sigma^2.1  0.0000  0.0000     11     no             Origin_of_lines 
+sigma^2.2  0.1223  0.3497     16     no  Origin_of_lines/Short_name 
 
 Test for Residual Heterogeneity:
-QE(df = 54) = 1249.3315, p-val &lt; .0001
+QE(df = 54) = 1117.9102, p-val &lt; .0001
 
 Test of Moderators (coefficient 2):
-QM(df = 1) = 14.0147, p-val = 0.0002
+QM(df = 1) = 32.2097, p-val &lt; .0001
 
 Model Results:
 
              estimate      se     zval    pval    ci.lb    ci.ub      
-intrcpt        0.2512  0.0900   2.7923  0.0052   0.0749   0.4276   ** 
-Generations   -0.1151  0.0307  -3.7436  0.0002  -0.1754  -0.0548  *** 
+intrcpt        0.2490  0.0913   2.7263  0.0064   0.0700   0.4281   ** 
+Generations   -0.1802  0.0317  -5.6754  &lt;.0001  -0.2424  -0.1180  *** 
 
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
@@ -1021,6 +1086,43 @@ plot_data %&gt;%
     fill = rep(c(&quot;green&quot;, &quot;steelblue&quot;), 6)
   )</code></pre>
 <p><img src="figure/meta_analysis.Rmd/unnamed-chunk-9-1.png" alt="" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+7057ba1
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="plotting-effect-of-moderator-generations"
 class="section level2">
@@ -1043,6 +1145,43 @@ meta_analysis_data %&gt;%
   geom_point() + 
   geom_text_repel(aes(label = Short_name), size = 2, max.overlaps = 1000)</code></pre>
 <p><img src="figure/meta_analysis.Rmd/unnamed-chunk-10-1.png" alt="" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+7057ba1
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1076,24 +1215,26 @@ other attached packages:
 [10] forcats_1.0.1       stringr_1.6.0       dplyr_1.2.0        
 [13] purrr_1.2.1         readr_2.1.6         tidyr_1.3.2        
 [16] tibble_3.3.1        ggplot2_4.0.2       tidyverse_2.0.0    
+[19] workflowr_1.7.2    
 
 loaded via a namespace (and not attached):
  [1] gtable_0.3.6       xfun_0.56          bslib_0.10.0       htmlwidgets_1.6.4 
- [5] lattice_0.22-7     mathjaxr_2.0-0     tzdb_0.5.0         crosstalk_1.2.2   
- [9] vctrs_0.7.1        tools_4.5.2        generics_0.1.4     parallel_4.5.2    
-[13] pkgconfig_2.0.3    RColorBrewer_1.1-3 S7_0.2.1           lifecycle_1.0.5   
-[17] compiler_4.5.2     farver_2.1.2       git2r_0.36.2       textshaping_1.0.4 
-[21] httpuv_1.6.16      htmltools_0.5.9    sass_0.4.10        yaml_2.3.12       
-[25] crayon_1.5.3       later_1.4.5        pillar_1.11.1      jquerylib_0.1.4   
-[29] cachem_1.1.0       nlme_3.1-168       tidyselect_1.2.1   digest_0.6.39     
-[33] stringi_1.8.7      labeling_0.4.3     rprojroot_2.1.1    fastmap_1.2.0     
-[37] grid_4.5.2         cli_3.6.5          magrittr_2.0.4     withr_3.0.2       
-[41] scales_1.4.0       promises_1.5.0     bit64_4.6.0-1      timechange_0.4.0  
-[45] rmarkdown_2.30     bit_4.6.0          otel_0.2.0         workflowr_1.7.2   
-[49] hms_1.1.4          evaluate_1.0.5     knitr_1.51         viridisLite_0.4.2 
-[53] rlang_1.1.7        Rcpp_1.1.1         glue_1.8.0         xml2_1.5.2        
-[57] vroom_1.7.0        svglite_2.2.2      rstudioapi_0.18.0  jsonlite_2.0.0    
-[61] R6_2.6.1           systemfonts_1.3.1  fs_1.6.6          </code></pre>
+ [5] processx_3.8.6     lattice_0.22-7     callr_3.7.6        mathjaxr_2.0-0    
+ [9] tzdb_0.5.0         crosstalk_1.2.2    vctrs_0.7.1        tools_4.5.2       
+[13] ps_1.9.1           generics_0.1.4     parallel_4.5.2     pkgconfig_2.0.3   
+[17] RColorBrewer_1.1-3 S7_0.2.1           lifecycle_1.0.5    compiler_4.5.2    
+[21] farver_2.1.2       git2r_0.36.2       textshaping_1.0.4  getPass_0.2-4     
+[25] httpuv_1.6.16      htmltools_0.5.9    sass_0.4.10        yaml_2.3.12       
+[29] crayon_1.5.3       later_1.4.5        pillar_1.11.1      jquerylib_0.1.4   
+[33] whisker_0.4.1      cachem_1.1.0       nlme_3.1-168       tidyselect_1.2.1  
+[37] digest_0.6.39      stringi_1.8.7      labeling_0.4.3     rprojroot_2.1.1   
+[41] fastmap_1.2.0      grid_4.5.2         cli_3.6.5          magrittr_2.0.4    
+[45] withr_3.0.2        scales_1.4.0       promises_1.5.0     bit64_4.6.0-1     
+[49] timechange_0.4.0   rmarkdown_2.30     httr_1.4.7         bit_4.6.0         
+[53] otel_0.2.0         hms_1.1.4          evaluate_1.0.5     knitr_1.51        
+[57] viridisLite_0.4.2  rlang_1.1.7        Rcpp_1.1.1         glue_1.8.0        
+[61] xml2_1.5.2         vroom_1.7.0        svglite_2.2.2      rstudioapi_0.18.0 
+[65] jsonlite_2.0.0     R6_2.6.1           systemfonts_1.3.1  fs_1.6.6          </code></pre>
 </div>
 </div>
 </div>
