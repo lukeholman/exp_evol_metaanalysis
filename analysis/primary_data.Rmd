@@ -12,48 +12,7 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Overview
-
-## Cohen's $d$
-
-This document describes how I estimated Cohen's $d$ for each primary study in the meta-analysis. Cohen's $d$ is a standardised measure of the effect size, defined as the difference between two means, expressed in standard deviations of the variable of interest. Conventionally, Cohen's $d > |0.5|$ is considered a 'large' effect. 
-
-## Meaning of effect size sign
-
-Crucially, effect sizes have a sign (positive or negative, depending on whether mean 1 or mean 2 is the larger) as well as a magnitude. The sign is arbitrary, as it flips from positive depending on which mean is designated as mean 1 versus mean 2.
-
-To ensure the effect size sign is meaningful and comparable across studies, I defined a positive effect size to indicate that the two means differ in the direction that one would predict if intralocus sexual conflict is present, and a negative effect to mean that the means differ in a direction opposite to this prediction. For example, for a study like Prasad et al. (2007) that removed selection on females and then measured mean male and female fitness relative to a control, we would predict male-evolved populations to have higher male fitness and lower female fitness if intralocus sexual conflict is present. So, a positive effect size should indicate higher male fitness but lower female fitness in the experimental group relative to the control. To clarify the meaning of each effect size, I provide a column called 'interpretation' in the final table of effect sizes, and document the more confusing/ambiguous decisions in this document below.
-
-## How Cohen's $d$ was calculated
-
-### Preferred method: from the raw data
-
-If the primary study's raw data were available (e.g. on Dryad or Figshare, or as a table in the original paper), I calculated the effect size from an appropriate statistical model that accounted for the structure of the experimental design (e.g. the use of replicate experimental evolution lines), block effects, etc. (following the model used by the original authors wherever possible). The models chosen are documented in the code below.
-
-For response variables where it was appropriate to use Gaussian linear (mixed) models, I first transformed the response variable to have a mean of zero and variance of 1, such that the difference between treatment means estimates by the statistical model is equal to Cohen's d. 
-
-For generalised (e.g. binomial) models that estimated treatment means as a log odds ratio ($\log(\mathrm{OR})$), or a log hazard ratio (for survival models), I converted this effect size to Cohen's d using the standard approximation:
-
-$\log(\mathrm{OR}) = \frac{\sqrt{3}}{\pi}$
-
-For studies where the original data represent counts of binary events tallied up in a $2\times2$ contingency table (e.g. number of surviving and non-surviving individuals from the treatment and control groups) with elements $a$,$b$,$c$ and $d$, I estimated the log odds ratio as $log(a\times d / b\times c)$ and found the SE of the log odds ratio using Woolf's method, i.e. 
-
-\[SE\!\left(\log(\mathrm{OR})\right)
-=\sqrt{\frac{1}{a}+\frac{1}{b}+\frac{1}{c}+\frac{1}{d}}\]
-
-### Fall-back method: from the group means
-
-For many studies, the raw data were not available, but the paper provided numerical or graphical information about 1) the means of each treatment group, 2) either the group standard deviations or the standard errors of the means (which allow calculation of the standard deviation as $SD = SE\times\sqrt{N}$), and 3) the sample size N. From these three quantities, one can estimate Cohen's d (I used the function `mes()` from the `compute.es` package). Where possible I obtained these numbers from tables or the main text, but often the data were only contained in figures (e.g. bar charts showing the mean and standard errors). In the latter case, I measured the means and standard errors using the web application [PlotDigitizer](https://plotdigitizer.com/) - this data extraction step is expected to add some inaccuracy, but not consistently bias the meta-analysis.
-
-Using group means is a less accurate method because it is not possible to account for the structure of the experimental design, incurring pseudoreplication. For example, in studies where the authors had 4 replicate experimental evolution lines for 2 treatments and measured 20 individuals per line, the sample size is not really 80 per treatment, since there are 20 replicate measurements of only 8 lines. This will make the effect size measurements appear more precise than they should be, giving extra weight to those studies in the meta-analysis. 
-
-
-
-### Preferred method: from the raw data
-
-Load packages and define some custom functions:
-
-```{r}
+```{r message=F}
 library(tidyverse)
 library(readxl)
 library(lme4)
@@ -104,7 +63,52 @@ get_effect_size_2x2_matrix <- function(x){
 }
 ```
 
+# Overview
+
+## Cohen's $d$
+
+This document describes how I estimated Cohen's $d$ for each primary study in the meta-analysis. Cohen's $d$ is a standardised measure of the effect size, defined as the difference between two means, expressed in standard deviations of the variable of interest. Conventionally, Cohen's $d > |0.5|$ is considered a 'large' effect. 
+
+## Meaning of effect size sign
+
+Crucially, effect sizes have a sign (positive or negative, depending on whether mean 1 or mean 2 is the larger) as well as a magnitude. Unlike the magnitude, the sign is determined solely by the researcher: it depends on which of the two means is designated as the reference for comparison.
+
+To ensure the effect size sign is meaningful and comparable across studies, __I defined a positive effect size to indicate that the two means differ in the direction that one would predict if intralocus sexual conflict is present__, and a negative effect to mean that the means differ in a direction opposite to this prediction. 
+
+For example, for a study like Prasad et al. (2007) that removed selection on females and then measured mean male and female fitness relative to a control, we would predict male-evolved populations to have _higher_ male fitness and _lower_ female fitness if intralocus sexual conflict is present. So, a positive effect size should indicate higher male fitness but lower female fitness in the experimental group relative to the control. This is potentially confusing, but it ensures that finding the mean effect size via meta-analysis is useful: a positive mean effect size would mean that experimental evolution studies tend to produce the results predicted if IaSC is common.
+
+To clarify the meaning of each effect size, I provide a column called 'interpretation' in the final table of effect sizes, and document the more confusing/ambiguous decisions in this document below.
+
+## How Cohen's $d$ was calculated
+
+### Preferred method: from the raw data
+
+If the primary study's raw data were available (e.g. on Dryad or Figshare, or as a table in the original paper), I calculated the effect size from an appropriate statistical model that accounted for the structure of the experimental design (e.g. the use of replicate experimental evolution lines), block effects, etc. (following the model used by the original authors wherever possible). The models chosen are documented in the code below.
+
+For response variables where it was appropriate to use Gaussian linear (mixed) models, I first transformed the response variable to have a mean of zero and variance of 1, such that the difference between treatment means estimates by the statistical model is equal to Cohen's d. 
+
+For generalised (e.g. binomial) models that estimated treatment means as a log odds ratio ($\log(\mathrm{OR})$), or a log hazard ratio (for survival models), I converted this effect size to Cohen's d using the standard approximation:
+
+$\log(\mathrm{OR}) = \frac{\sqrt{3}}{\pi}$
+
+For studies where the original data represent counts of binary events tallied up in a $2\times2$ contingency table (e.g. number of surviving and non-surviving individuals from the treatment and control groups) with elements $a$,$b$,$c$ and $d$, I estimated the log odds ratio as $log(a\times d / b\times c)$ and found the SE of the log odds ratio using Woolf's method, i.e. 
+
+\[SE\!\left(\log(\mathrm{OR})\right)
+=\sqrt{\frac{1}{a}+\frac{1}{b}+\frac{1}{c}+\frac{1}{d}}\]
+
+### Fall-back method: from the group means
+
+For many studies, the raw data were not available, but the paper provided numerical or graphical information about 1) the means of each treatment group, 2) either the group standard deviations or the standard errors of the means (which allow calculation of the standard deviation as $SD = SE\times\sqrt{N}$), and 3) the sample size N. From these three quantities, one can estimate Cohen's d (I used the function `mes()` from the `compute.es` package). Where possible I obtained these numbers from tables or the main text, but often the data were only contained in figures (e.g. bar charts showing the mean and standard errors). In the latter case, I measured the means and standard errors using the web application [PlotDigitizer](https://plotdigitizer.com/) - this data extraction step is expected to add inaccuracy, but not to add consistent bias.
+
+Using group means is a less accurate method because it is not possible to account for the structure of the experimental design, incurring pseudoreplication. For example, in studies where the authors had 4 replicate experimental evolution lines for 2 treatments and measured 20 individuals per line, the sample size is not really 80 per treatment, since there are 20 replicate measurements of only 8 lines. This will make the effect size measurements appear more precise than they should be, giving extra weight to those studies in the meta-analysis. 
+
+### Workflow in the code below
+
+For each publication, I either load or type out the raw data, display it (in cases where I extracted the raw data or group means from the primary paper), calculate effect size, and then save it to a small .csv file along with meta-data like the paper of origin, the trait being measured, the number of generations of selection prior to measuring the trait, and a plain English interpretation of the meaning of the effect size (e.g. that the trait is higher/lower in one treatment group compared to another such group).
+
 # Sex-limited evolution experiments
+
+This section covers publications that evolved genomic elements (e.g. small regions or whole chromosomes) mostly/entirely within one sex for multiple generations. In general, I predict that this treatment will increase fitness in that sex, reduce fitness in the other sex, and cause phenotypic evolution towards the typical trait values for the evolving sex (e.g. in _Drosophila_, chromosomes that had undergone male-limited evolution in should encode smaller body size and slower development time). The effect size signs selected reflect these expectations.
 
 ## Rice (1992)
 
@@ -125,7 +129,9 @@ df <- tibble(
   total = c(90, 75, 90, 70)
 )
 
-df %>% kable() %>% kable_styling()
+df %>% 
+  kable() %>% 
+  kable_styling()
 ```
 
 ### Calculating effect size
@@ -184,7 +190,9 @@ rice96 %>%
 
 #### Calculating effect size
 
-However the study provides means only means, not a measure of error, which we need to compute effect size variance and confidence limits. To get a rough estimate of these, we assume that the error is comparable to similar male fitness assays carried out in Wong & Holman (2023; _Evolution_). We load that study's raw data, and find the average standard deviation in proportion of offspring sired relative to competitor males. We then use simulation to generate 10,000 possible datasets for Rice (1996) by generating random Normally distributed numbers using the means from Rice's Figure 1 and SD for Wong & Holman, and calculate 10,000 estimates of the standardised effect size Cohen's d comparing the two treatments. From these 10,000 estimates we also obtain the effect size variance and 95% CIs. 
+Unfortunately the study provides means but no standard error or standard deviation, which we need to compute effect size variance and confidence limits. 
+
+To get an estimate of effect size, we assume here the standard deviation (SD) is the same as the SD in  similar male fitness assays carried out in Wong & Holman (2023; _Evolution_). That study's male fitness assay methods were quite similar, and focused on North American _D. melanogaster_ as well. We load that study's raw data, and find the average standard deviation in proportion of offspring sired relative to competitor males. We then use simulation to generate 10,000 possible datasets for Rice (1996) by generating random Normally distributed numbers using the means from Rice's Figure 1 and SD for Wong & Holman, and from these random datasets calculate 10,000 estimates of the standardised effect size Cohen's d comparing the two treatments. From these 10,000 estimates we also obtain the effect size variance and 95% CIs. 
 
 
 ```{r}
@@ -193,15 +201,18 @@ However the study provides means only means, not a measure of error, which we ne
 
 # Find the standard deviation in proportion offspring sired in a different study, Wong & Holman 2023 Evolution, for 810 male fitness assays covering 125 fly genotypes
 # Then take the average SD across those 125 genotypes, and assume this is representative of the SD in Rice's study
-estimated_SD <- read_csv("input_data/male_fitness_raw_data_wong_and_holman.csv", show_col_types = FALSE) %>% 
-  mutate(fitness = `Early male focal` / (`Early male focal` + `Early male rival`)) %>% 
+estimated_SD <- read_csv(
+  "input_data/male_fitness_raw_data_wong_and_holman.csv", 
+  show_col_types = FALSE) %>% 
+  mutate(fitness = `Early male focal` / 
+           (`Early male focal` + `Early male rival`)) %>% 
   group_by(Line) %>% 
   summarise(mean_fitness = mean(fitness),
             sd_fitness = sd(fitness)) %>% 
   summarise(x = mean(sd_fitness, na.rm=T)) %>% pull(x)
 
 
-# 
+# make n random normal fitness values given mean and SD
 make_data <- function(mean_fitness, n, sd){
   rnorm(n, mean_fitness, sd)
 }
@@ -216,13 +227,14 @@ bootstrapped_effect_sizes <- lapply(1:1000, function(i){
                     mean = rice96$fitness[.x], 
                     sd = estimated_SD))) %>% 
     mutate(line = paste(treatment, replicate, sep = "_"),
-           fitness = as.numeric(scale(fitness)))
+           fitness = as.numeric(scale(fitness))) # scale fitness
   
+  # do a linear model (effect size of treatment is equal to Cohen's d)
   as.numeric(summary(lm(fitness ~ treatment + line, data = possible_dataset))$coefficients[2,1:2])
 }) %>% 
   do.call("rbind", .) %>% 
   as.data.frame() %>% as_tibble() %>% 
-  mutate(V2 = V2 ^ 2) %>% # Square the SE in the difference in means, to get the variance
+  mutate(V2 = V2 ^ 2) %>% # Square the effect size SE to get the variance
   rename(Estimate = V1, Var = V2)
 
 bootstrapped_effect_sizes %>% 
@@ -400,7 +412,8 @@ These data were extracted from Figure 2A using PlotDigitizer. The data show the 
 Additionally, Rice does not present data on male development time for the other half of this progeny pool. I assume these data would have been collected, since Rice would have had to sex the flies to find all these females and could have easily counted the pile of males as well, so I do wonder if these results were left out since they were not significant in the predicted direction (i.e. masculinised, longer development in male EAB flies).
 
 ```{r}
-dt <- read_csv("input_data/rice98_development_time.csv") %>% 
+dt <- read_csv("input_data/rice98_development_time.csv", 
+               show_col_types = F) %>% 
   mutate(n_females_emerged = round(prop_emerged * overall_eclosed),
          n_females_not_emerged = overall_eclosed - n_females_emerged) %>% 
   mutate(treatment = substr(population, 1, 1),
@@ -453,7 +466,7 @@ tibble(
 
 ### Female productivity
 
-The data are from Figure 2B (captured with PlotDigitizer). Rice counted the "total number of adult offspring (measures net female fitness independent of development time) produced by EAB or CAB females (red-eyed offspring) in competition with tester-females (pink-eyed offspring)." There was no difference, implying that EAB and CAB are equally good at producing eggs and their offspring have equal survival rates (or if there are differences in these fitness components, then they cancel out). Note that in the methods and the figure axis label, Rice mentions that he only counted the daughters, while in the figure caption (quoted here) he says that all offspring were counted (meaning, sons too). It's unclear which was measured, but it likely does qualitatively change the result.
+The data are from Figure 2B (captured with PlotDigitizer). Rice counted the "total number of adult offspring (measures net female fitness independent of development time) produced by EAB or CAB females (red-eyed offspring) in competition with tester-females (pink-eyed offspring)." There was no difference, implying that EAB and CAB are equally good at producing eggs and their offspring have equal survival rates (or if there are differences in these fitness components, then they cancel out). Note that in the methods and the figure axis label, Rice mentions that he only counted the daughters, while in the figure caption (quoted here) he says that all offspring were counted (meaning, sons too). It's unclear which was measured, but it likely does not qualitatively change the result.
 
 #### Rice's original data
 ```{r}
@@ -497,7 +510,7 @@ kable(mortality) %>%
 
 
 #### Calculating effect size
-To calculate the effect size, I fit a Cox's proportional hazard model to the female surivivorship data, and measured the difference between the male-limited and control treatments in the per-day risk of death (conditional on being alive), taking into account the right censoring of the data (since the experiment ended on day 15, when most females were still alive). There is a weakly significant difference, such that females die faster when mated to EAB males, which is qualitatively the same conclusion Rice reached (using a bunch of pairwise t-tests focusing on specific days, which is a weaker approach, but understandable given the lower capabilities of statistical software in 1998). 
+To calculate the effect size, I fit a Cox's proportional hazard model to the female surivivorship data, and measured the difference between the male-limited and control treatments in the per-day risk of death (conditional on being alive), taking into account the right censoring of the data (since the experiment ended on day 15, when most females were still alive). There is a weakly significant difference, such that females die faster when mated to EAB males, which is qualitatively the same conclusion Rice reached (Rice used several pairwise t-tests to test specific days one-at-a-time, which is a weaker approach, but understandable given the statistical software available in 1998). 
 
 The positive effect size means that females die faster when mated to males carrying male-evolved compared to control genomes.
 
@@ -852,7 +865,9 @@ Jiang, P. P., Bedhomme, S., Prasad, N. G., & Chippindale, A. K. (2011). Sperm co
 
 Bedhomme, S., Chippindale, A. K., Prasad, N. G., Delcourt, M., Abbott, J. K., Mallet, M. A., & Rundle, H. D. (2011). Male-limited evolution suggests no extant intralocus sexual conflict over the sexually dimorphic cuticular hydrocarbons of _Drosophila melanogaster_. _Journal of Genetics_, 90(3), 443–452.
 
-This paper measured the abundance of dozens of hydrocarbons present on the body surface of both sexes, in the male-limited evolution treatment or the control lines. The authors analysed each hydrocarbon with its own univariate test, and largely found no differences between treatments. Since there are many hydrocarbons, we have not included them all here: we focus on a single male-unique hydrocarbon, 7-C_{23:1}, which is known to function as a male sex pheromone (e.g. Grillet et al., 2006; https://doi.org/10.1098/rspb.2005.3332). The means and standard errors in the code chunk below come from row M7 of Table 1, and the sample sizes are inferred from the methods (30 males per selection line, 4 selection lines per treatment = 120 males per treatment assuming no missing samples). The positive (non-significant) effect size implies more sex pheromones in the ML males.
+This paper measured the abundance of dozens of hydrocarbons present on the body surface of both sexes, in the male-limited evolution treatment or the control lines. The authors analysed each hydrocarbon with its own univariate test, and largely found no differences between treatments. 
+
+Since there are many hydrocarbons, we have not included them all here: we focus on a single male-unique hydrocarbon, 7-C$_{23:1}$, which is known to function as a male sex pheromone (e.g. Grillet et al., 2006; https://doi.org/10.1098/rspb.2005.3332), because this seems the most likely one that might evolve following removal of selection on females. The means and standard errors in the code chunk below come from row M7 of Table 1, and the sample sizes are inferred from the methods (30 males per selection line, 4 selection lines per treatment = 120 males per treatment assuming no missing samples). The positive (non-significant) effect size implies more sex pheromones in the ML males.
 
 The authors also carried out multivariate tests on the first 3 principal components, but the results for those tests are not detailed enough to include in this meta-analysis. The multivariate tests suggest no difference in CHCs between treatments, for either males or females.
 
@@ -950,7 +965,7 @@ Abbott, J. K., Chippindale, A. K., & Morrow, E. H. (2020). The microevolutionary
 
 All data transcribed using PlotDigitiser from Figures 2A, 2B, S1 and S2. Sample sizes given in the Methods, bottom left of page 741.
 
-When deciding on coding the sign of the effect sizes, I considered high locomotion a male-typical trait and so predicted by female and male locomotion to increase in the MLX treatment. I also predicted increased offspring survival in MLX, due to the unmasking of deleterious alleles in males, and an elevated proportion of sons (whether the X was present in the mother or the father) due to the removal of selection on female-harming alleles and (in the case of the X coming from the mother) extra purging of male-harming alleles.
+When deciding on coding the sign of the effect sizes, I considered high locomotion a male-typical trait and so predicted both female and male locomotion to increase in the MLX treatment. I also predicted increased offspring survival in MLX, due to the unmasking of deleterious alleles in males, and an elevated proportion of sons (whether the X was present in the mother or the father) due to the removal of selection on female-harming alleles and (in the case of the X coming from the mother) extra purging of male-harming alleles.
 
 ### Abbott et al.'s original data
 
@@ -1098,14 +1113,14 @@ Lund-Hansen, K. K., Abbott, J. K., & Morrow, E. H. (2020). Feminization of compl
 
 Here, I focus on comparisons between the female-limited X chromosome treatment and the 'control FM' treatment (ignoring the wild-type control), since differences between the former 2 treatments are expected to arise due to female-limited inheritance of the X (rather than adaption to the FM balancer chromosome). I also focus on the later measurements made around generations 39-41, rather than the early measurements, since the late measurements have given more time for experimental evolution to produce evolution.
 
-Effect sizes are calculated from models that motly follow those in the authors' archived code, with a couple of differences. First, I did not run one model for both sexes (with sex as a predictor) as in the original, but rather split the data by sex and ran two model (running with both sexes together gave warnings about rank deficiency and convergence). Second, I treated the experimental replicate lines as fixed rather than random factors (since there are only 3 replicates per treatment, and it's recommended to have more levels in order to use random factors). The results are nevertheless very similar to those in the paper. Third, for the development time data, the response variable (time until development) was not normal, as is common for time-to-event data, and so I used a Cox PH model instead of linear (mixed) model as in the original paper. The treatment effect (as a proportional hazard ratio) was converted to Cohen's d effect size. 
+Effect sizes are calculated from models that motly follow those in the authors' archived code, with a couple of differences. First, I did not run one model for both sexes (with sex as a predictor) as in the original, but rather split the data by sex and ran two models (running with both sexes together gave warnings about rank deficiency). Second, I treated the experimental replicate lines as fixed rather than random factors (since there are only 3 replicates per treatment, and it's recommended to have more levels in order to use random factors). The results are very similar to those in the paper. Third, for the development time data, the response variable (time until development) was not normal, as is common for time-to-event variables, and so I used a Cox PH model instead of linear (mixed) model as in the original paper. The treatment effect (as a proportional hazard ratio) was converted to Cohen's d effect size. 
 
 ### Female fitness data
 
 These are for generation 39-41, from the file StandardFitnessG3941.csv. I ran a model following that used by the authors, as shown in their archived code.
 
 ```{r}
-SF.data <- read_csv("input_data/lundhansen_github_data_FLXevoexp-master/StandardFitnessGeneration39-41 /StandardFitnessG3941.csv")
+SF.data <- read_csv("input_data/lundhansen_github_data_FLXevoexp-master/StandardFitnessGeneration39-41 /StandardFitnessG3941.csv", show_col_types = F)
 female_SF <- SF.data[SF.data$sex == "f", ] %>% 
   mutate(standard = as.numeric(scale(standard)))
 male_SF <- SF.data[SF.data$sex == "m", ] %>% 
@@ -1163,7 +1178,7 @@ tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
 ### Female development time
 
 ```{r}
-dev_time <- read_csv("input_data/lundhansen_github_data_FLXevoexp-master/DevelopmentTimeGeneration/DevelopmentTimeG43.csv")
+dev_time <- read_csv("input_data/lundhansen_github_data_FLXevoexp-master/DevelopmentTimeGeneration/DevelopmentTimeG43.csv", show_col_types = F)
 dev_time_females <- dev_time %>% 
   filter(sex == "f") %>% 
   mutate(dev_time = as.numeric(scale(dev_time)))
@@ -1171,7 +1186,7 @@ dev_time_males <- dev_time %>%
   filter(sex == "m") %>% 
   mutate(dev_time = as.numeric(scale(dev_time)))
 
-# CFM females take non-sig longer to develop than FLX (this is the prediction, since shorter development is a feminine trait)
+# CFM females take non-sig longer to develop than FLX (this is the prediction, since shorter development is female-typical)
 surv_obj <- Surv(dev_time_females$dev_time, event = rep(1, nrow(dev_time_females)))
 cox <- coxph(surv_obj ~ regime, data = dev_time_females)
 
@@ -1226,8 +1241,8 @@ tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
 
 ### Female locomotion
 
-```{r}
-loco <- read_csv("input_data/lundhansen_github_data_FLXevoexp-master/LocomotionAssayGeneration123/LocoAssayG123.csv")
+```{r warning=F}
+loco <- read_csv("input_data/lundhansen_github_data_FLXevoexp-master/LocomotionAssayGeneration123/LocoAssayG123.csv", show_col_types = F)
 female_loco <- loco %>% filter(sex == "f")
 male_loco <- loco %>% filter(sex == "m")
 
@@ -1259,11 +1274,7 @@ tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
 
 ### Male locomotion
 
-```{r}
-male_loco %>% 
-  ggplot(aes(regime, locoactive)) + 
-  geom_boxplot()
-
+```{r message=F}
 # CFM < FLX for activity (and it's significant), which is the opposite of the prediction (so we need a negative effect size)
 male_loco_model <- glm((cbind(active, inactive)) ~ regime + rep_population, 
                           data = male_loco, family = "binomial")
@@ -1293,7 +1304,7 @@ tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
 ### Female thorax size
 
 ```{r}
-thorax <- read_csv("input_data/lundhansen_github_data_FLXevoexp-master/ThoraxSizeGeneration72/ThoraxSizeG72.csv")
+thorax <- read_csv("input_data/lundhansen_github_data_FLXevoexp-master/ThoraxSizeGeneration72/ThoraxSizeG72.csv", show_col_types = F)
 female_thorax <- thorax %>% 
   filter(sex == "f") %>% 
   mutate(size_mm = as.numeric(scale(size_mm)))
@@ -1496,25 +1507,46 @@ Grieshop, K., Liu, M. J., Frost, R. S., Lindsay, M. P., Bayoumi, M., Brengdahl, 
 Here, I obtained the raw data from the authors, and re-ran a binomial GLMM that followed the original analysis as closely as I could figure out. The model measures the probability of mating (vs not mating) for males and females and flies carrying 'Red' chromosomes (copies of Chromosome 2 which spent most of their recent evolutionary history in males) versus 'Non-Red' chromosomes (which spent a majority of generations in females). From the binomial GLM I get the treatment effect size as a log odds ratio, and then convert that to Cohen's d.
 
 ```{r}
-# Here, I could not reproduce the original analysis as the archived code doesn't work. I did get this file from the authors, and here I do a simpler GLMM that replicates the original more or less, but does not include an offset term.
+###### This block of code copied from the authors' archived R script ########################################################################
 
-# tally up the total observed maters and non-maters for each sex and population
-DsRed_Data <-  read_csv("input_data/grieshop_2025_DsRed_Data_Formatted.csv")  %>% 
-  group_by(Population, Sex, Marker) %>% 
-  summarise(n_mated = sum(`Mating Status` == "Mated"),
-            n_non_mated = sum(`Mating Status` == "Non-Mated")) %>% 
-  mutate(Marker = factor(Marker, c("Red", "Non-Red")))
+#Load in fitness data
+DsRed_Data <- read.csv("input_data/grieshop2025_DsRed_Data_Formatted.csv")
 
-# binomial GLMM that finds the sex-specific effects of the Red marker (vs non-red) on mating propensity
-# This model assumes that all mated and non-mated flies were counted, which I think is not the case, but this should add random error rather than biasing the effect size estimates 
-model <- glmer(cbind(n_mated, n_non_mated) ~ Sex * Marker + (1 | Population), data = DsRed_Data, family = binomial)
+# Data Prep
+#######
+# Set up a vector full of zeroes of the appropriate length, then...
+Prop_Mated <- rep.int(0, dim(DsRed_Data)[1])
+
+# iterate over each observation in the DsRed_Data object
+for (i in 1:dim(DsRed_Data)[1]){
+  # if the observation is Male for that population replicate cage and generation
+  if (DsRed_Data$Sex[i] == "Male"){
+    # the proportion of mated males 
+    Prop_Mated[i] <- DsRed_Data$Male_Prop_Mated[i]
+  }
+  else{
+    # the proportion of mated females for that population replicate cage and generation
+    Prop_Mated[i] <- DsRed_Data$Female_Prop_Mated[i]
+  }
+  #... fill in said vector at any given point with the appropriate value 
+  # for the proportion of sampled individuals of the given sex found to be mated...
+}
+
+#...and then add that vector as another column.
+DsRed_Data <- cbind(DsRed_Data, Prop_Mated) 
+
+markerXpop.bothsex.model <- glmer(
+  Mating_Status == "Mated" ~ Marker*Sex + (Marker|Population),
+  binomial(link='probit'), offset = Prop_Mated, data = DsRed_Data)
+
+###### End of copied code ####################################
 
 # calculate effect of marker on mating rate (as a log odds ratio) separately for each sex
-LOR_effects <- contrast(emmeans(model, ~ Marker | Sex), method = "pairwise") %>% 
+LOR_effects <- contrast(emmeans(markerXpop.bothsex.model, ~ Marker | Sex), method = "pairwise") %>% 
   as_tibble() %>% 
-  mutate(estimate = c(-1,1) * estimate) %>% # change sign of the effect size for females
+  mutate(estimate = c(1,-1) * estimate) %>% # change sign of the effect size for males
   rename(logOR = estimate) %>% 
-  mutate(Estimate = logOR * sqrt(3) / pi,
+  mutate(Estimate = logOR * sqrt(3) / pi, # convert LOR to Cohen's d
          Var = (SE * sqrt(3) / pi)^2,
          Lower_95_CI = (logOR - SE * 1.96) * sqrt(3) / pi,
          Upper_95_CI = (logOR + SE * 1.96) * sqrt(3) / pi)
@@ -1523,8 +1555,9 @@ tibble(Study = "Grieshop et al. (2025) Molec. Biol. Evol. 42 msaf099.",
        Trait = c("Female mating rate", "Male mating rate"),
        Generations = 103,
        Organism = "Drosophila melanogaster",
-       Interpretation = c("A positive effect would mean that females carrying primarily male-evolved copies of chromosome 2 mate less often, compared to females with primarily female-evolved copies of chromosome 2 (there is no difference, though).", 
-                          "This positive effect means that males carrying primarily male-evolved copies of chromosome 2 mate more often, compared to males with primarily female-evolved copies of chromosome 2."),
+       Interpretation = c(
+         "A positive effect would mean that females carrying primarily male-evolved copies of chromosome 2 mate less often, compared to females with primarily female-evolved copies of chromosome 2 (there is no difference, though).", 
+         "This positive effect means that males carrying primarily male-evolved copies of chromosome 2 mate more often, compared to males with primarily female-evolved copies of chromosome 2."),
        Estimate = LOR_effects$Estimate,
        Var = LOR_effects$Var,
        Lower_95_CI = LOR_effects$Lower_95_CI,
@@ -1541,9 +1574,11 @@ Thyagarajan, H., Sayyed, I., Baroody, M. G., Kowal, J. A., Day, T., & Chippindal
 These variables are referred to as 'competitive reproductive fitness' in the paper. I obtained the raw data from Dryad and ran one model for each sex. The models were binomial GLMs with treatment (male-evolved or control), replicate, and generation as fixed effects (no interactions are fitted, i.e. I estimate the average treatment effect across the 3 starting genomes, labelled 'replicates'). From the binomial GLM I get the treatment effect size as a log odds ratio, and then convert that to Cohen's d.
 
 ```{r}
-female_CRF <- read_csv("input_data/Thyagarajan_2025_dryad_data/F_CRF_wt.cr.csv") %>% 
+female_CRF <- read_csv("input_data/Thyagarajan_2025_dryad_data/F_CRF_wt.cr.csv",
+                       show_col_types = F) %>% 
   mutate(Sex = "F", Replicate = factor(Replicate))
-male_CRF <- read_csv("input_data/Thyagarajan_2025_dryad_data/M_CRF_wt.cr.csv") %>% 
+male_CRF <- read_csv("input_data/Thyagarajan_2025_dryad_data/M_CRF_wt.cr.csv",
+                     show_col_types = F) %>% 
   mutate(Sex = "M", Replicate = factor(Replicate)) %>% 
   filter(Treatment %in% c("MLSD", "MC"))
 
@@ -1589,7 +1624,8 @@ tibble(Study = "Thyagarajan et al. (2025) J. Hered. esaf072",
 ### Male mating success
 
 ```{r}
-mating_competition <- read_csv("input_data/Thyagarajan_2025_dryad_data/M_MC_wt.cr.csv") %>% 
+mating_competition <- read_csv("input_data/Thyagarajan_2025_dryad_data/M_MC_wt.cr.csv",
+                               show_col_types = F) %>% 
   filter(!is.na(Mated.male)) %>% 
   group_by(Selection, Replicate) %>% 
   summarise(n_wt = sum(Mated.male == "wt"),
@@ -1623,7 +1659,8 @@ tibble(
 ### Male sperm offence
 
 ```{r}
-sperm_comp_data <- read_csv("input_data/Thyagarajan_2025_dryad_data/M_SC_wt.cr.csv") %>% 
+sperm_comp_data <- read_csv("input_data/Thyagarajan_2025_dryad_data/M_SC_wt.cr.csv",
+                            show_col_types = F) %>% 
   filter(Treatment %in% c("MC", "MLSD")) %>% 
   mutate(Replicate = factor(Replicate))
 
@@ -1704,6 +1741,9 @@ tibble(Study = "Nordén et al. (2020) Evolution 77, 1066-1076",
 
 
 # Middle-class neighbourhood experiments
+
+This section covers publications that used a sex-specific middle class neighbourhood to relax selection on one sex. In general, I predict reduced fitness for the unselected sex, increased fitness in the other sex (due to the spread of sexually antagonistic alleles benefitting the selected sex), and phenotypic evolution towards the typical trait values for the selected sex (e.g. in _Drosophila_, chromosomes that had undergone male-limited evolution in should encode smaller body size and slower development time). The effect size signs selected reflect these expectations.
+
 
 ## Radwan et al. (2004)
 
@@ -1870,7 +1910,7 @@ I focus on the difference between the female-specific middle class neighbourhood
 
 ### Female fitness
 
-```{r}
+```{r warning=F}
 Martinossi_Allibert <- read_excel("input_data/MartinossiAllibert_dryad_data.xlsx", sheet = "LRS") %>% 
   select(treatment = Evolution_tSeatment_type, 
          replicate = Evolution_treatment_replicate,
@@ -1882,18 +1922,6 @@ Martinossi_Allibert <- read_excel("input_data/MartinossiAllibert_dryad_data.xlsx
          treatment = replace(treatment, treatment == "M", "Malelimited"),
          treatment = replace(treatment, treatment == "S", "Polygamy"),
          LRS = as.numeric(scale(LRS)))
-
-Martinossi_Allibert %>% 
-  group_by(treatment, environment, sex) %>% 
-  summarise(mean = mean(LRS),
-            se = sd(LRS) / sqrt(n()),
-            ymin = mean-se,
-            ymax = mean+se) %>% 
-  ggplot(aes(environment, mean, colour = treatment, group = paste(treatment, sex))) +
-  geom_errorbar(aes(ymin=ymin, ymax=ymax), width = 0.1) + 
-  geom_line() +
-  geom_point() + 
-  facet_wrap(~ sex)
 
 es <- (emmeans(lmer(LRS~ treatment*sex*environment + (1 | line), 
              data = Martinossi_Allibert), specs = c("treatment", "sex")) %>% 

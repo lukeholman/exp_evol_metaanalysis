@@ -10,7 +10,7 @@ editor_options:
 
 This website presents data and code related to the paper 'Three decades of experimental evolution studies on intralocus sexual conflict' by Holman, Thyagarajan, Grieshop and Chippindale, which is under review in _Philosophical Transactions of the Royal Society_. 
 
-There are two annotated R scripts: one documenting how all the effect sizes were obtained from each primary study, and one performing the meta-analysis and making Figure 1.
+There are two annotated R scripts: the first documents how all the effect sizes were obtained from each primary study, and the second performs the meta-analysis and makes Figure 1.
 
 ### [1. Extracting effect sizes](primary_data.html)
 

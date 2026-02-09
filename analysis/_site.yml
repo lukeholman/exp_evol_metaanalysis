@@ -1,12 +1,14 @@
 name: "IaSC meta-analysis"
 output_dir: ../docs
 navbar:
-  title: "exp_evol_metaanalysis"
+  title: "IaSC meta-analysis"
   left:
   - text: Home
     href: index.html
-  - text: About
-    href: about.html
+  - text: Primary studies
+    href: primary_data.html
+  - text: Meta-analysis
+    href: meta_analysis.html
   - text: License
     href: license.html
 output:
