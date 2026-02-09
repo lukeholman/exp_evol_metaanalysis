@@ -178,7 +178,7 @@ fit_ma("~ Generations")
 
 ## Forest plot of effect sizes (Figure 1)
 
-```{r fig.height = 10}
+```{r fig.height = 8.2, fig.width=7}
 plot_data <- meta_analysis_data %>% 
   select(Origin_of_lines, Short_name, 
          Experiment_type1, Experiment_type2, Trait, Estimate, 
@@ -216,34 +216,43 @@ bands <- plot_data %>%
     stripe = row_number() %% 2
   )
 
-plot_data %>% 
+# order the traits within studies by effect size
+plot_data <- plot_data %>% 
   mutate(Short_name = factor(Short_name, levs)) %>% 
-  ggplot(aes(y = Trait, x = Estimate)) +
+  arrange(Estimate) %>% 
+  mutate(Trait_study = factor(paste(Trait, Short_name, sep = "~"), 
+                              unique(paste(Trait, Short_name, sep = "~"))))
+
+plot_data %>% 
+  ggplot(aes(y = Trait_study, x = Estimate)) +
   geom_vline(xintercept = 0, linetype = 2, colour = "grey10") +
   geom_errorbar(aes(xmin = Lower_95_CI, 
                     xmax = Upper_95_CI, 
                     colour = Experiment_type1)) +
   geom_point(aes(colour = Experiment_type1)) + 
+  scale_y_discrete(labels = function(x) sub("~.*$", "", x)) + 
   facet_grid2( rows = vars(Short_name),
     scales = "free_y",
     space = "free_y") +
   theme_minimal()+
   theme(legend.position = "top",
         panel.grid.major.y = element_blank(),
-        strip.text.y = element_text(angle = 0))+ 
+        strip.text.y = element_text(angle = 0),
+        panel.spacing.y=unit(0, "lines"))+ 
   labs(x = "Effect size (Cohen's d) \u00B1 95% CIs", 
        y = NULL,
-       colour = NULL) +  #geom_stripped_rows()
+       colour = NULL) +  
+  # scale_color_brewer(palette = "Set1") + 
   geom_rect(
     data = bands,
     aes(ymin = ymin, ymax = ymax, xmin = -Inf, xmax = Inf, fill = factor(stripe)),
     alpha = 0.1,
     inherit.aes = FALSE,
-    fill = rep(c("green", "steelblue"), 6)
+    fill = rep(c("purple", "orange"), 6)
   )
 ```
 
-**Figure 1**: Forest plot showing the estimated effect sizes (Cohen's d \u00B1 95% CIs). The y-axis indicates which trait was measured, and the coloured bands group effect sizes that come from the same set of experimental evolution lines (which are covered in one or more publications, named on the right). Positive effect sizes indicate evolutionary change in the direction predicted under IaSC, while negative effects indicate evolution in the opposite direction. Point colour differentiates between studies that manipulated inheritance vs selection. The grand mean effect size, shown at the bottom, is significantly positive. 
+**Figure 1**: Forest plot showing the estimated effect sizes (Cohen's d \(\pm \) 95% CIs). The y-axis indicates which trait was measured, and the coloured bands group effect sizes that come from the same set of experimental evolution lines (which are covered in one or more publications, named on the right). Positive effect sizes indicate evolutionary change in the direction predicted under IaSC, while negative effects indicate evolution in the opposite direction. Point colour differentiates between studies that manipulated inheritance vs selection. The grand mean effect size, shown at the bottom, is significantly positive. 
 
 ## Plotting effect of moderator `Generations`
 
