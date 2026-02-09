@@ -407,9 +407,7 @@ get_effect_size_2x2_matrix(x) %>%
 
 #### Rice's original data
 
-These data were extracted from Figure 2A using PlotDigitizer. The data show the numbers of females eclosed in each of the 4 replicate lines over a few days. We do not know what fraction of eggs hatched, so this data tells us only the development time of females who eventually hatched. It's also unclear if more females would have hatched on later days.
-
-Additionally, Rice does not present data on male development time for the other half of this progeny pool. I assume these data would have been collected, since Rice would have had to sex the flies to find all these females and could have easily counted the pile of males as well, so I do wonder if these results were left out since they were not significant in the predicted direction (i.e. masculinised, longer development in male EAB flies).
+These data were extracted from Figure 2A using PlotDigitizer. The data show the numbers of females eclosed in each of the 4 replicate lines over a few days. We do not know what fraction of eggs hatched, so this data tells us only the development time of females that eventually hatched. It's also unclear if more females would have hatched on later days.
 
 ```{r}
 dt <- read_csv("input_data/rice98_development_time.csv", 
@@ -1704,8 +1702,6 @@ fitness.dataCS <- read.csv("input_data/norden_dryad_data/Mlig_fitness_data_C_sta
 modfitCS <- lmer(Stand_Fitness~Treatment*sex_role + (1|ID) + (1|Treatment:sex_role:Population), data = fitness.dataCS)
 summary(modfitCS)
 
-emmeans(modfitCS, ~ Treatment | sex_role) %>% plot()
-
 cohens_d <- emmeans(modfitCS, ~ Treatment | sex_role) %>% 
   pairs() %>% as_tibble() %>% 
   filter(str_detect(contrast, "Control")) %>% 
@@ -1910,7 +1906,7 @@ I focus on the difference between the female-specific middle class neighbourhood
 
 ### Female fitness
 
-```{r warning=F}
+```{r warning=F, message=F}
 Martinossi_Allibert <- read_excel("input_data/MartinossiAllibert_dryad_data.xlsx", sheet = "LRS") %>% 
   select(treatment = Evolution_tSeatment_type, 
          replicate = Evolution_treatment_replicate,
