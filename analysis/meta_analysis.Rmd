@@ -110,6 +110,7 @@ The above results table shows that the grand mean effect size is `r pretty3(as.n
 
 ## Testing for effects of moderators
 
+
 Here, I use AICc model selection to compare 7 competing meta-analysis models, which fit `Generations`, `Sex`, `Experiment_type`, a combination of 2 or all of these, or the intercept-only null model. `Generations` gives the number of generations of selection at the time the focal trait was measured, `Sex` gives the sex of the individuals expressing the trait (male, female, or both sexes), and `Experiment_type` is either "Sex-specific inheritance" or "Sex-specific relaxation of selection".
 
 The top model includes the moderator `Generations`, and it is ahead of second-best model (which also includes `Sex`) by much more than 2 AICc, suggesting that `Generations` explains substantial variation in the data but the other moderators do not.
@@ -169,7 +170,7 @@ mean_gen <- round(mean(meta_analysis_data$Generations),1)
 
 
 
-Here are the results of the top model, showing the significant negative effect of the moderator `Generations` on effect size (note: `Generations` was scaled to have mean 0, SD 1, prior to analysis). This is a counter-intuitive result since we might expect greater effects after more generations of selection, but it is not very informative since `Generations` is likely confounded with other factors (e.g. species, type of experimental design, type of trait being measured). The grand mean effect size (predicted here for the average value of `Generations`, which is `r mean_gen`) is much the same after adjusting for the effect of `Generations`.
+Below are the results of the top model containing moderators, showing the significant negative effect of the moderator `Generations` on effect size (note: `Generations` was scaled to have mean 0, SD 1, prior to analysis). This is a counter-intuitive result since we might expect greater effects after more generations of selection, but it is not very informative since `Generations` is confounded with other factors (e.g. species, type of experimental design, type of trait being measured, and whether I used the raw data or summary statistics to calculate effect size). The grand mean effect size (predicted here for the average value of `Generations`, which is `r mean_gen`) is much the same after adjusting for the effect of `Generations`.
 
 ```{r}
 fit_ma("~ Generations")
@@ -224,12 +225,11 @@ plot_data <- plot_data %>%
                               unique(paste(Trait, Short_name, sep = "~"))))
 
 plot_data %>% 
-  ggplot(aes(y = Trait_study, x = Estimate)) +
+  ggplot(aes(y = Trait_study, x = Estimate, colour = Experiment_type2)) +
   geom_vline(xintercept = 0, linetype = 2, colour = "grey10") +
   geom_errorbar(aes(xmin = Lower_95_CI, 
-                    xmax = Upper_95_CI, 
-                    colour = Experiment_type1)) +
-  geom_point(aes(colour = Experiment_type1)) + 
+                    xmax = Upper_95_CI)) +
+  geom_point() + 
   scale_y_discrete(labels = function(x) sub("~.*$", "", x)) + 
   facet_grid2( rows = vars(Short_name),
     scales = "free_y",
