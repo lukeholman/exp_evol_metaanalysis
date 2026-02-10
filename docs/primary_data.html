@@ -533,15 +533,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree2e563e5af3ff960ff360740c4ff716196bdbaf6ctargetblank2e563e5a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreeeb8d223dc7f4c57849d147e1b64b8aec06efaf94targetblankeb8d223a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/2e563e5af3ff960ff360740c4ff716196bdbaf6c" target="_blank">2e563e5</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/eb8d223dc7f4c57849d147e1b64b8aec06efaf94" target="_blank">eb8d223</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree2e563e5af3ff960ff360740c4ff716196bdbaf6ctargetblank2e563e5a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreeeb8d223dc7f4c57849d147e1b64b8aec06efaf94targetblankeb8d223a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -551,7 +551,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/2e563e5af3ff960ff360740c4ff716196bdbaf6c" target="_blank">2e563e5</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/eb8d223dc7f4c57849d147e1b64b8aec06efaf94" target="_blank">eb8d223</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -628,6 +628,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/eb8d223dc7f4c57849d147e1b64b8aec06efaf94/analysis/primary_data.Rmd" target="_blank">eb8d223</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-10
+</td>
+<td>
+Fix typos
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/f546a4caff8604bfc3960c9234d49f1cb6823a43/docs/primary_data.html" target="_blank">f546a4c</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1536,11 +1570,10 @@ unmated
 <div id="male-attractiveness-to-mated-females" class="section level3">
 <h3>Male attractiveness to mated females</h3>
 <p>This data is from Figure 1B (early measure), and shows the number of
-female flies mating vs not-mating with either EAB or CAB males. More
-females remating implies that the male type is better able to achieve
-matings with mated females (who recently mated with another male, of the
-same type as the focal male). Females remated more with EAB males than
-CAB males.</p>
+previously mated female flies mating vs not-mating with either EAB or
+CAB males. More females remating implies that the male type is better
+able to achieve matings with mated females. Females remated more with
+EAB males than CAB males.</p>
 <div id="rices-raw-data" class="section level4">
 <h4>Rice’s raw data</h4>
 <pre class="r"><code>x &lt;- matrix(c(54, 25, 140-54, 140-25), nrow=2)
@@ -4212,8 +4245,7 @@ carried either MLE or control genomes (females were a standard
 genotype). There were 40 vials in total, 10 vials per evolving
 population, with 4 replicate populations of the MLE treatment and 4 of
 the control.</p>
-<pre class="r"><code># This is a bit pseudoreplicated as it assumes the vials are all independent
-# The authors were surprised to see LESS courtship by the MLE males, though they note they mate just as often as controls,
+<pre class="r"><code># The authors were surprised to see LESS courtship by the MLE males, though they note they mate just as often as controls,
 # and suggest this finding reflects increased attractiveness of MLE males so they do not need to court as much
 
 df &lt;- tibble(
@@ -4247,8 +4279,7 @@ courtship events towards females per vial, in vials where the females
 carried either MLE or control genomes (males were a standard genotype).
 There were 40 vials in total, 10 vials per evolving population, with 4
 replicate populations of the MLE treatment and 4 of the control.</p>
-<pre class="r"><code># This is a bit pseudoreplicated as it assumes the vials are all independent
-# The MLE females are courted slightly less, implying they are less attractive in some way (pheromones, behaviour, smaller body size?)
+<pre class="r"><code># The MLE females are courted slightly less, implying they are less attractive in some way (pheromones, behaviour, smaller body size?)
 
 df &lt;- tibble(
   mean = c(4.65, 8),
@@ -4267,8 +4298,7 @@ df &lt;- tibble(
            generations = 52,
            organism = &quot;Drosophila melanogaster&quot;,
            trait = &quot;Female attractiveness&quot;,
-           interpretation = &quot;This positive effect size indicates that females carrying male-evolved haplotypes were courted less often by standard males, compared to females carrying control haplotypes. This may imply these females have a masculinised phenotype that elicits less courtship.&quot;
-          ) %&gt;% 
+           interpretation = &quot;This positive effect size indicates that females carrying male-evolved haplotypes were courted less often by standard males (perhaps due to a masculinisation of the phenotype after male-limited evolution?), compared to females carrying control haplotypes.&quot;) %&gt;% 
   write_csv(&quot;effect_sizes/bedhomme2008_2.csv&quot;)</code></pre>
 </div>
 </div>
@@ -5489,7 +5519,7 @@ tibble(Study = &quot;Lund-Hansen et al. (2020) Evolution 74, 2703–2713&quot;,
        Trait = &quot;Female thorax size&quot;,
        Generations = 72,
        Organism = &quot;Drosophila melanogaster&quot;,
-       Interpretation = &quot;A positive effect would mean that females carrying female-evolved X chromosomes had larger thoraxes than females with the control FM genotype (there is no difference, though).&quot;,
+       Interpretation = &quot;The positive effect indicates that females carrying female-evolved X chromosomes had larger thoraxes than females with the control FM genotype.&quot;,
        Estimate = effects$Estimate,
        Var = effects$Var,
        Lower_95_CI = effects$Lower_95_CI,
@@ -5581,15 +5611,14 @@ CFM
 </div>
 <div id="calculating-effect-size-10" class="section level4">
 <h4>Calculating effect size</h4>
-<pre class="r"><code>x &lt;- as.matrix(df[,2:3])
-
-get_effect_size_2x2_matrix(x) %&gt;% 
-    mutate(Study = &quot;Manat et al. (2021) Biol. Lett. 17, 20200915&quot;, 
-           Trait = &quot;Male mating success&quot;, 
-           Generations = &quot;107&quot;,
-           Organism = &quot;Drosophila melanogaster&quot;,
-           Interpretation = &quot;A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have lower mating success compared to males carrying control X chromosomes (there is a non-significant trend in the opposite direction).&quot;,
-           .before = 1) %&gt;% 
+<pre class="r"><code>as.matrix(df[,2:3]) %&gt;% 
+  get_effect_size_2x2_matrix() %&gt;% 
+  mutate(Study = &quot;Manat et al. (2021) Biol. Lett. 17, 20200915&quot;, 
+         Trait = &quot;Male mating success&quot;, 
+         Generations = &quot;107&quot;,
+         Organism = &quot;Drosophila melanogaster&quot;,
+         Interpretation = &quot;A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have lower mating success compared to males carrying control X chromosomes (however, there&#39;s a significant difference in the opposite direction).&quot;,
+         .before = 1) %&gt;% 
   write_csv(&quot;effect_sizes/manat_1.csv&quot;)</code></pre>
 </div>
 </div>
@@ -5667,7 +5696,7 @@ CFM
            trait = &quot;Male mating speed&quot;, 
            generations = &quot;107&quot;,
            organism = &quot;Drosophila melanogaster&quot;,
-           interpretation = &quot;A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would take longer to induce females to mate compared to males carrying control X chromosomes (there is a non-significant trend in the opposite direction).&quot;) %&gt;% 
+           interpretation = &quot;A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would take longer to induce females to mate compared to males carrying control X chromosomes (however, there is a significant difference in the opposite direction).&quot;) %&gt;% 
   write_csv(&quot;effect_sizes/manat_2.csv&quot;)</code></pre>
 </div>
 </div>
