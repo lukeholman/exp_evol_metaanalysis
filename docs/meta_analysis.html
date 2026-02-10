@@ -420,7 +420,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2026-02-09
+<strong>Last updated:</strong> 2026-02-10
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -551,15 +551,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree67d1c7af61933a9a228b110bc32c8f3baf56c3fatargetblank67d1c7aa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree2e563e5af3ff960ff360740c4ff716196bdbaf6ctargetblank2e563e5a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/67d1c7af61933a9a228b110bc32c8f3baf56c3fa" target="_blank">67d1c7a</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/2e563e5af3ff960ff360740c4ff716196bdbaf6c" target="_blank">2e563e5</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree67d1c7af61933a9a228b110bc32c8f3baf56c3fatargetblank67d1c7aa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree2e563e5af3ff960ff360740c4ff716196bdbaf6ctargetblank2e563e5a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -569,7 +569,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/67d1c7af61933a9a228b110bc32c8f3baf56c3fa" target="_blank">67d1c7a</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/2e563e5af3ff960ff360740c4ff716196bdbaf6c" target="_blank">2e563e5</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -646,6 +646,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/2e563e5af3ff960ff360740c4ff716196bdbaf6c/analysis/meta_analysis.Rmd" target="_blank">2e563e5</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-10
+</td>
+<td>
+Fixed a few bits
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/68e88ca51066ea6ce20fced95e07dad1dbedc151/docs/meta_analysis.html" target="_blank">68e88ca</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1170,16 +1204,18 @@ Sex + Experiment_type1
 </tr>
 </tbody>
 </table>
-<p>Here are the results of the top model, showing the significant
-negative effect of the moderator <code>Generations</code> on effect size
-(note: <code>Generations</code> was scaled to have mean 0, SD 1, prior
-to analysis). This is a counter-intuitive result since we might expect
-greater effects after more generations of selection, but it is not very
-informative since <code>Generations</code> is likely confounded with
-other factors (e.g. species, type of experimental design, type of trait
-being measured). The grand mean effect size (predicted here for the
-average value of <code>Generations</code>, which is 54.1) is much the
-same after adjusting for the effect of <code>Generations</code>.</p>
+<p>Below are the results of the top model containing moderators, showing
+the significant negative effect of the moderator
+<code>Generations</code> on effect size (note: <code>Generations</code>
+was scaled to have mean 0, SD 1, prior to analysis). This is a
+counter-intuitive result since we might expect greater effects after
+more generations of selection, but it is not very informative since
+<code>Generations</code> is confounded with other factors (e.g. species,
+type of experimental design, type of trait being measured, and whether I
+used the raw data or summary statistics to calculate effect size). The
+grand mean effect size (predicted here for the average value of
+<code>Generations</code>, which is 54.1) is much the same after
+adjusting for the effect of <code>Generations</code>.</p>
 <pre class="r"><code>fit_ma(&quot;~ Generations&quot;)</code></pre>
 <pre><code>
 Multivariate Meta-Analysis Model (k = 56; method: REML)
@@ -1252,12 +1288,11 @@ plot_data &lt;- plot_data %&gt;%
                               unique(paste(Trait, Short_name, sep = &quot;~&quot;))))
 
 plot_data %&gt;% 
-  ggplot(aes(y = Trait_study, x = Estimate)) +
+  ggplot(aes(y = Trait_study, x = Estimate, colour = Experiment_type2)) +
   geom_vline(xintercept = 0, linetype = 2, colour = &quot;grey10&quot;) +
   geom_errorbar(aes(xmin = Lower_95_CI, 
-                    xmax = Upper_95_CI, 
-                    colour = Experiment_type1)) +
-  geom_point(aes(colour = Experiment_type1)) + 
+                    xmax = Upper_95_CI)) +
+  geom_point() + 
   scale_y_discrete(labels = function(x) sub(&quot;~.*$&quot;, &quot;&quot;, x)) + 
   facet_grid2( rows = vars(Short_name),
     scales = &quot;free_y&quot;,
