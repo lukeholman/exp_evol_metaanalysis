@@ -1,2 +1,2 @@
 Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
-"Lund-Hansen et al. (2020) Evolution 74, 2703–2713",Male fitness,41,Drosophila melanogaster,"A positive effect would mean that males carrying female-evolved X chromosomes have lower fitness than the control FM genotype (there is no difference, though).",0.43025842783151824,0.03949078600773182,0.040761568373957835,0.8197552872890786
+"Lund-Hansen et al. (2020) Evolution 74, 2703–2713",Male fitness,41,Drosophila melanogaster,"The positive effect indicates that males carrying female-evolved X chromosomes have lower fitness than the control FM genotype (there is no difference, though).",0.43025842783151824,0.03949078600773182,0.040761568373957835,0.8197552872890786

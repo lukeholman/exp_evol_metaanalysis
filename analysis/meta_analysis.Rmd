@@ -225,7 +225,7 @@ plot_data <- plot_data %>%
                               unique(paste(Trait, Short_name, sep = "~"))))
 
 plot_data %>% 
-  ggplot(aes(y = Trait_study, x = Estimate, colour = Experiment_type2)) +
+  ggplot(aes(y = Trait_study, x = Estimate, colour = Experiment_type1)) +
   geom_vline(xintercept = 0, linetype = 2, colour = "grey10") +
   geom_errorbar(aes(xmin = Lower_95_CI, 
                     xmax = Upper_95_CI)) +
