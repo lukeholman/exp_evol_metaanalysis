@@ -533,15 +533,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree61f48377e7a1e99c22aa7c43a1c5512058bdb797targetblank61f4837a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreeb781d8214c2d5b9cc0a67996615495c8fa15227ctargetblankb781d82a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/61f48377e7a1e99c22aa7c43a1c5512058bdb797" target="_blank">61f4837</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/b781d8214c2d5b9cc0a67996615495c8fa15227c" target="_blank">b781d82</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree61f48377e7a1e99c22aa7c43a1c5512058bdb797targetblank61f4837a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreeb781d8214c2d5b9cc0a67996615495c8fa15227ctargetblankb781d82a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -551,7 +551,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/61f48377e7a1e99c22aa7c43a1c5512058bdb797" target="_blank">61f4837</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/b781d8214c2d5b9cc0a67996615495c8fa15227c" target="_blank">b781d82</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -628,6 +628,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/b781d8214c2d5b9cc0a67996615495c8fa15227c/analysis/primary_data.Rmd" target="_blank">b781d82</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-20
+</td>
+<td>
+Add Melo-Gavin 2025
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/1b001bcc54918afb7d40df3aecf5ce20fb51a4f4/docs/primary_data.html" target="_blank">1b001bc</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-20
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -5961,6 +5995,40 @@ tibble(Study = &quot;Grieshop et al. (2025) Molec. Biol. Evol. 42 msaf099.&quot;
        Lower_95_CI = LOR_effects$Lower_95_CI,
        Upper_95_CI = LOR_effects$Upper_95_CI) %&gt;% 
   write_csv(&quot;effect_sizes/grieshop2025.csv&quot;)</code></pre>
+</div>
+<div id="melo-gavin-et-al.-2025" class="section level2">
+<h2>Melo-Gavin et al. (2025)</h2>
+<p>Melo-Gavin, C., Lindsay, M. P., &amp; Agrawal, A. F. (2025). Response
+of mate harm to sex-separated gene pools. bioRxiv, 2025-09.</p>
+<div id="melo-gavin-et-al.s-raw-data" class="section level3">
+<h3>Melo-Gavin et al.’s raw data</h3>
+<p>The data were obtained from the left two bars in Figure 1, using
+PlotDigitizer. The figure shows means and 95% CIs, so I calculated the
+standard deviation from the CIs as (CI_95 / 1.96) * sqrt(N),
+i.e. assuming the CIs were calculated as 1.96 times the standard error
+of the mean.</p>
+<pre class="r"><code>df &lt;- tibble(male_type = c(&quot;NonRed&quot;, &quot;Red&quot;),
+       line_type = c(&quot;Treatment&quot;, &quot;Treatment&quot;),
+       mean = c(57.18512618727785, 53.99935806754556),
+       CI_95 = c(59.0035781790516 - 57.18512618727785,
+                 55.64306178005492 - 53.99935806754556),
+       N = c(180, 180),
+       SE = (CI_95 / 1.96),
+       SD = SE * sqrt(N))
+
+mes(m.1 = df$mean[df$male_type==&quot;NonRed&quot;],
+    m.2 = df$mean[df$male_type==&quot;Red&quot;],
+    sd.1 = df$SD[df$male_type==&quot;NonRed&quot;],
+    sd.2 = df$SD[df$male_type==&quot;Red&quot;],
+    n.1 = 180, n.2 = 180, verbose=F) %&gt;% 
+  parse_es(study = &quot;Melo-Gavin et al. (2025) bioRxiv, https://doi.org/10.1101/2025.09.29.678620.&quot;,
+           generations = 11,
+           organism = &quot;Drosophila melanogaster&quot;,
+           trait = &quot;Male harm to females&quot;,
+           interpretation = &quot;The positive effect indicates that males carrying male-evolved chromosomes were more harmful to their female mates than were males carrying predominently female-evolved chromosomes.&quot;
+          ) %&gt;% 
+  write_csv(&quot;effect_sizes/melo_gavin2025_maleharm.csv&quot;)</code></pre>
+</div>
 </div>
 <div id="thyagarajan-et-al.-2025" class="section level2">
 <h2>Thyagarajan et al. (2025)</h2>
