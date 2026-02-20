@@ -1558,6 +1558,39 @@ tibble(Study = "Grieshop et al. (2025) Molec. Biol. Evol. 42 msaf099.",
   write_csv("effect_sizes/grieshop2025.csv")
 ```
 
+
+## Melo-Gavin et al. (2025)
+
+Melo-Gavin, C., Lindsay, M. P., & Agrawal, A. F. (2025). Response of mate harm to sex-separated gene pools. bioRxiv, 2025-09.
+
+### Melo-Gavin et al.'s raw data
+
+The data were obtained from the left two bars in Figure 1, using PlotDigitizer. The figure shows means and 95% CIs, so I calculated the standard deviation from the CIs as (CI_95 / 1.96) * sqrt(N), i.e. assuming the CIs were calculated as 1.96 times the standard error of the mean.
+
+```{r}
+df <- tibble(male_type = c("NonRed", "Red"),
+       line_type = c("Treatment", "Treatment"),
+       mean = c(57.18512618727785, 53.99935806754556),
+       CI_95 = c(59.0035781790516 - 57.18512618727785,
+                 55.64306178005492 - 53.99935806754556),
+       N = c(180, 180),
+       SE = (CI_95 / 1.96),
+       SD = SE * sqrt(N))
+
+mes(m.1 = df$mean[df$male_type=="NonRed"],
+    m.2 = df$mean[df$male_type=="Red"],
+    sd.1 = df$SD[df$male_type=="NonRed"],
+    sd.2 = df$SD[df$male_type=="Red"],
+    n.1 = 180, n.2 = 180, verbose=F) %>% 
+  parse_es(study = "Melo-Gavin et al. (2025) bioRxiv, https://doi.org/10.1101/2025.09.29.678620.",
+           generations = 11,
+           organism = "Drosophila melanogaster",
+           trait = "Male harm to females",
+           interpretation = "The positive effect indicates that males carrying male-evolved chromosomes were more harmful to their female mates than were males carrying predominently female-evolved chromosomes."
+          ) %>% 
+  write_csv("effect_sizes/melo_gavin2025_maleharm.csv")
+```
+
 ## Thyagarajan et al. (2025)
 
 Thyagarajan, H., Sayyed, I., Baroody, M. G., Kowal, J. A., Day, T., & Chippindale, A. K. (2025). Mixed evidence for intralocus sexual conflict from male-limited selection in _Drosophila melanogaster_. _Journal of Heredity_, esaf072.

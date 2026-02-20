@@ -57,7 +57,7 @@ my_data_table <- function(df){
     formatRound(
       columns = num_cols,
       digits = 3
-    )
+    ) 
 }
 
 # Load up the meta-analysis data:

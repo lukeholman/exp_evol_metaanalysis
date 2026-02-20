@@ -1,2 +1,2 @@
 Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
-"Abbott et al. (2020) J. Evol. Biol. 33, 738–750",Male locomotion,40,Drosophila melanogaster,The positive effect size would indicate that males carrying a male-evolved X chromosome have greater locomotory activity than males with a control genome (there is no significant difference though).,-0.36,0.07,-0.87,0.15
+"Abbott et al. (2020) J. Evol. Biol. 33, 738–750",Male locomotion,40,Drosophila melanogaster,"A positive effect size would indicate that males carrying a male-evolved X chromosome have greater locomotory activity than males with a control genome (there is a non-significant trend in the opposite direction, though).",-0.36,0.07,-0.87,0.15
