@@ -1054,7 +1054,7 @@ mes(m.1 = df$mean[8], m.2 = df$mean[7],
            trait = "Male locomotion", 
            generations = 40, 
            organism = "Drosophila melanogaster", 
-           interpretation = "The positive effect size would indicate that males carrying a male-evolved X chromosome have greater locomotory activity than males with a control genome (there is no significant difference though).") %>% 
+           interpretation = "A positive effect size would indicate that males carrying a male-evolved X chromosome have greater locomotory activity than males with a control genome (there is a non-significant trend in the opposite direction, though).") %>% 
   write_csv("effect_sizes/abbott_2020_4.csv")
 ```
 

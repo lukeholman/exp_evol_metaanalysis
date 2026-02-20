@@ -1,2 +1,2 @@
 Study,Trait,Generations,Organism,Interpretation,Estimate,Var,Lower_95_CI,Upper_95_CI
-"Lund-Hansen et al. (2020) Evolution 74, 2703–2713",Female thorax size,72,Drosophila melanogaster,"A positive effect would mean that females carrying female-evolved X chromosomes had larger thoraxes than females with the control FM genotype (there is no difference, though).",0.24661234692335093,0.011213672427393389,0.039058874302258795,0.4541658195444431
+"Lund-Hansen et al. (2020) Evolution 74, 2703–2713",Female thorax size,72,Drosophila melanogaster,The positive effect indicates that females carrying female-evolved X chromosomes had larger thoraxes than females with the control FM genotype.,0.24661234692335093,0.011213672427393389,0.039058874302258795,0.4541658195444431
