@@ -945,10 +945,10 @@ mes(m.1 = df$mean[4], m.2 = df$mean[3],
     sd.1 = df$SD[4], sd.2 = df$SD[3],
     n.1 = df$N[4], n.2 = df$N[3], verbose = F) %>% 
   parse_es(study = "Abbott et al. (2013) PLOS ONE 8, e70493", 
-           trait = "Proportion of males among surviving progeny", 
+           trait = "% sons among surviving progeny", 
            generations = 40, 
            organism = "Drosophila melanogaster", 
-           interpretation = "The proportion of males among the progeny of males carrying an X chromosome that underwent male-limited evolution is higher than that of males carrying an X that experienced only 1 generation of father-to-son inheritance.") %>% 
+           interpretation = "The proportion of sons among the progeny of males carrying an X chromosome that underwent male-limited evolution is higher than that of males carrying an X that experienced only 1 generation of father-to-son inheritance.") %>% 
   write_csv("effect_sizes/abbott_2013_2.csv")
 ```
 
