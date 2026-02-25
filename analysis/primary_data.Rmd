@@ -955,7 +955,7 @@ mes(m.1 = df$mean[4], m.2 = df$mean[3],
 
 ## Abbott et al. (2020)
 
-Abbott, J. K., Chippindale, A. K., & Morrow, E. H. (2020). The microevolutionary response to male-limited X-chromosome evolution in Drosophila melanogaster reflects macroevolutionary patterns. _Journal of Evolutionary Biology_, 33, 738–750.
+Abbott, J. K., Chippindale, A. K., & Morrow, E. H. (2020). The microevolutionary response to male-limited X-chromosome evolution in _Drosophila melanogaster_ reflects macroevolutionary patterns. _Journal of Evolutionary Biology_, 33, 738–750.
 
 All data transcribed using PlotDigitiser from Figures 2A, 2B, S1 and S2. Sample sizes given in the Methods, bottom left of page 741.
 
@@ -1565,7 +1565,7 @@ Melo-Gavin, C., Lindsay, M. P., & Agrawal, A. F. (2025). Response of mate harm t
 
 ### Melo-Gavin et al.'s raw data
 
-The data were obtained from the left two bars in Figure 1, using PlotDigitizer. The figure shows means and 95% CIs, so I calculated the standard deviation from the CIs as (CI_95 / 1.96) * sqrt(N), i.e. assuming the CIs were calculated as 1.96 times the standard error of the mean.
+The data were obtained from the left two bars in Figure 1, using PlotDigitizer. The figure shows means and 95% CIs, so I calculated the standard deviation from the CIs as `(CI_95 / 1.96) * sqrt(N)`, i.e. assuming the CIs were calculated as 1.96 times the standard error of the mean.
 
 ```{r}
 df <- tibble(male_type = c("NonRed", "Red"),
@@ -1586,7 +1586,7 @@ mes(m.1 = df$mean[df$male_type=="NonRed"],
            generations = 11,
            organism = "Drosophila melanogaster",
            trait = "Male harm to females",
-           interpretation = "The positive effect indicates that males carrying male-evolved chromosomes were more harmful to their female mates than were males carrying predominently female-evolved chromosomes."
+           interpretation = "The positive effect indicates that males carrying male-evolved chromosomes reduced the fecundity of their female mates more than did males carrying chromosomes that had undergone female-biased evolution."
           ) %>% 
   write_csv("effect_sizes/melo_gavin2025_maleharm.csv")
 ```
@@ -1924,126 +1924,126 @@ mes(m.1 = df$mean[df$trait == "female fitness" & df$treatment == "selected sex"]
   write_csv("effect_sizes/morrow2008_2.csv")
 ```
 
-## Martinossi-Allibert et al. (2019)
+<!-- ## Martinossi-Allibert et al. (2019) -->
 
-Martinossi-Allibert, I., Thilliez, E., Arnqvist, G., & Berger, D. (2019). Sexual selection, environmental robustness, and evolutionary demography of maladapted populations: A test using experimental evolution in seed beetles. Evolutionary Applications, 12(7), 1371–1384.
+<!-- Martinossi-Allibert, I., Thilliez, E., Arnqvist, G., & Berger, D. (2019). Sexual selection, environmental robustness, and evolutionary demography of maladapted populations: A test using experimental evolution in seed beetles. Evolutionary Applications, 12(7), 1371–1384. -->
 
-I obtained the raw data from Dryad, ran a GLMM with formula `LRS ~ treatment*sex*environment + (1 | line)`, and used emmeans to get the treatment effect on LRS for each sex (averaging over levels of environment). I scaled LRS first, so the treatment effects are equal to Cohen's d. 
+<!-- I obtained the raw data from Dryad, ran a GLMM with formula `LRS ~ treatment*sex*environment + (1 | line)`, and used emmeans to get the treatment effect on LRS for each sex (averaging over levels of environment). I scaled LRS first, so the treatment effects are equal to Cohen's d.  -->
 
-I focus on the difference between the female-specific middle class neighbourhood treatment and the monogamy treatment (the latter has natural selection on both sexes but not sexual selection, while the former has natural and sexual selection on males and relaxed selection on females). The authors re-branded the female-MCN treatment as a "sexual selection only" (S treatment) in a later paper (Baur and Berger 2020, below), though it would seem to allow for natural selection on males as well. 
+<!-- I focus on the difference between the female-specific middle class neighbourhood treatment and the monogamy treatment (the latter has natural selection on both sexes but not sexual selection, while the former has natural and sexual selection on males and relaxed selection on females). The authors re-branded the female-MCN treatment as a "sexual selection only" (S treatment) in a later paper (Baur and Berger 2020, below), though it would seem to allow for natural selection on males as well.  -->
 
-### Female fitness
+<!-- ### Female fitness -->
 
-```{r warning=F, message=F}
-Martinossi_Allibert <- read_excel("input_data/MartinossiAllibert_dryad_data.xlsx", sheet = "LRS") %>% 
-  select(treatment = Evolution_tSeatment_type, 
-         replicate = Evolution_treatment_replicate,
-         line = Evolution_treatment_unique,
-         environment = Assay_environment,
-         sex = Sex,
-         LRS = Rel_to_pol29_persex) %>% 
-  mutate(treatment = replace(treatment, treatment == "F", "Monogamy"),
-         treatment = replace(treatment, treatment == "M", "Malelimited"),
-         treatment = replace(treatment, treatment == "S", "Polygamy"),
-         LRS = as.numeric(scale(LRS)))
+<!-- ```{r warning=F, message=F} -->
+<!-- Martinossi_Allibert <- read_excel("input_data/MartinossiAllibert_dryad_data.xlsx", sheet = "LRS") %>%  -->
+<!--   select(treatment = Evolution_tSeatment_type,  -->
+<!--          replicate = Evolution_treatment_replicate, -->
+<!--          line = Evolution_treatment_unique, -->
+<!--          environment = Assay_environment, -->
+<!--          sex = Sex, -->
+<!--          LRS = Rel_to_pol29_persex) %>%  -->
+<!--   mutate(treatment = replace(treatment, treatment == "F", "Monogamy"), -->
+<!--          treatment = replace(treatment, treatment == "M", "Malelimited"), -->
+<!--          treatment = replace(treatment, treatment == "S", "Polygamy"), -->
+<!--          LRS = as.numeric(scale(LRS))) -->
 
-es <- (emmeans(lmer(LRS~ treatment*sex*environment + (1 | line), 
-             data = Martinossi_Allibert), specs = c("treatment", "sex")) %>% 
-  pairs() %>% 
-  as_tibble() %>% 
-  filter(str_detect(contrast, "Malelimited") & str_detect(contrast, "Monogamy")))[c(1,4), ] 
+<!-- es <- (emmeans(lmer(LRS~ treatment*sex*environment + (1 | line),  -->
+<!--              data = Martinossi_Allibert), specs = c("treatment", "sex")) %>%  -->
+<!--   pairs() %>%  -->
+<!--   as_tibble() %>%  -->
+<!--   filter(str_detect(contrast, "Malelimited") & str_detect(contrast, "Monogamy")))[c(1,4), ]  -->
 
-es$estimate[1] <- es$estimate[1] * -1 # flip effect size sign for females 
+<!-- es$estimate[1] <- es$estimate[1] * -1 # flip effect size sign for females  -->
 
-es <- es %>% 
-  mutate(Lower_95_CI = estimate - SE*1.96,
-         Upper_95_CI = estimate + SE*1.96)
+<!-- es <- es %>%  -->
+<!--   mutate(Lower_95_CI = estimate - SE*1.96, -->
+<!--          Upper_95_CI = estimate + SE*1.96) -->
 
-tibble(
-  Study = "Martinossi-Allibert et al. (2019) Evol. Applic., 12, 1371–1384",
-  Trait = "Female fitness",
-  Generations = 16,
-  Organism = "Callosobruchus maculatus",
-  Interpretation = "A positive effect would indicate that the relaxation of selection on females reduced female fitness, relative to the monogamy treatment which removed sexual selection yet maintained natural selection on both sexes (there is non-significant difference in the opposite direction).",
-  Estimate = es$estimate[1],
-  Var = es$SE[1] ^ 2,
-  Lower_95_CI = es$Lower_95_CI[1],
-  Upper_95_CI = es$Upper_95_CI[1]) %>% 
-  write_csv("effect_sizes/martinossiAllibert2019_1.csv")
-```
+<!-- tibble( -->
+<!--   Study = "Martinossi-Allibert et al. (2019) Evol. Applic., 12, 1371–1384", -->
+<!--   Trait = "Female fitness", -->
+<!--   Generations = 16, -->
+<!--   Organism = "Callosobruchus maculatus", -->
+<!--   Interpretation = "A positive effect would indicate that the relaxation of selection on females reduced female fitness, relative to the monogamy treatment which removed sexual selection yet maintained natural selection on both sexes (there is non-significant difference in the opposite direction).", -->
+<!--   Estimate = es$estimate[1], -->
+<!--   Var = es$SE[1] ^ 2, -->
+<!--   Lower_95_CI = es$Lower_95_CI[1], -->
+<!--   Upper_95_CI = es$Upper_95_CI[1]) %>%  -->
+<!--   write_csv("effect_sizes/martinossiAllibert2019_1.csv") -->
+<!-- ``` -->
 
-### Male fitness
-
-```{r}
-tibble(
-  Study = "Martinossi-Allibert et al. (2019) Evol. Applic., 12, 1371–1384",
-  Trait = "Male fitness",
-  Generations = 16,
-  Organism = "Callosobruchus maculatus",
-  Interpretation = "The positive effect indicates that the relaxation of selection on females increased male fitness, relative to the monogamy treatment which removed sexual selection yet maintained natural selection on both sexes.",
-  Estimate = es$estimate[2],
-  Var = es$SE[2] ^ 2,
-  Lower_95_CI = es$Lower_95_CI[2],
-  Upper_95_CI = es$Upper_95_CI[2]) %>% 
-  write_csv("effect_sizes/martinossiAllibert2019_2.csv")
-```
-
-
-
-## Baur and Berger (2020)
-
-Baur, J., & Berger, D. (2020). Experimental evidence for effects of sexual selection on condition-dependent mutation rates. Nature Ecology & Evolution, 4(5), 737–744.
-
-This study is mentioned in the paper, but I elected not to include it in the meta-analysis as it's unclear what the predictions should be under our hypothesis that there is intralocus sexual conflict. The study compares an 'N' treatment that was essentially enforced random monogamy with an 'S' treatment that relaxed selection on females and allowed sexual (and natural) selection on males. The S populations experience a lower fitness decline after irradiation, suggesting they are more resistant to mutation. But it's unclear whether the fixation of male-benefit female-detriment alleles in the S treatment should necessarily improve or reduce mutation resistance.
+<!-- ### Male fitness -->
 
 <!-- ```{r} -->
-<!-- dominant_load <- read_xlsx("input_data/baur_berger2020_figshare_data/dominant load.xlsx") -->
-
-<!-- # fit a sensible-seeming Poisson GLMM, accounting for block effects, genetic similarity in the F2, and replicate line -->
-<!-- # The sociosex experimental factor is added as a main effect since we're not much interested in it here -->
-<!-- fit <- glmer(offspring ~ regime*rad + sociosex + block + (1 | m_F0maleID) + (1 | f_F0maleID) + (1 | line),  -->
-<!--              data = dominant_load, family = "poisson") -->
-
-
-<!-- emm <- emmeans(fit, ~ regime | rad)  -->
-<!-- emmeans(fit, ~ rad | regime) %>% plot() -->
-
-<!-- delta <- contrast( -->
-<!--   emm, -->
-<!--   method = "revpairwise",   -->
-<!--   by = "regime" -->
-<!-- ) -->
-
-<!-- delta %>% plot() -->
-
-<!-- delta_diff <- contrast( -->
-<!--   delta, -->
-<!--   method = "pairwise", -->
-<!--   by = NULL -->
-<!-- ) -->
-
-<!-- df <- as_tibble(delta_diff[2,]) %>%  -->
-<!--   mutate(Cohens_d = -1 * estimate * sqrt(3) / pi, -->
-<!--          Cohens_SE = SE * sqrt(3) / pi, -->
-<!--          Cohens_Var = (SE^2) * sqrt(3) / pi, -->
-<!--          Lower_95_CI = (-1 * estimate - SE*1.96) * sqrt(3) / pi, -->
-<!--          Upper_95_CI = (-1 * estimate + SE*1.96) * sqrt(3) / pi) %>%  -->
-<!--   select(starts_with("Cohen"), ends_with("CI")) -->
-
-
-
-<!-- tibble(Study = "Baur and Berger (2020)", -->
-<!--        Trait = "Resistance to mutation", -->
-<!--        Generations = 41, -->
-<!--        Organism = "Callosobruchus maculatus", -->
-<!--        interpretation = "The positive effect size indicates that populations in which... .", -->
-<!--        Estimate = df$Cohens_d, -->
-<!--        Var = df$Cohens_Var, -->
-<!--        Lower_95_CI = df$Lower_95_CI, -->
-<!--        Upper_95_CI = df$Upper_95_CI) %>%  -->
-<!--   write_csv("effect_sizes/baur2020.csv") -->
-
+<!-- tibble( -->
+<!--   Study = "Martinossi-Allibert et al. (2019) Evol. Applic., 12, 1371–1384", -->
+<!--   Trait = "Male fitness", -->
+<!--   Generations = 16, -->
+<!--   Organism = "Callosobruchus maculatus", -->
+<!--   Interpretation = "The positive effect indicates that the relaxation of selection on females increased male fitness, relative to the monogamy treatment which removed sexual selection yet maintained natural selection on both sexes.", -->
+<!--   Estimate = es$estimate[2], -->
+<!--   Var = es$SE[2] ^ 2, -->
+<!--   Lower_95_CI = es$Lower_95_CI[2], -->
+<!--   Upper_95_CI = es$Upper_95_CI[2]) %>%  -->
+<!--   write_csv("effect_sizes/martinossiAllibert2019_2.csv") -->
 <!-- ``` -->
+
+
+
+<!-- ## Baur and Berger (2020) -->
+
+<!-- Baur, J., & Berger, D. (2020). Experimental evidence for effects of sexual selection on condition-dependent mutation rates. Nature Ecology & Evolution, 4(5), 737–744. -->
+
+<!-- This study is mentioned in the paper, but I elected not to include it in the meta-analysis as it's unclear what the predictions should be under our hypothesis that there is intralocus sexual conflict. The study compares an 'N' treatment that was essentially enforced random monogamy with an 'S' treatment that relaxed selection on females and allowed sexual (and natural) selection on males. The S populations experience a lower fitness decline after irradiation, suggesting they are more resistant to mutation. But it's unclear whether the fixation of male-benefit female-detriment alleles in the S treatment should necessarily improve or reduce mutation resistance. -->
+
+<!-- <!-- ```{r} --> -->
+<!-- <!-- dominant_load <- read_xlsx("input_data/baur_berger2020_figshare_data/dominant load.xlsx") --> -->
+
+<!-- <!-- # fit a sensible-seeming Poisson GLMM, accounting for block effects, genetic similarity in the F2, and replicate line --> -->
+<!-- <!-- # The sociosex experimental factor is added as a main effect since we're not much interested in it here --> -->
+<!-- <!-- fit <- glmer(offspring ~ regime*rad + sociosex + block + (1 | m_F0maleID) + (1 | f_F0maleID) + (1 | line),  --> -->
+<!-- <!--              data = dominant_load, family = "poisson") --> -->
+
+
+<!-- <!-- emm <- emmeans(fit, ~ regime | rad)  --> -->
+<!-- <!-- emmeans(fit, ~ rad | regime) %>% plot() --> -->
+
+<!-- <!-- delta <- contrast( --> -->
+<!-- <!--   emm, --> -->
+<!-- <!--   method = "revpairwise",   --> -->
+<!-- <!--   by = "regime" --> -->
+<!-- <!-- ) --> -->
+
+<!-- <!-- delta %>% plot() --> -->
+
+<!-- <!-- delta_diff <- contrast( --> -->
+<!-- <!--   delta, --> -->
+<!-- <!--   method = "pairwise", --> -->
+<!-- <!--   by = NULL --> -->
+<!-- <!-- ) --> -->
+
+<!-- <!-- df <- as_tibble(delta_diff[2,]) %>%  --> -->
+<!-- <!--   mutate(Cohens_d = -1 * estimate * sqrt(3) / pi, --> -->
+<!-- <!--          Cohens_SE = SE * sqrt(3) / pi, --> -->
+<!-- <!--          Cohens_Var = (SE^2) * sqrt(3) / pi, --> -->
+<!-- <!--          Lower_95_CI = (-1 * estimate - SE*1.96) * sqrt(3) / pi, --> -->
+<!-- <!--          Upper_95_CI = (-1 * estimate + SE*1.96) * sqrt(3) / pi) %>%  --> -->
+<!-- <!--   select(starts_with("Cohen"), ends_with("CI")) --> -->
+
+
+
+<!-- <!-- tibble(Study = "Baur and Berger (2020)", --> -->
+<!-- <!--        Trait = "Resistance to mutation", --> -->
+<!-- <!--        Generations = 41, --> -->
+<!-- <!--        Organism = "Callosobruchus maculatus", --> -->
+<!-- <!--        interpretation = "The positive effect size indicates that populations in which... .", --> -->
+<!-- <!--        Estimate = df$Cohens_d, --> -->
+<!-- <!--        Var = df$Cohens_Var, --> -->
+<!-- <!--        Lower_95_CI = df$Lower_95_CI, --> -->
+<!-- <!--        Upper_95_CI = df$Upper_95_CI) %>%  --> -->
+<!-- <!--   write_csv("effect_sizes/baur2020.csv") --> -->
+
+<!-- <!-- ``` --> -->
 
 
 
