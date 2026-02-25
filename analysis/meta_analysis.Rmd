@@ -75,6 +75,7 @@ meta_analysis_data <- list.files("effect_sizes/", full.names = T) %>%
 ## Data collected for the meta-analysis
 
 ```{r include = F}
+# hidden code chunk that counts up the sample sizes
 n_expts <- meta_analysis_data$Origin_of_lines %>% unique() %>% length()
 n_pubs <- meta_analysis_data$Study %>% unique() %>% length()
 n_effects <- nrow(meta_analysis_data)
@@ -109,7 +110,6 @@ summary(meta_analysis)
 The above results table shows that the grand mean effect size is `r pretty3(as.numeric(meta_analysis$b))`, with a standard error of `r pretty3(meta_analysis$se)` and 95% CIs of `r pretty3(meta_analysis$ci.lb)` to `r pretty3(meta_analysis$ci.ub)`.
 
 ## Testing for effects of moderators
-
 
 Here, I use AICc model selection to compare 7 competing meta-analysis models, which fit `Generations`, `Sex`, `Experiment_type`, a combination of 2 or all of these, or the intercept-only null model. `Generations` gives the number of generations of selection at the time the focal trait was measured, `Sex` gives the sex of the individuals expressing the trait (male, female, or both sexes), and `Experiment_type` is either "Sex-specific inheritance" or "Sex-specific relaxation of selection".
 
@@ -245,11 +245,18 @@ plot_data %>%
   # scale_color_brewer(palette = "Set1") + 
   geom_rect(
     data = bands,
-    aes(ymin = ymin, ymax = ymax, xmin = -Inf, xmax = Inf, fill = factor(stripe)),
+    aes(
+      ymin = ymin, 
+      ymax = ymax, 
+      xmin = -Inf, 
+      xmax = Inf, 
+      fill = factor(stripe)
+    ),
     alpha = 0.1,
-    inherit.aes = FALSE,
-    fill = rep(c("purple", "orange"), 6)
-  )
+    inherit.aes = FALSE
+  ) +
+  scale_fill_manual(values = c("0" = "purple", "1" = "orange")) +
+  guides(fill = "none")
 ```
 
 **Figure 1**: Forest plot showing the estimated effect sizes (Cohen's _d_ \(\pm \) 95% CIs). The y-axis indicates which trait was measured, and the coloured bands group effect sizes that come from the same set of experimental evolution lines (which are covered in one or more publications, named on the right). Positive effect sizes indicate evolutionary change in the direction predicted under IaSC, while negative effects indicate evolution in the opposite direction. Point colour differentiates between studies that manipulated inheritance vs selection. The grand mean effect size, shown at the bottom, is significantly positive. 
