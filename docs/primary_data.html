@@ -402,7 +402,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2026-02-25
+<strong>Last updated:</strong> 2026-02-26
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -533,15 +533,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree9cb6a11cf325f1b36b5fa2e7318b9a0e50b765b1targetblank9cb6a11a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree1879f8338da34e3f16501a55345a308fcbbd638ftargetblank1879f83a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/9cb6a11cf325f1b36b5fa2e7318b9a0e50b765b1" target="_blank">9cb6a11</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/1879f8338da34e3f16501a55345a308fcbbd638f" target="_blank">1879f83</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree9cb6a11cf325f1b36b5fa2e7318b9a0e50b765b1targetblank9cb6a11a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree1879f8338da34e3f16501a55345a308fcbbd638ftargetblank1879f83a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -551,7 +551,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/9cb6a11cf325f1b36b5fa2e7318b9a0e50b765b1" target="_blank">9cb6a11</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/1879f8338da34e3f16501a55345a308fcbbd638f" target="_blank">1879f83</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -581,12 +581,18 @@ Ignored files:
     Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/ThoraxSizeGeneration15-18/.Rapp.history
     Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/ThoraxSizeGeneration72/.Rapp.history
 
+Untracked files:
+    Untracked:  effect_sizes/jiang_2011_1.csv
+    Untracked:  effect_sizes/jiang_2011_2.csv
+    Untracked:  effect_sizes/jiang_2011_3.csv
+
 Unstaged changes:
-    Modified:   analysis/meta_analysis.Rmd
     Deleted:    data/README.md
+    Modified:   effect_sizes/abbott_2013_2.csv
     Deleted:    effect_sizes/martinossiAllibert2019_1.csv
     Deleted:    effect_sizes/martinossiAllibert2019_2.csv
     Modified:   effect_sizes/melo_gavin2025_maleharm.csv
+    Modified:   input_data/study_metadata.csv
     Deleted:    output/README.md
 
 </code></pre>
@@ -632,6 +638,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/1879f8338da34e3f16501a55345a308fcbbd638f/analysis/primary_data.Rmd" target="_blank">1879f83</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-26
+</td>
+<td>
+wflow_publish("analysis/primary_data.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/39db66a28cdaaac6710509fe07865f3cc0aed778/docs/primary_data.html" target="_blank">39db66a</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-25
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -4771,7 +4811,377 @@ ML
 (2011). Sperm competition and mate harm unresponsive to male-limited
 selection in <em>Drosophila</em>: An evolving genetic architecture under
 domestication. <em>Evolution</em>, 65(9), 2448–2460.</p>
-<pre class="r"><code># IDEALLY ASK ADAM FOR THE RAW DATA - complex design, sample size info is incomplete</code></pre>
+<div id="mating-defence" class="section level3">
+<h3>Mating defence</h3>
+<div id="jiang-et-al.s-original-data" class="section level4">
+<h4>Jiang et al.’s original data</h4>
+<p>These data were transcribed from the right 2 columns in Figure 2A
+(i.e. using the data for LH_ST females, since these better measure the
+effects of male-limitation rather than adaptation to the clone generator
+females) using PlotDigitiser. The sample size is estimated based on the
+overall number of replicates being 12.6 (mentioned in the text) with 10
+females per replicate. This is a bit pseudo-replicated, overstating the
+precision of the effect size.</p>
+<pre class="r"><code>df &lt;- tibble(
+  mean = c(0.6349673427294603, 0.5952973530422826),
+  SE = c(0.6734272946029564 - 0.6349673427294603, 
+         0.628030250945342 - 0.5952973530422826),
+  SD = SE * sqrt(126),
+  N = c(126, 126),
+  treatment = c(&quot;MLE&quot;, &quot;control&quot;)
+)
+
+df %&gt;% 
+  kable() %&gt;% 
+  kable_styling(full_width = F)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+SE
+</th>
+<th style="text-align:right;">
+SD
+</th>
+<th style="text-align:right;">
+N
+</th>
+<th style="text-align:left;">
+treatment
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0.6349673
+</td>
+<td style="text-align:right;">
+0.0384600
+</td>
+<td style="text-align:right;">
+0.4317119
+</td>
+<td style="text-align:right;">
+126
+</td>
+<td style="text-align:left;">
+MLE
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0.5952974
+</td>
+<td style="text-align:right;">
+0.0327329
+</td>
+<td style="text-align:right;">
+0.3674259
+</td>
+<td style="text-align:right;">
+126
+</td>
+<td style="text-align:left;">
+control
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="calculating-effect-size-9" class="section level3">
+<h3>Calculating effect size</h3>
+<pre class="r"><code>mes(m.1 = df$mean[2], m.2 = df$mean[1],
+    sd.1 = df$SD[2], sd.2 = df$SD[1],
+    n.1 = df$N[2], n.2 = df$N[1], verbose = F) %&gt;% 
+  parse_es(study = &quot;Jiang et al. (2011) Evolution 65-9: 2448–2460&quot;, 
+           trait = &quot;Mating defence&quot;, 
+           generations = 65, 
+           organism = &quot;Drosophila melanogaster&quot;, 
+           interpretation = &quot;A positive effect size would mean that the mates of males carrying haplotypes that had undergone male-limited evolution are less likely to remate with a new male, compared to the mates of control males (the effect goes non-significantly in the opposite direction, though).&quot;) %&gt;% 
+   write_csv(&quot;effect_sizes/jiang_2011_1.csv&quot;)</code></pre>
+</div>
+<div id="sperm-defence-1" class="section level3">
+<h3>Sperm defence</h3>
+<div id="jiang-et-al.s-original-data-1" class="section level4">
+<h4>Jiang et al.’s original data</h4>
+<p>These data were transcribed from the right 2 columns in Figure 2B
+(i.e. using the data for LH_ST females, since these better measure the
+effects of male-limitation rather than adaptation to the clone generator
+females) using PlotDigitiser. Same sample size estimate as before.</p>
+<pre class="r"><code>df &lt;- tibble(
+  mean = c(0.293426235316184, 0.2820820973803586),
+  SE = c(0.30766024550020493 - 0.293426235316184, 
+         0.29350959701565116 - 0.2820820973803586),
+  SD = SE * sqrt(126),
+  N = c(126, 126),
+  treatment = c(&quot;MLE&quot;, &quot;control&quot;)
+)
+
+df %&gt;% 
+  kable() %&gt;% 
+  kable_styling(full_width = F)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+SE
+</th>
+<th style="text-align:right;">
+SD
+</th>
+<th style="text-align:right;">
+N
+</th>
+<th style="text-align:left;">
+treatment
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0.2934262
+</td>
+<td style="text-align:right;">
+0.0142340
+</td>
+<td style="text-align:right;">
+0.1597764
+</td>
+<td style="text-align:right;">
+126
+</td>
+<td style="text-align:left;">
+MLE
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0.2820821
+</td>
+<td style="text-align:right;">
+0.0114275
+</td>
+<td style="text-align:right;">
+0.1282734
+</td>
+<td style="text-align:right;">
+126
+</td>
+<td style="text-align:left;">
+control
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="calculating-effect-size-10" class="section level3">
+<h3>Calculating effect size</h3>
+<pre class="r"><code>mes(m.1 = df$mean[1], m.2 = df$mean[2],
+    sd.1 = df$SD[1], sd.2 = df$SD[2],
+    n.1 = df$N[1], n.2 = df$N[2], verbose = F) %&gt;% 
+  parse_es(study = &quot;Jiang et al. (2011) Evolution 65-9: 2448–2460&quot;, 
+           trait = &quot;Sperm defence&quot;, 
+           generations = 65, 
+           organism = &quot;Drosophila melanogaster&quot;, 
+           interpretation = &quot;A positive effect size would mean that males carrying haplotypes that had undergone male-limited evolution sire more offspring when mating first with twice-mated females, compared to control males (the effect goes non-significantly in the opposite direction, though).&quot;) %&gt;% 
+   write_csv(&quot;effect_sizes/jiang_2011_2.csv&quot;)</code></pre>
+</div>
+<div id="male-mating-success" class="section level3">
+<h3>Male mating success</h3>
+<div id="jiang-et-al.s-original-data-2" class="section level4">
+<h4>Jiang et al.’s original data</h4>
+<p>These data were transcribed from the right 2 columns in Figure 3A
+(i.e. using the data for LH_ST females, since these better measure the
+effects of male-limitation rather than adaptation to the clone generator
+females) using PlotDigitiser. Same sample size estimate as before. Note
+this trait is called ‘Mating offence’ in the paper since the females had
+previously mated, but we’ve renamed it here for clarity outside the
+context of Jiang et al. and consistency with other traits in the
+meta-analysis.</p>
+<pre class="r"><code>df &lt;- tibble(
+  mean = c(0.7297174519489161, 0.730766769892253),
+  SE = c(0.7630716863307143 - 0.7297174519489161, 
+         0.7582729762239909 - 0.730766769892253),
+  SD = SE * sqrt(126),
+  N = c(126, 126),
+  treatment = c(&quot;MLE&quot;, &quot;control&quot;)
+)
+
+df %&gt;% 
+  kable() %&gt;% 
+  kable_styling(full_width = F)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+SE
+</th>
+<th style="text-align:right;">
+SD
+</th>
+<th style="text-align:right;">
+N
+</th>
+<th style="text-align:left;">
+treatment
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0.7297175
+</td>
+<td style="text-align:right;">
+0.0333542
+</td>
+<td style="text-align:right;">
+0.3744004
+</td>
+<td style="text-align:right;">
+126
+</td>
+<td style="text-align:left;">
+MLE
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0.7307668
+</td>
+<td style="text-align:right;">
+0.0275062
+</td>
+<td style="text-align:right;">
+0.3087564
+</td>
+<td style="text-align:right;">
+126
+</td>
+<td style="text-align:left;">
+control
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="calculating-effect-size-11" class="section level3">
+<h3>Calculating effect size</h3>
+<pre class="r"><code>mes(m.1 = df$mean[1], m.2 = df$mean[2],
+    sd.1 = df$SD[1], sd.2 = df$SD[2],
+    n.1 = df$N[1], n.2 = df$N[2], verbose = F) %&gt;% 
+  parse_es(study = &quot;Jiang et al. (2011) Evolution 65-9: 2448–2460&quot;, 
+           trait = &quot;Male mating success&quot;, 
+           generations = 65, 
+           organism = &quot;Drosophila melanogaster&quot;, 
+           interpretation = &quot;A positive effect size would mean that the males carrying haplotypes that had undergone male-limited evolution are more likely to mate with females, compared to the mates of control males (there is no difference in mating rates, though).&quot;) %&gt;% 
+   write_csv(&quot;effect_sizes/jiang_2011_3.csv&quot;)</code></pre>
+</div>
+<div id="sperm-offence-1" class="section level3">
+<h3>Sperm offence</h3>
+<div id="jiang-et-al.s-original-data-3" class="section level4">
+<h4>Jiang et al.’s original data</h4>
+<p>These data were transcribed from the right 2 columns in Figure 3B
+(i.e. using the data for LH_ST females, since these better measure the
+effects of male-limitation rather than adaptation to the clone generator
+females) using PlotDigitiser. Same sample size estimate as before.</p>
+<pre class="r"><code>df &lt;- tibble(
+  mean = c(0.8227287156371025, 0.8270903434702559),
+  SE = c(0.8284807313821345 - 0.8227287156371025, 
+         0.8337502380801219 - 0.8270903434702559),
+  SD = SE * sqrt(126),
+  N = c(126, 126),
+  treatment = c(&quot;MLE&quot;, &quot;control&quot;)
+)
+
+df %&gt;% 
+  kable() %&gt;% 
+  kable_styling(full_width = F)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+SE
+</th>
+<th style="text-align:right;">
+SD
+</th>
+<th style="text-align:right;">
+N
+</th>
+<th style="text-align:left;">
+treatment
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0.8227287
+</td>
+<td style="text-align:right;">
+0.0057520
+</td>
+<td style="text-align:right;">
+0.0645662
+</td>
+<td style="text-align:right;">
+126
+</td>
+<td style="text-align:left;">
+MLE
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0.8270903
+</td>
+<td style="text-align:right;">
+0.0066599
+</td>
+<td style="text-align:right;">
+0.0747571
+</td>
+<td style="text-align:right;">
+126
+</td>
+<td style="text-align:left;">
+control
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="calculating-effect-size-12" class="section level3">
+<h3>Calculating effect size</h3>
+<pre class="r"><code>mes(m.1 = df$mean[1], m.2 = df$mean[2],
+    sd.1 = df$SD[1], sd.2 = df$SD[2],
+    n.1 = df$N[1], n.2 = df$N[2], verbose = F) %&gt;% 
+  parse_es(study = &quot;Jiang et al. (2011) Evolution 65-9: 2448–2460&quot;, 
+           trait = &quot;Sperm offence&quot;, 
+           generations = 65, 
+           organism = &quot;Drosophila melanogaster&quot;, 
+           interpretation = &quot;Apositive effect size would mean that males carrying haplotypes that had undergone male-limited evolution sire more offspring when mating second with twice-mated females, compared to control males (there is no difference in mating rates, though).&quot;) %&gt;% 
+   write_csv(&quot;effect_sizes/jiang_2011_4.csv&quot;)</code></pre>
+</div>
 </div>
 <div id="bedhomme-et-al.-2011" class="section level2">
 <h2>Bedhomme et al. (2011)</h2>
@@ -4859,7 +5269,7 @@ Male-limited evolution
 </tbody>
 </table>
 </div>
-<div id="calculating-effect-size-9" class="section level3">
+<div id="calculating-effect-size-13" class="section level3">
 <h3>Calculating effect size</h3>
 <pre class="r"><code>mes(m.2 = 34.518, m.1 = 35.003,
     sd.2 = 0.351 * sqrt(120), sd.1 = 0.322 * sqrt(120),
@@ -5696,7 +6106,7 @@ tibble(Study = &quot;Lund-Hansen et al. (2020) Evolution 74, 2703–2713&quot;,
 <p>Manat, Y., Lund-Hansen, K. K., Katsianis, G., &amp; Abbott, J. K.
 (2021). Female-limited X-chromosome evolution effects on male pre- and
 post-copulatory success. <em>Biology Letters</em>, 17, 20200915.</p>
-<div id="male-mating-success" class="section level3">
+<div id="male-mating-success-1" class="section level3">
 <h3>Male mating success</h3>
 <div id="manat-et-al.s-original-data" class="section level4">
 <h4>Manat et al.’s original data</h4>
@@ -5749,7 +6159,7 @@ CFM
 </tbody>
 </table>
 </div>
-<div id="calculating-effect-size-10" class="section level4">
+<div id="calculating-effect-size-14" class="section level4">
 <h4>Calculating effect size</h4>
 <pre class="r"><code>as.matrix(df[,2:3]) %&gt;% 
   get_effect_size_2x2_matrix() %&gt;% 
@@ -5825,7 +6235,7 @@ CFM
 </tbody>
 </table>
 </div>
-<div id="calculating-effect-size-11" class="section level4">
+<div id="calculating-effect-size-15" class="section level4">
 <h4>Calculating effect size</h4>
 <pre class="r"><code>mes(m.1 = df$mean[1],
     m.2 = df$mean[2],
@@ -5903,7 +6313,7 @@ CFM
 </tbody>
 </table>
 </div>
-<div id="calculating-effect-size-12" class="section level4">
+<div id="calculating-effect-size-16" class="section level4">
 <h4>Calculating effect size</h4>
 <pre class="r"><code>mes(m.1 = df$mean[2],
     m.2 = df$mean[1],
@@ -5981,7 +6391,7 @@ CFM
 </tbody>
 </table>
 </div>
-<div id="calculating-effect-size-13" class="section level4">
+<div id="calculating-effect-size-17" class="section level4">
 <h4>Calculating effect size</h4>
 <pre class="r"><code>mes(m.1 = df$mean[2],
     m.2 = df$mean[1],
@@ -6163,7 +6573,7 @@ tibble(Study = &quot;Thyagarajan et al. (2025) J. Hered. esaf072&quot;,
        Upper_95_CI = LOR_effects$Upper_95_CI) %&gt;% 
   write_csv(&quot;effect_sizes/thyagarajan2025_1.csv&quot;)</code></pre>
 </div>
-<div id="male-mating-success-1" class="section level3">
+<div id="male-mating-success-2" class="section level3">
 <h3>Male mating success</h3>
 <pre class="r"><code>mating_competition &lt;- read_csv(&quot;input_data/Thyagarajan_2025_dryad_data/M_MC_wt.cr.csv&quot;,
                                show_col_types = F) %&gt;% 
