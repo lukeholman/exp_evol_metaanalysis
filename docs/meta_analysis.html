@@ -551,15 +551,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree734cb56cfb9ab64be01adc3451baf7b3d2388223targetblank734cb56a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree6686ad2bfdce1fe88a03d9b2c0fda8ecf3dd1f0ctargetblank6686ad2a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/734cb56cfb9ab64be01adc3451baf7b3d2388223" target="_blank">734cb56</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/6686ad2bfdce1fe88a03d9b2c0fda8ecf3dd1f0c" target="_blank">6686ad2</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree734cb56cfb9ab64be01adc3451baf7b3d2388223targetblank734cb56a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree6686ad2bfdce1fe88a03d9b2c0fda8ecf3dd1f0ctargetblank6686ad2a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -569,7 +569,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/734cb56cfb9ab64be01adc3451baf7b3d2388223" target="_blank">734cb56</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/6686ad2bfdce1fe88a03d9b2c0fda8ecf3dd1f0c" target="_blank">6686ad2</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -668,6 +668,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/6686ad2bfdce1fe88a03d9b2c0fda8ecf3dd1f0c/analysis/meta_analysis.Rmd" target="_blank">6686ad2</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-26
+</td>
+<td>
+Figure improvements
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/8d9eb2b5652334ec7ecd14bce45c735f541cc0d1/docs/meta_analysis.html" target="_blank">8d9eb2b</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1655,6 +1689,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/8d9eb2b5652334ec7ecd14bce45c735f541cc0d1/docs/figure/meta_analysis.Rmd/unnamed-chunk-9-1.png" target="_blank">8d9eb2b</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-26
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/f80a6dd7cdf77582a834685c87da3d954f239553/docs/figure/meta_analysis.Rmd/unnamed-chunk-9-1.png" target="_blank">f80a6dd</a>
 </td>
 <td>
@@ -1799,13 +1844,15 @@ driven by a couple of studies, Lund-Hansen et al. (2020) and Manat et
 al. (2021), which both relate to the same set of experimental evolution
 lines, and which both focus on female-limited evolution of X chromosomes
 (uniquely in the full dataset). I also calculated the effect sizes from
-the raw data for these studies, avoiding issues with falsely inflating
-them. to the left of the x-axis (short generation number), the trend is
-driven by a couple of older studies I calculated the effect sizes from
-summary statistics, possibly inflating them.</p>
+the raw data for these studies, which avoids falsely inflated the effect
+sizes (as for some studies where only the overall means were available,
+incurring pseudoreplication). To the left of the x-axis (short
+generation number), the trend is driven by a couple of older studies I
+calculated the effect sizes from overall means, possibly inflating
+them.</p>
 <p>Therefore, I don’t feel there is good evidence for a true negative
-effect of <code>Generations</code>, and this result instead reflects
-confounding.</p>
+effect of <code>Generations</code>, since this result could easily
+result from confounding.</p>
 <pre class="r"><code>library(ggrepel)
 meta_analysis_data %&gt;% 
   ggplot(aes(Generations, Estimate)) + 
@@ -1834,6 +1881,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/8d9eb2b5652334ec7ecd14bce45c735f541cc0d1/docs/figure/meta_analysis.Rmd/unnamed-chunk-10-1.png" target="_blank">8d9eb2b</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-26
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/f80a6dd7cdf77582a834685c87da3d954f239553/docs/figure/meta_analysis.Rmd/unnamed-chunk-10-1.png" target="_blank">f80a6dd</a>
