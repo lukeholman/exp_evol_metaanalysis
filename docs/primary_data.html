@@ -533,15 +533,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreed0a61c00508a47dbd1555d5dc432d12d36f8abedtargetblankd0a61c0a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree5ad4bc9b00ca18d74c637d75a8b6318f8feccaadtargetblank5ad4bc9a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/d0a61c00508a47dbd1555d5dc432d12d36f8abed" target="_blank">d0a61c0</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/5ad4bc9b00ca18d74c637d75a8b6318f8feccaad" target="_blank">5ad4bc9</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreed0a61c00508a47dbd1555d5dc432d12d36f8abedtargetblankd0a61c0a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree5ad4bc9b00ca18d74c637d75a8b6318f8feccaadtargetblank5ad4bc9a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -551,7 +551,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/d0a61c00508a47dbd1555d5dc432d12d36f8abed" target="_blank">d0a61c0</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/5ad4bc9b00ca18d74c637d75a8b6318f8feccaad" target="_blank">5ad4bc9</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -586,6 +586,10 @@ Untracked files:
     Untracked:  effect_sizes/jiang_2011_2.csv
     Untracked:  effect_sizes/jiang_2011_3.csv
     Untracked:  effect_sizes/jiang_2011_4.csv
+    Untracked:  effect_sizes/prasad2007_1.csv
+    Untracked:  effect_sizes/prasad2007_2.csv
+    Untracked:  effect_sizes/prasad2007_3.csv
+    Untracked:  effect_sizes/prasad2007_4.csv
 
 Unstaged changes:
     Deleted:    data/README.md
@@ -639,6 +643,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/5ad4bc9b00ca18d74c637d75a8b6318f8feccaad/analysis/primary_data.Rmd" target="_blank">5ad4bc9</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-26
+</td>
+<td>
+wflow_publish("analysis/primary_data.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/145ea3c19e18b31dc92ff7ed78616ca5bf28243d/docs/primary_data.html" target="_blank">145ea3c</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -4298,17 +4336,15 @@ male-limited evolution. <em>The American Naturalist</em>, 169,
 <h3>Male and female fitness</h3>
 <div id="prasad-et-al.s-original-data" class="section level4">
 <h4>Prasad et al.’s original data</h4>
-<p>The data come from Figure 2 (transcribed with PlotDigitizer).</p>
+<p>The data come from Figure 2 (transcribed with PlotDigitizer). The
+same size is given as n=15 per replicate population (there were 4
+replicates for the control and 4 for the male-limited treatment).</p>
 <pre class="r"><code>df &lt;- data.frame(
-  treatment = c(
-    &quot;control&quot;,&quot;control&quot;, &quot;male_evolved&quot;, &quot;male_evolved&quot;),
-  sex = c(
-    &quot;female&quot;,&quot;male&quot;,&quot;female&quot;,&quot;male&quot;),
-  mean = c(
-    0.858247281,0.73376332,0.785461824,0.845795256),
-  SE = c(
-    0.015168311,0.015320071,0.015529016,0.015670879
-  )
+  treatment = c(&quot;control&quot;,&quot;control&quot;, &quot;male_evolved&quot;, &quot;male_evolved&quot;),
+  sex = c(&quot;female&quot;, &quot;male&quot;, &quot;female&quot;, &quot;male&quot;),
+  mean = c(0.858247281, 0.73376332, 0.785461824, 0.845795256),
+  SE = c(0.015168311, 0.015320071, 0.015529016, 0.015670879),
+  n = rep(60, 4)
 )
 
 kable(df) %&gt;% 
@@ -4328,6 +4364,9 @@ mean
 <th style="text-align:right;">
 SE
 </th>
+<th style="text-align:right;">
+n
+</th>
 </tr>
 </thead>
 <tbody>
@@ -4344,6 +4383,9 @@ female
 <td style="text-align:right;">
 0.0151683
 </td>
+<td style="text-align:right;">
+60
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -4357,6 +4399,9 @@ male
 </td>
 <td style="text-align:right;">
 0.0153201
+</td>
+<td style="text-align:right;">
+60
 </td>
 </tr>
 <tr>
@@ -4372,6 +4417,9 @@ female
 <td style="text-align:right;">
 0.0155290
 </td>
+<td style="text-align:right;">
+60
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -4386,43 +4434,323 @@ male
 <td style="text-align:right;">
 0.0156709
 </td>
+<td style="text-align:right;">
+60
+</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div id="calculating-effect-size-6" class="section level4">
 <h4>Calculating effect size</h4>
-<p>The effect size was calculated from the means and standard errors for
-each treatment, separately for both male fitness and female fitness.</p>
-<!-- This approach is not ideal because it ignores the experimental design (there were 4 replicate lines, and the study does not show the data for each one). -->
-<pre class="r"><code># mes(m.1 = df$mean[df$treatment == &quot;control&quot; &amp; df$sex == &quot;female&quot;],
-#     m.2 = df$mean[df$treatment == &quot;male_evolved&quot; &amp; df$sex == &quot;female&quot;],
-#     sd.1 = df$SE[df$treatment == &quot;control&quot; &amp; df$sex == &quot;female&quot;] * sqrt(15),
-#     sd.2 = df$SE[df$treatment == &quot;male_evolved&quot; &amp; df$sex == &quot;female&quot;] * sqrt(15),
-#     n.1 = 15, n.2 = 15, verbose=F) %&gt;% 
-#   parse_es()
-# 
-# mes(m.1 = df$mean[df$treatment == &quot;control&quot; &amp; df$sex == &quot;male&quot;],
-#     m.2 = df$mean[df$treatment == &quot;male_evolved&quot; &amp; df$sex == &quot;male&quot;],
-#     sd.1 = df$SE[df$treatment == &quot;control&quot; &amp; df$sex == &quot;male&quot;] * sqrt(15),
-#     sd.2 = df$SE[df$treatment == &quot;male_evolved&quot; &amp; df$sex == &quot;male&quot;] * sqrt(15),
-#     n.1 = 15, n.2 = 15, verbose=F) %&gt;% 
-#   parse_es()</code></pre>
+<pre class="r"><code># For female fitness:
+mes(m.1 = df$mean[df$treatment == &quot;control&quot; &amp; df$sex == &quot;female&quot;],
+    m.2 = df$mean[df$treatment == &quot;male_evolved&quot; &amp; df$sex == &quot;female&quot;],
+    sd.1 = df$SE[df$treatment == &quot;control&quot; &amp; df$sex == &quot;female&quot;] * sqrt(60),
+    sd.2 = df$SE[df$treatment == &quot;male_evolved&quot; &amp; df$sex == &quot;female&quot;] * sqrt(60),
+    n.1 = 60, n.2 = 60, verbose=F) %&gt;%
+  parse_es(study = &quot;Prasad et al. (2007) Am. Nat. 169, 29-37&quot;,
+           generations = 25,
+           organism = &quot;Drosophila melanogaster&quot;,
+           trait = &quot;Female fitness (2007)&quot;,
+           interpretation = &quot;This positive effect size indicates that females carrying male-evolved haplotypes were less fit than control females.&quot;) %&gt;% 
+  write_csv(&quot;effect_sizes/prasad2007_1.csv&quot;)
+
+# For male fitness:
+mes(m.2 = df$mean[df$treatment == &quot;control&quot; &amp; df$sex == &quot;male&quot;],
+    m.1 = df$mean[df$treatment == &quot;male_evolved&quot; &amp; df$sex == &quot;male&quot;],
+    sd.2 = df$SE[df$treatment == &quot;control&quot; &amp; df$sex == &quot;male&quot;] * sqrt(60),
+    sd.1 = df$SE[df$treatment == &quot;male_evolved&quot; &amp; df$sex == &quot;male&quot;] * sqrt(60),
+    n.1 = 60, n.2 = 60, verbose=F) %&gt;%
+  parse_es(study = &quot;Prasad et al. (2007) Am. Nat. 169, 29-37&quot;,
+           generations = 25,
+           organism = &quot;Drosophila melanogaster&quot;,
+           trait = &quot;Male fitness (2007)&quot;,
+           interpretation = &quot;This positive effect size indicates that males carrying male-evolved haplotypes were fitter than control males.&quot;) %&gt;% 
+  write_csv(&quot;effect_sizes/prasad2007_2.csv&quot;)</code></pre>
 </div>
 </div>
 <div id="development-time" class="section level3">
 <h3>Development time</h3>
-<p>to do…</p>
+<div id="prasad-et-al.s-original-data-1" class="section level4">
+<h4>Prasad et al.’s original data</h4>
+<p>These data (development time in hours) are presented in prose in the
+Results. The sample size is not recorded, so we estimated it as n=60
+flies per treatment (a feasible number of individuals on the same order
+as the same study’s fitness assays). An error here would over- or
+under-inflate the effect size precision, but likely not have a major
+effect on the overall effect size estimate.</p>
+<pre class="r"><code>df &lt;- data.frame(
+  treatment = c(&quot;control&quot;,&quot;control&quot;, &quot;male_evolved&quot;, &quot;male_evolved&quot;),
+  sex = c(&quot;female&quot;, &quot;male&quot;, &quot;female&quot;, &quot;male&quot;),
+  mean = c(224.8, 225.9, 227.0, 229.8),
+  SE = c(0.61, 0.59, 0.57, 0.54),
+  n = rep(60, 4)
+)
+
+kable(df) %&gt;% 
+  kable_styling(full_width = F)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+treatment
+</th>
+<th style="text-align:left;">
+sex
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+SE
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:right;">
+224.8
+</td>
+<td style="text-align:right;">
+0.61
+</td>
+<td style="text-align:right;">
+60
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:right;">
+225.9
+</td>
+<td style="text-align:right;">
+0.59
+</td>
+<td style="text-align:right;">
+60
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+male_evolved
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:right;">
+227.0
+</td>
+<td style="text-align:right;">
+0.57
+</td>
+<td style="text-align:right;">
+60
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+male_evolved
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:right;">
+229.8
+</td>
+<td style="text-align:right;">
+0.54
+</td>
+<td style="text-align:right;">
+60
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="calculating-effect-size-7" class="section level4">
+<h4>Calculating effect size</h4>
+<pre class="r"><code># For female DT:
+mes(m.2 = df$mean[df$treatment == &quot;control&quot; &amp; df$sex == &quot;female&quot;],
+    m.1 = df$mean[df$treatment == &quot;male_evolved&quot; &amp; df$sex == &quot;female&quot;],
+    sd.2 = df$SE[df$treatment == &quot;control&quot; &amp; df$sex == &quot;female&quot;] * sqrt(60),
+    sd.1 = df$SE[df$treatment == &quot;male_evolved&quot; &amp; df$sex == &quot;female&quot;] * sqrt(60),
+    n.1 = 60, n.2 = 60, verbose=F) %&gt;%
+  parse_es(study = &quot;Prasad et al. (2007) Am. Nat. 169, 29-37&quot;,
+           generations = 25,
+           organism = &quot;Drosophila melanogaster&quot;,
+           trait = &quot;Female development time&quot;,
+           interpretation = &quot;This positive effect size indicates that females carrying male-evolved haplotypes developed faster than control females  (i.e. have a masculinised phenotype).&quot;) %&gt;% 
+  write_csv(&quot;effect_sizes/prasad2007_3.csv&quot;)
+
+# For male DT:
+mes(m.2 = df$mean[df$treatment == &quot;control&quot; &amp; df$sex == &quot;male&quot;],
+    m.1 = df$mean[df$treatment == &quot;male_evolved&quot; &amp; df$sex == &quot;male&quot;],
+    sd.2 = df$SE[df$treatment == &quot;control&quot; &amp; df$sex == &quot;male&quot;] * sqrt(60),
+    sd.1 = df$SE[df$treatment == &quot;male_evolved&quot; &amp; df$sex == &quot;male&quot;] * sqrt(60),
+    n.1 = 60, n.2 = 60, verbose=F) %&gt;%
+  parse_es(study = &quot;Prasad et al. (2007) Am. Nat. 169, 29-37&quot;,
+           generations = 25,
+           organism = &quot;Drosophila melanogaster&quot;,
+           trait = &quot;Male development time&quot;,
+           interpretation = &quot;This positive effect size indicates that males carrying male-evolved haplotypes developed faster than control males  (i.e. have a masculinised phenotype).&quot;) %&gt;% 
+  write_csv(&quot;effect_sizes/prasad2007_4.csv&quot;)</code></pre>
+</div>
 </div>
 <div id="dry-mass" class="section level3">
 <h3>Dry mass</h3>
-<p>to do…</p>
-<pre class="r"><code># development time and dry mass data:
-# 
-# treatment sex trait   mean    se  n
-# ml    male    dt  229.8   0.54    
-# 
-# sample sizes and ANOVA degrees of freedom are not given - ask Adam or jsut guess them. Ideally get the raw data.</code></pre>
+<div id="prasad-et-al.s-original-data-2" class="section level4">
+<h4>Prasad et al.’s original data</h4>
+<p>These data (dry mass in micrograms) are presented in prose in the
+Results. The sample size is not recorded, so we estimated it as n=60
+flies per treatment (a feasible number of individuals on the same order
+as the same study’s fitness assays). An error here would over- or
+under-inflate the effect size precision, but likely not have a major
+effect on the overall effect size estimate.</p>
+<pre class="r"><code>df &lt;- data.frame(
+  treatment = c(&quot;control&quot;,&quot;control&quot;, &quot;male_evolved&quot;, &quot;male_evolved&quot;),
+  sex = c(&quot;female&quot;, &quot;male&quot;, &quot;female&quot;, &quot;male&quot;),
+  mean = c(275.9, 217.9, 267.4, 212.5),
+  SE = c(1.45, 1.25, 1.82, 1.43),
+  n = rep(60, 4)
+)
+
+kable(df) %&gt;% 
+  kable_styling(full_width = F)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+treatment
+</th>
+<th style="text-align:left;">
+sex
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+SE
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:right;">
+275.9
+</td>
+<td style="text-align:right;">
+1.45
+</td>
+<td style="text-align:right;">
+60
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+control
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:right;">
+217.9
+</td>
+<td style="text-align:right;">
+1.25
+</td>
+<td style="text-align:right;">
+60
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+male_evolved
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:right;">
+267.4
+</td>
+<td style="text-align:right;">
+1.82
+</td>
+<td style="text-align:right;">
+60
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+male_evolved
+</td>
+<td style="text-align:left;">
+male
+</td>
+<td style="text-align:right;">
+212.5
+</td>
+<td style="text-align:right;">
+1.43
+</td>
+<td style="text-align:right;">
+60
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="calculating-effect-size-8" class="section level4">
+<h4>Calculating effect size</h4>
+<pre class="r"><code># For female dry mass:
+mes(m.1 = df$mean[df$treatment == &quot;control&quot; &amp; df$sex == &quot;female&quot;],
+    m.2 = df$mean[df$treatment == &quot;male_evolved&quot; &amp; df$sex == &quot;female&quot;],
+    sd.1 = df$SE[df$treatment == &quot;control&quot; &amp; df$sex == &quot;female&quot;] * sqrt(60),
+    sd.2 = df$SE[df$treatment == &quot;male_evolved&quot; &amp; df$sex == &quot;female&quot;] * sqrt(60),
+    n.1 = 60, n.2 = 60, verbose=F) %&gt;%
+  parse_es(study = &quot;Prasad et al. (2007) Am. Nat. 169, 29-37&quot;,
+           generations = 25,
+           organism = &quot;Drosophila melanogaster&quot;,
+           trait = &quot;Female body mass&quot;,
+           interpretation = &quot;This positive effect size indicates that females carrying male-evolved haplotypes are lighter than control females (i.e. have a masculinised phenotype).&quot;) %&gt;% 
+  write_csv(&quot;effect_sizes/prasad2007_5.csv&quot;)
+
+# For male dry mass:
+mes(m.1 = df$mean[df$treatment == &quot;control&quot; &amp; df$sex == &quot;male&quot;],
+    m.2 = df$mean[df$treatment == &quot;male_evolved&quot; &amp; df$sex == &quot;male&quot;],
+    sd.1 = df$SE[df$treatment == &quot;control&quot; &amp; df$sex == &quot;male&quot;] * sqrt(60),
+    sd.2 = df$SE[df$treatment == &quot;male_evolved&quot; &amp; df$sex == &quot;male&quot;] * sqrt(60),
+    n.1 = 60, n.2 = 60, verbose=F) %&gt;%
+  parse_es(study = &quot;Prasad et al. (2007) Am. Nat. 169, 29-37&quot;,
+           generations = 25,
+           organism = &quot;Drosophila melanogaster&quot;,
+           trait = &quot;Male body mass&quot;,
+           interpretation = &quot;This positive effect size indicates that males carrying male-evolved haplotypes are lighter than control males (i.e. have a masculinised phenotype).&quot;) %&gt;% 
+  write_csv(&quot;effect_sizes/prasad2007_6.csv&quot;)</code></pre>
+</div>
 </div>
 </div>
 <div id="bedhomme-et-al.-2008" class="section level2">
@@ -4471,7 +4799,7 @@ df &lt;- tibble(
   treatment = c(&quot;MLE&quot;, &quot;control&quot;)
 )</code></pre>
 </div>
-<div id="calculating-effect-size-7" class="section level4">
+<div id="calculating-effect-size-9" class="section level4">
 <h4>Calculating effect size</h4>
 <pre class="r"><code>mes(m.1 = df$mean[1], m.2 = df$mean[2],
     sd.1 = df$SD[1], sd.2 = df$SD[2],
@@ -4504,7 +4832,7 @@ df &lt;- tibble(
   treatment = c(&quot;MLE&quot;, &quot;control&quot;)
 )</code></pre>
 </div>
-<div id="calculating-effect-size-8" class="section level4">
+<div id="calculating-effect-size-10" class="section level4">
 <h4>Calculating effect size</h4>
 <pre class="r"><code>mes(m.2 = df$mean[1], m.1 = df$mean[2],
     sd.2 = df$SD[1], sd.1 = df$SD[2],
@@ -4928,7 +5256,7 @@ control
 </table>
 </div>
 </div>
-<div id="calculating-effect-size-9" class="section level3">
+<div id="calculating-effect-size-11" class="section level3">
 <h3>Calculating effect size</h3>
 <pre class="r"><code>mes(m.1 = df$mean[2], m.2 = df$mean[1],
     sd.1 = df$SD[2], sd.2 = df$SD[1],
@@ -5019,7 +5347,7 @@ control
 </table>
 </div>
 </div>
-<div id="calculating-effect-size-10" class="section level3">
+<div id="calculating-effect-size-12" class="section level3">
 <h3>Calculating effect size</h3>
 <pre class="r"><code>mes(m.1 = df$mean[1], m.2 = df$mean[2],
     sd.1 = df$SD[1], sd.2 = df$SD[2],
@@ -5114,7 +5442,7 @@ control
 </table>
 </div>
 </div>
-<div id="calculating-effect-size-11" class="section level3">
+<div id="calculating-effect-size-13" class="section level3">
 <h3>Calculating effect size</h3>
 <pre class="r"><code>mes(m.1 = df$mean[1], m.2 = df$mean[2],
     sd.1 = df$SD[1], sd.2 = df$SD[2],
@@ -5205,7 +5533,7 @@ control
 </table>
 </div>
 </div>
-<div id="calculating-effect-size-12" class="section level3">
+<div id="calculating-effect-size-14" class="section level3">
 <h3>Calculating effect size</h3>
 <pre class="r"><code>mes(m.1 = df$mean[1], m.2 = df$mean[2],
     sd.1 = df$SD[1], sd.2 = df$SD[2],
@@ -5304,7 +5632,7 @@ Male-limited evolution
 </tbody>
 </table>
 </div>
-<div id="calculating-effect-size-13" class="section level3">
+<div id="calculating-effect-size-15" class="section level3">
 <h3>Calculating effect size</h3>
 <pre class="r"><code>mes(m.2 = 34.518, m.1 = 35.003,
     sd.2 = 0.351 * sqrt(120), sd.1 = 0.322 * sqrt(120),
@@ -6194,7 +6522,7 @@ CFM
 </tbody>
 </table>
 </div>
-<div id="calculating-effect-size-14" class="section level4">
+<div id="calculating-effect-size-16" class="section level4">
 <h4>Calculating effect size</h4>
 <pre class="r"><code>as.matrix(df[,2:3]) %&gt;% 
   get_effect_size_2x2_matrix() %&gt;% 
@@ -6270,7 +6598,7 @@ CFM
 </tbody>
 </table>
 </div>
-<div id="calculating-effect-size-15" class="section level4">
+<div id="calculating-effect-size-17" class="section level4">
 <h4>Calculating effect size</h4>
 <pre class="r"><code>mes(m.1 = df$mean[1],
     m.2 = df$mean[2],
@@ -6348,7 +6676,7 @@ CFM
 </tbody>
 </table>
 </div>
-<div id="calculating-effect-size-16" class="section level4">
+<div id="calculating-effect-size-18" class="section level4">
 <h4>Calculating effect size</h4>
 <pre class="r"><code>mes(m.1 = df$mean[2],
     m.2 = df$mean[1],
@@ -6426,7 +6754,7 @@ CFM
 </tbody>
 </table>
 </div>
-<div id="calculating-effect-size-17" class="section level4">
+<div id="calculating-effect-size-19" class="section level4">
 <h4>Calculating effect size</h4>
 <pre class="r"><code>mes(m.1 = df$mean[2],
     m.2 = df$mean[1],
