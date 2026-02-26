@@ -315,9 +315,9 @@ plot_data %>%
 
 ## Plotting effect of moderator `Generations`
 
-On the right of x-axis (high generation number), this result is driven by a couple of studies, Lund-Hansen et al. (2020) and Manat et al. (2021), which both relate to the same set of experimental evolution lines, and which both focus on female-limited evolution of X chromosomes (uniquely in the full dataset). I also calculated the effect sizes from the raw data for these studies, avoiding issues with falsely inflating them. to the left of the x-axis (short generation number), the trend is driven by a couple of older studies I calculated the effect sizes from summary statistics, possibly inflating them. 
+On the right of x-axis (high generation number), this result is driven by a couple of studies, Lund-Hansen et al. (2020) and Manat et al. (2021), which both relate to the same set of experimental evolution lines, and which both focus on female-limited evolution of X chromosomes (uniquely in the full dataset). I also calculated the effect sizes from the raw data for these studies, which avoids falsely inflated the effect sizes (as for some studies where only the overall means were available, incurring pseudoreplication). To the left of the x-axis (short generation number), the trend is driven by a couple of older studies I calculated the effect sizes from overall means, possibly inflating them.
 
-Therefore, I don't feel there is good evidence for a true negative effect of `Generations`, and this result instead reflects confounding.
+Therefore, I don't feel there is good evidence for a true negative effect of `Generations`, since this result could easily result from confounding.
 
 ```{r}
 library(ggrepel)
