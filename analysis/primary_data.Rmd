@@ -1960,10 +1960,10 @@ cohens_d <- emmeans(modfitCS, ~ Treatment | sex_role) %>%
   select(trait = contrast, Estimate = estimate, SE)
 
 cohens_d$trait <- c(
-  "Female fitness (effect of feminising allele)",
-  "Female fitness (effect of masculinising allele)",
-  "Male fitness (effect of feminising allele)",
-  "Male fitness (effect of masculinising allele)")
+  "Female fitness (female-limited lines)",
+  "Female fitness (male-limited lines)",
+  "Male fitness (female-limited lines)",
+  "Male fitness (male-limited lines)")
 
 cohens_d$Estimate <- cohens_d$Estimate * c(-1, 1, 1, -1) 
 
@@ -1986,6 +1986,29 @@ tibble(Study = "Nordén et al. (2020) Evolution 77, 1066-1076",
        Upper_95_CI = cohens_d$Upper_95_CI) %>% 
   write_csv("effect_sizes/norden2020.csv")
 ```
+
+<!-- ## Melo-Gavin et al. (2026) -->
+
+<!-- Melo-Gavin, C., Liu, M. J., & Agrawal, A. F. (2026). Local Adaptation to the Sex Environment: Reciprocal Sex-Limited Selection in Different Thermal Regimes. bioRxiv, 2026-01. https://doi.org/10.64898/2026.01.23.701411 -->
+
+<!-- ### Female fitness -->
+
+<!-- #### Melo-Gavin et al.'s original data -->
+
+<!-- ```{r} -->
+<!-- df <- tibble( -->
+<!--   chr_type = c("female-limited", "male-limited"), -->
+<!--   mean = c(1.0764962187609557, 0.9991861571593129), -->
+<!--   SE = c(1.0956453147693694 - 1.0764962187609557,  -->
+<!--          1.0255621775930286 - 0.9991861571593129), -->
+<!--   n = c(??,??)) -->
+
+<!-- kable(df) %>%  -->
+<!--   kable_styling(full_width = F) -->
+
+<!-- Melo-Gavin et al. (2026). bioRxiv, https://doi.org/10.64898/2026.01.23.701411 -->
+<!-- ``` -->
+
 
 
 # Middle-class neighbourhood experiments
