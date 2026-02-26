@@ -911,7 +911,7 @@ mes(m.1 = abb$fitness[1], m.2 = abb$fitness[2],
     sd.1 = abb$fitness_SD[1], sd.2 = abb$fitness_SD[2],
     n.1 = abb$N[1], n.2 = abb$N[2], verbose=F) %>% 
   parse_es(study = "Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997", 
-           trait = "Female fitness", 
+           trait = "Female fitness (2010)", 
            generations = 82, 
            organism = "Drosophila melanogaster", 
            interpretation = "The positive effect size indicates that females carrying male-evolved haplotypes have lower fitness thanthan females carrying control genotypes.") %>% 
@@ -925,7 +925,7 @@ mes(m.2 = abb$fitness[3], m.1 = abb$fitness[4],
     sd.2 = abb$fitness_SD[3], sd.1 = abb$fitness_SD[4],
     n.2 = abb$N[3], n.1 = abb$N[4], verbose=F) %>% 
   parse_es(study = "Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997", 
-           trait = "Male fitness", 
+           trait = "Male fitness  (2010)", 
            generations = 82, 
            organism = "Drosophila melanogaster", 
            interpretation = "The positive effect size indicates that males carrying male-evolved haplotypes have higher fitness than males carrying control genotypes.") %>% 
