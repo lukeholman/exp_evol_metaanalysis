@@ -533,15 +533,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree5ad4bc9b00ca18d74c637d75a8b6318f8feccaadtargetblank5ad4bc9a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreea3a96cb0e1a27732a2dc655b657fe3835c465954targetblanka3a96cba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/5ad4bc9b00ca18d74c637d75a8b6318f8feccaad" target="_blank">5ad4bc9</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/a3a96cb0e1a27732a2dc655b657fe3835c465954" target="_blank">a3a96cb</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree5ad4bc9b00ca18d74c637d75a8b6318f8feccaadtargetblank5ad4bc9a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreea3a96cb0e1a27732a2dc655b657fe3835c465954targetblanka3a96cba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -551,7 +551,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/5ad4bc9b00ca18d74c637d75a8b6318f8feccaad" target="_blank">5ad4bc9</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/a3a96cb0e1a27732a2dc655b657fe3835c465954" target="_blank">a3a96cb</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -590,8 +590,11 @@ Untracked files:
     Untracked:  effect_sizes/prasad2007_2.csv
     Untracked:  effect_sizes/prasad2007_3.csv
     Untracked:  effect_sizes/prasad2007_4.csv
+    Untracked:  effect_sizes/prasad2007_5.csv
+    Untracked:  effect_sizes/prasad2007_6.csv
 
 Unstaged changes:
+    Modified:   analysis/meta_analysis.Rmd
     Deleted:    data/README.md
     Modified:   effect_sizes/abbott_2013_2.csv
     Deleted:    effect_sizes/martinossiAllibert2019_1.csv
@@ -643,6 +646,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/a3a96cb0e1a27732a2dc655b657fe3835c465954/analysis/primary_data.Rmd" target="_blank">a3a96cb</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-26
+</td>
+<td>
+wflow_publish("analysis/primary_data.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/94ac9a6cbff9c648f060e24c454371ca769790d2/docs/primary_data.html" target="_blank">94ac9a6</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -4734,7 +4771,7 @@ mes(m.1 = df$mean[df$treatment == &quot;control&quot; &amp; df$sex == &quot;fema
   parse_es(study = &quot;Prasad et al. (2007) Am. Nat. 169, 29-37&quot;,
            generations = 25,
            organism = &quot;Drosophila melanogaster&quot;,
-           trait = &quot;Female body mass&quot;,
+           trait = &quot;Female body mass (2007)&quot;,
            interpretation = &quot;This positive effect size indicates that females carrying male-evolved haplotypes are lighter than control females (i.e. have a masculinised phenotype).&quot;) %&gt;% 
   write_csv(&quot;effect_sizes/prasad2007_5.csv&quot;)
 
@@ -4747,7 +4784,7 @@ mes(m.1 = df$mean[df$treatment == &quot;control&quot; &amp; df$sex == &quot;male
   parse_es(study = &quot;Prasad et al. (2007) Am. Nat. 169, 29-37&quot;,
            generations = 25,
            organism = &quot;Drosophila melanogaster&quot;,
-           trait = &quot;Male body mass&quot;,
+           trait = &quot;Male body mass (2007)&quot;,
            interpretation = &quot;This positive effect size indicates that males carrying male-evolved haplotypes are lighter than control males (i.e. have a masculinised phenotype).&quot;) %&gt;% 
   write_csv(&quot;effect_sizes/prasad2007_6.csv&quot;)</code></pre>
 </div>
@@ -5101,7 +5138,7 @@ ML
     sd.1 = abb$bodymass_SD[1], sd.2 = abb$bodymass_SD[2],
     n.1 = abb$N[1], n.2 = abb$N[2], verbose=F) %&gt;% 
   parse_es(study = &quot;Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997&quot;, 
-           trait = &quot;Female body mass&quot;, 
+           trait = &quot;Female body mass (2010)&quot;, 
            generations = 82, 
            organism = &quot;Drosophila melanogaster&quot;, 
            interpretation = &quot;The positive effect size indicates that females carrying male-evolved haplotypes have lower body mass than females carrying control genotypes.&quot;) %&gt;% 
@@ -5113,7 +5150,7 @@ ML
     sd.1 = abb$bodymass_SD[3], sd.2 = abb$bodymass_SD[4],
     n.1 = abb$N[3], n.2 = abb$N[4], verbose=F) %&gt;% 
   parse_es(study = &quot;Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997&quot;, 
-           trait = &quot;Male body mass&quot;, 
+           trait = &quot;Male body mass  (2010)&quot;, 
            generations = 82, 
            organism = &quot;Drosophila melanogaster&quot;, 
            interpretation = &quot;The positive effect size indicates that males carrying male-evolved haplotypes have lower body mass than males carrying control genotypes.&quot;) %&gt;% 
