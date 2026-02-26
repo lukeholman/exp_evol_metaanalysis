@@ -60,6 +60,7 @@ my_data_table <- function(df){
     ) 
 }
 
+
 # Load up the meta-analysis data:
 meta_analysis_data <- list.files("effect_sizes/", full.names = T) %>% 
   lapply(read_csv, show_col_types = FALSE) %>% 
@@ -111,7 +112,7 @@ The above results table shows that the grand mean effect size is `r pretty3(as.n
 
 ## Testing for effects of moderators
 
-Here, I use AICc model selection to compare 7 competing meta-analysis models, which fit `Generations`, `Sex`, `Experiment_type`, a combination of 2 or all of these, or the intercept-only null model. `Generations` gives the number of generations of selection at the time the focal trait was measured, `Sex` gives the sex of the individuals expressing the trait (male, female, or both sexes), and `Experiment_type` is either "Sex-specific inheritance" or "Sex-specific relaxation of selection".
+Here, I use AICc model selection to compare 7 competing meta-analysis models, which fit `Generations`, `Sex`, `Experiment_type`, a combination of 2 or all of these, or the intercept-only null model. `Generations` gives the number of generations of selection at the time the focal trait was measured, `Sex` gives the sex of the individuals expressing the trait (male, female, or both sexes), and `Experiment_type` is either "Sex-specific autosome(s)", "Sex-specific X", or "Sex-specific relaxed selection" (as described by the point colours in Figure 1).
 
 The top model includes the moderator `Generations`, and it is ahead of second-best model (which also includes `Sex`) by much more than 2 AICc, suggesting that `Generations` explains substantial variation in the data but the other moderators do not.
 
@@ -186,35 +187,64 @@ plot_data <- meta_analysis_data %>%
          Lower_95_CI, 
          Upper_95_CI) 
 
-plot_data$Trait[plot_data$Trait == "Male fitness" & plot_data$Short_name == "Abbott et al. (2013)"] <- "Male fitness (2013)"
-plot_data$Trait[plot_data$Trait == "Male fitness" & plot_data$Short_name == "Abbott et al. (2020)"] <- "Male fitness (2020)"
+plot_data$Trait[plot_data$Trait == "Male fitness" & 
+                  plot_data$Short_name == "Abbott et al. (2013)"] <- "Male fitness (2013)"
+plot_data$Trait[plot_data$Trait == "Male fitness" & 
+                  plot_data$Short_name == "Abbott et al. (2020)"] <- "Male fitness (2020)"
 
-plot_data <- plot_data %>% 
-  group_by(Origin_of_lines) %>% 
-  mutate(Short_name = paste0(unique(Short_name), collapse = ";\n")) %>% 
-  bind_rows(tibble(
-    Origin_of_lines = " ", Short_name = "Mean effect size", 
+mean_effect <- tibble(
+    Origin_of_lines = " ", Short_name = "**Mean effect size**", 
          Experiment_type1 = "  ", Trait = " ", 
     Estimate = as.numeric(meta_analysis$b), 
          Lower_95_CI = as.numeric(meta_analysis$ci.lb), 
     Upper_95_CI  = as.numeric(meta_analysis$ci.ub)
-  )) 
+  )
 
+plot_data <- plot_data %>% 
+  group_by(Origin_of_lines) %>% 
+  mutate(Short_name = paste0(unique(Short_name), collapse = ";\n")) %>% 
+  bind_rows(mean_effect) %>% ungroup() %>% 
+  arrange((Experiment_type2))
+
+plot_data$Short_name[plot_data$Short_name == "Rice (1996);\nRice (1998)"] <- "**Male-limited haplotypes**<br>Rice (1996, 1998)"
+
+plot_data$Short_name[plot_data$Short_name == "Prasad et al. (2007);\nBedhomme et al. (2008);\nAbbott et al. (2010);\nBedhomme et al. (2011);\nJiang et al. (2011)"] <- "**Male-limited haplotypes**<br>Prasad et al. (2007)<br>Bedhomme et al. (2008, 2011)<br>Jiang et al. (2011)"
+  
+plot_data$Short_name[plot_data$Short_name == "Thyagarajan et al. (2025)"] <- "**Male-limited haplotypes**<br>Thyagarajan et al. (2025)"
+
+plot_data$Short_name[plot_data$Short_name == "Rice (1992)"] <- "**Female-limited region** (Rice 1992)"
+
+
+plot_data$Short_name[plot_data$Short_name == "Grieshop et al. (2025);\nMelo-Gavin et al. (2025)"] <- "**Male-limited autosome**<br>Grieshop et al. (2025), Melo-Gavin et al. (2025)"
+
+plot_data$Short_name[plot_data$Short_name == "Nordén et al. (2020)"] <- "**Reciprocal sex-limited markers**<br>Nordén et al. (2020)"
+
+plot_data$Short_name[plot_data$Short_name == "Abbott et al. (2013);\nAbbott et al. (2020)"] <- "**Male-limited X**<br>Abbott et al. (2013, 2020)"
+
+plot_data$Short_name[plot_data$Short_name == "Lund-Hansen et al. (2020);\nManat et al. (2021)"] <- "**Female-limited X**<br>Lund-Hansen et al. (2020)<br>Manat et al. (2021)"
+
+plot_data$Short_name[plot_data$Short_name == "Radwan et al. (2004)"] <- "**Relaxed selection on females**<br>Radwan et al. (2004)"
+
+plot_data$Short_name[plot_data$Short_name == "Morrow et al. (2008)"] <- "**Relaxed selection on both sexes**<br>Morrow et al. (2004)"
+
+
+plot_data$Short_name <- str_remove_all(plot_data$Short_name, " et al[.]")
+plot_data$Short_name <- str_remove_all(plot_data$Short_name, ";")
 
 levs <- plot_data$Short_name %>% unique()
 
 plot_data <- plot_data %>% 
   mutate(Short_name = factor(Short_name, levs)) 
 
-bands <- plot_data %>% 
-  mutate(y = 1:n()) %>% 
-  group_by(Short_name) %>% 
+bands <- plot_data %>%
+  arrange(Estimate) %>%
+  group_by(Short_name) %>%
+  mutate(y = row_number()) %>%
   summarise(
-    ymin = min(y) -0.5,
+    ymin = min(y) - 0.5,
     ymax = max(y) + 0.5,
-    .groups = "drop")  %>% 
-  dplyr::mutate(
-    stripe = row_number() %% 2
+    stripe = cur_group_id() %% 2,
+    .groups = "drop"
   )
 
 # order the traits within studies by effect size
@@ -224,39 +254,61 @@ plot_data <- plot_data %>%
   mutate(Trait_study = factor(paste(Trait, Short_name, sep = "~"), 
                               unique(paste(Trait, Short_name, sep = "~"))))
 
+mean_effect <- plot_data %>% 
+  filter(Short_name == "**Mean effect size**")
+
 plot_data %>% 
+  mutate(Experiment_type1 = factor(
+    Experiment_type1, levels = c("Sex-specific autosome(s)",
+                                 "Sex-specific X",
+                                 "Sex-specific relaxed selection", "  "))) %>% 
   ggplot(aes(y = Trait_study, x = Estimate, colour = Experiment_type1)) +
+  # scale_color_brewer(palette = "Set1", direction = -1) + 
+  scale_colour_manual(values = c("steelblue", "tomato", "forestgreen", NA)) +
+  geom_rect(
+    data = bands,
+    aes(
+      xmin = -Inf,
+      xmax = Inf,
+      ymin = -Inf,
+      ymax = Inf,
+      fill = factor(stripe)),
+    alpha = 0.3,
+    inherit.aes = FALSE) +
   geom_vline(xintercept = 0, linetype = 2, colour = "grey10") +
   geom_errorbar(aes(xmin = Lower_95_CI, 
                     xmax = Upper_95_CI)) +
   geom_point() + 
+  
+  geom_errorbar(data = mean_effect, aes(xmin = Lower_95_CI, 
+                                        xmax = Upper_95_CI), colour = "black") +
+  geom_point(data = mean_effect, colour = "black") + 
+  
   scale_y_discrete(labels = function(x) sub("~.*$", "", x)) + 
-  facet_grid2( rows = vars(Short_name),
-    scales = "free_y",
-    space = "free_y") +
+  facet_grid2(rows = vars(Short_name),
+              scales = "free_y",
+              space = "free_y") +
   theme_minimal()+
   theme(legend.position = "top",
+        strip.text.y = ggtext::element_markdown(angle = 0, hjust = 0, size = 7),
+        axis.text.y = element_text(size = 7),
+        strip.background = element_blank(),
         panel.grid.major.y = element_blank(),
-        strip.text.y = element_text(angle = 0),
-        panel.spacing.y=unit(0, "lines"))+ 
+        axis.ticks.x = element_line(colour = "grey20", size = 0.2),
+        panel.border = element_rect(colour = "grey20", size = 0.2),
+        panel.clip = "off",
+        # strip.text.y = element_text(angle = 0, hjust=0),
+        panel.spacing.y=unit(0, "pt"))+ 
   labs(x = "Effect size (Cohen's d) \u00B1 95% CIs", 
        y = NULL,
        colour = NULL) +  
-  # scale_color_brewer(palette = "Set1") + 
-  geom_rect(
-    data = bands,
-    aes(
-      ymin = ymin, 
-      ymax = ymax, 
-      xmin = -Inf, 
-      xmax = Inf, 
-      fill = factor(stripe)
-    ),
-    alpha = 0.1,
-    inherit.aes = FALSE
-  ) +
-  scale_fill_manual(values = c("0" = "purple", "1" = "orange")) +
+  coord_cartesian(clip = "off") + 
+
+  scale_fill_manual(values = c("0" = "grey80", 
+                               "1" = "grey50")) +
   guides(fill = "none")
+  # scale_fill_manual(values = c("0" = rgb(1, 98, 71, maxColorValue=255), 
+  #                              "1" = rgb(144, 165, 210, maxColorValue=255))) +
 ```
 
 **Figure 1**: Forest plot showing the estimated effect sizes (Cohen's _d_ \(\pm \) 95% CIs). The y-axis indicates which trait was measured, and the coloured bands group effect sizes that come from the same set of experimental evolution lines (which are covered in one or more publications, named on the right). Positive effect sizes indicate evolutionary change in the direction predicted under IaSC, while negative effects indicate evolution in the opposite direction. Point colour differentiates between studies that manipulated inheritance vs selection. The grand mean effect size, shown at the bottom, is significantly positive. 
