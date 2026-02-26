@@ -533,15 +533,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreebf1e9d33f61a9f1c656950962ec8631cd6f5ca7ftargetblankbf1e9d3a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree41e5d79504463eea6914af5f2360344caf3b672ftargetblank41e5d79a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/bf1e9d33f61a9f1c656950962ec8631cd6f5ca7f" target="_blank">bf1e9d3</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/41e5d79504463eea6914af5f2360344caf3b672f" target="_blank">41e5d79</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreebf1e9d33f61a9f1c656950962ec8631cd6f5ca7ftargetblankbf1e9d3a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree41e5d79504463eea6914af5f2360344caf3b672ftargetblank41e5d79a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -551,7 +551,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/bf1e9d33f61a9f1c656950962ec8631cd6f5ca7f" target="_blank">bf1e9d3</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/41e5d79504463eea6914af5f2360344caf3b672f" target="_blank">41e5d79</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -603,6 +603,7 @@ Unstaged changes:
     Deleted:    effect_sizes/martinossiAllibert2019_1.csv
     Deleted:    effect_sizes/martinossiAllibert2019_2.csv
     Modified:   effect_sizes/melo_gavin2025_maleharm.csv
+    Modified:   effect_sizes/norden2020.csv
     Modified:   input_data/study_metadata.csv
     Deleted:    output/README.md
 
@@ -649,6 +650,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/41e5d79504463eea6914af5f2360344caf3b672f/analysis/primary_data.Rmd" target="_blank">41e5d79</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-26
+</td>
+<td>
+wflow_publish("analysis/primary_data.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/c218b224d367cd0ea959f9b9f8566d4667ea2bc9/docs/primary_data.html" target="_blank">c218b22</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -7051,14 +7086,9 @@ tibble(Study = &quot;Thyagarajan et al. (2025) J. Hered. esaf072&quot;,
   filter(!is.na(Mated.male)) %&gt;% 
   group_by(Selection, Replicate) %&gt;% 
   summarise(n_wt = sum(Mated.male == &quot;wt&quot;),
-            n_bw = sum(Mated.male == &quot;bw&quot;))</code></pre>
-<pre><code>`summarise()` has regrouped the output.
-ℹ Summaries were computed grouped by Selection and Replicate.
-ℹ Output is grouped by Selection.
-ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-ℹ Use `summarise(.by = c(Selection, Replicate))` for per-operation grouping
-  (`?dplyr::dplyr_by`) instead.</code></pre>
-<pre class="r"><code>model &lt;- glm(cbind(n_wt, n_bw) ~ Selection + Replicate, data = mating_competition, family = &quot;binomial&quot;)
+            n_bw = sum(Mated.male == &quot;bw&quot;))
+
+model &lt;- glm(cbind(n_wt, n_bw) ~ Selection + Replicate, data = mating_competition, family = &quot;binomial&quot;)
 
 LOR_effects &lt;- contrast(emmeans(model, ~ Selection), method = &quot;pairwise&quot;) %&gt;% 
   as_tibble() %&gt;% 
@@ -7135,52 +7165,8 @@ signs to reflect this.</p>
   mutate(Stand_Fitness = as.numeric(scale(Stand_Fitness)))
 
 modfitCS &lt;- lmer(Stand_Fitness~Treatment*sex_role + (1|ID) + (1|Treatment:sex_role:Population), data = fitness.dataCS)
-summary(modfitCS)</code></pre>
-<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
-lmerModLmerTest]
-Formula: 
-Stand_Fitness ~ Treatment * sex_role + (1 | ID) + (1 | Treatment:sex_role:Population)
-   Data: fitness.dataCS
 
-REML criterion at convergence: 1514.1
-
-Scaled residuals: 
-    Min      1Q  Median      3Q     Max 
--1.8874 -0.6775 -0.0706  0.6559  3.7784 
-
-Random effects:
- Groups                        Name        Variance  Std.Dev.
- ID                            (Intercept) 0.0135243 0.11629 
- Treatment:sex_role:Population (Intercept) 0.0004314 0.02077 
- Residual                                  0.9652448 0.98247 
-Number of obs: 534, groups:  ID, 267; Treatment:sex_role:Population, 24
-
-Fixed effects:
-                               Estimate Std. Error         df t value Pr(&gt;|t|)
-(Intercept)                  -3.075e-02  1.042e-01  1.676e+01  -0.295   0.7716
-TreatmentFemale               3.284e-01  1.500e-01  1.787e+01   2.190   0.0420
-TreatmentMale                 8.649e-02  1.474e-01  1.677e+01   0.587   0.5652
-sex_rolemale                  7.697e-05  1.464e-01  1.597e+01   0.001   0.9996
-TreatmentFemale:sex_rolemale -6.050e-01  2.106e-01  1.700e+01  -2.873   0.0106
-TreatmentMale:sex_rolemale   -4.138e-02  2.070e-01  1.598e+01  -0.200   0.8441
-                              
-(Intercept)                   
-TreatmentFemale              *
-TreatmentMale                 
-sex_rolemale                  
-TreatmentFemale:sex_rolemale *
-TreatmentMale:sex_rolemale    
----
-Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-
-Correlation of Fixed Effects:
-            (Intr) TrtmnF TrtmnM sx_rlm TrtF:_
-TreatmntFml -0.695                            
-TreatmentMl -0.707  0.491                     
-sex_rolemal -0.702  0.488  0.497              
-TrtmntFml:_  0.488 -0.702 -0.345 -0.695       
-TrtmntMl:s_  0.497 -0.345 -0.702 -0.707  0.491</code></pre>
-<pre class="r"><code>cohens_d &lt;- emmeans(modfitCS, ~ Treatment | sex_role) %&gt;% 
+cohens_d &lt;- emmeans(modfitCS, ~ Treatment | sex_role) %&gt;% 
   pairs() %&gt;% as_tibble() %&gt;% 
   filter(str_detect(contrast, &quot;Control&quot;)) %&gt;% 
   select(trait = contrast, Estimate = estimate, SE)
@@ -7634,106 +7620,6 @@ female fitness
            organism = &quot;Drosophila melanogaster&quot;, 
            interpretation = &quot;The positive effect sie indicates that female fitness was higher in lines where selection was relaxed on males compared to lines where selection was relaxed on females.&quot;) %&gt;% 
   write_csv(&quot;effect_sizes/morrow2008_2.csv&quot;)</code></pre>
-<!-- ## Martinossi-Allibert et al. (2019) -->
-<!-- Martinossi-Allibert, I., Thilliez, E., Arnqvist, G., & Berger, D. (2019). Sexual selection, environmental robustness, and evolutionary demography of maladapted populations: A test using experimental evolution in seed beetles. Evolutionary Applications, 12(7), 1371–1384. -->
-<!-- I obtained the raw data from Dryad, ran a GLMM with formula `LRS ~ treatment*sex*environment + (1 | line)`, and used emmeans to get the treatment effect on LRS for each sex (averaging over levels of environment). I scaled LRS first, so the treatment effects are equal to Cohen's d.  -->
-<!-- I focus on the difference between the female-specific middle class neighbourhood treatment and the monogamy treatment (the latter has natural selection on both sexes but not sexual selection, while the former has natural and sexual selection on males and relaxed selection on females). The authors re-branded the female-MCN treatment as a "sexual selection only" (S treatment) in a later paper (Baur and Berger 2020, below), though it would seem to allow for natural selection on males as well.  -->
-<!-- ### Female fitness -->
-<!-- ```{r warning=F, message=F} -->
-<!-- Martinossi_Allibert <- read_excel("input_data/MartinossiAllibert_dryad_data.xlsx", sheet = "LRS") %>%  -->
-<!--   select(treatment = Evolution_tSeatment_type,  -->
-<!--          replicate = Evolution_treatment_replicate, -->
-<!--          line = Evolution_treatment_unique, -->
-<!--          environment = Assay_environment, -->
-<!--          sex = Sex, -->
-<!--          LRS = Rel_to_pol29_persex) %>%  -->
-<!--   mutate(treatment = replace(treatment, treatment == "F", "Monogamy"), -->
-<!--          treatment = replace(treatment, treatment == "M", "Malelimited"), -->
-<!--          treatment = replace(treatment, treatment == "S", "Polygamy"), -->
-<!--          LRS = as.numeric(scale(LRS))) -->
-<!-- es <- (emmeans(lmer(LRS~ treatment*sex*environment + (1 | line),  -->
-<!--              data = Martinossi_Allibert), specs = c("treatment", "sex")) %>%  -->
-<!--   pairs() %>%  -->
-<!--   as_tibble() %>%  -->
-<!--   filter(str_detect(contrast, "Malelimited") & str_detect(contrast, "Monogamy")))[c(1,4), ]  -->
-<!-- es$estimate[1] <- es$estimate[1] * -1 # flip effect size sign for females  -->
-<!-- es <- es %>%  -->
-<!--   mutate(Lower_95_CI = estimate - SE*1.96, -->
-<!--          Upper_95_CI = estimate + SE*1.96) -->
-<!-- tibble( -->
-<!--   Study = "Martinossi-Allibert et al. (2019) Evol. Applic., 12, 1371–1384", -->
-<!--   Trait = "Female fitness", -->
-<!--   Generations = 16, -->
-<!--   Organism = "Callosobruchus maculatus", -->
-<!--   Interpretation = "A positive effect would indicate that the relaxation of selection on females reduced female fitness, relative to the monogamy treatment which removed sexual selection yet maintained natural selection on both sexes (there is non-significant difference in the opposite direction).", -->
-<!--   Estimate = es$estimate[1], -->
-<!--   Var = es$SE[1] ^ 2, -->
-<!--   Lower_95_CI = es$Lower_95_CI[1], -->
-<!--   Upper_95_CI = es$Upper_95_CI[1]) %>%  -->
-<!--   write_csv("effect_sizes/martinossiAllibert2019_1.csv") -->
-<!-- ``` -->
-<!-- ### Male fitness -->
-<!-- ```{r} -->
-<!-- tibble( -->
-<!--   Study = "Martinossi-Allibert et al. (2019) Evol. Applic., 12, 1371–1384", -->
-<!--   Trait = "Male fitness", -->
-<!--   Generations = 16, -->
-<!--   Organism = "Callosobruchus maculatus", -->
-<!--   Interpretation = "The positive effect indicates that the relaxation of selection on females increased male fitness, relative to the monogamy treatment which removed sexual selection yet maintained natural selection on both sexes.", -->
-<!--   Estimate = es$estimate[2], -->
-<!--   Var = es$SE[2] ^ 2, -->
-<!--   Lower_95_CI = es$Lower_95_CI[2], -->
-<!--   Upper_95_CI = es$Upper_95_CI[2]) %>%  -->
-<!--   write_csv("effect_sizes/martinossiAllibert2019_2.csv") -->
-<!-- ``` -->
-<!-- ## Baur and Berger (2020) -->
-<!-- Baur, J., & Berger, D. (2020). Experimental evidence for effects of sexual selection on condition-dependent mutation rates. Nature Ecology & Evolution, 4(5), 737–744. -->
-<!-- This study is mentioned in the paper, but I elected not to include it in the meta-analysis as it's unclear what the predictions should be under our hypothesis that there is intralocus sexual conflict. The study compares an 'N' treatment that was essentially enforced random monogamy with an 'S' treatment that relaxed selection on females and allowed sexual (and natural) selection on males. The S populations experience a lower fitness decline after irradiation, suggesting they are more resistant to mutation. But it's unclear whether the fixation of male-benefit female-detriment alleles in the S treatment should necessarily improve or reduce mutation resistance. -->
-<!-- <!-- ```{r} -->
-<p>–&gt;
-<!-- <!-- dominant_load <- read_xlsx("input_data/baur_berger2020_figshare_data/dominant load.xlsx") -->
-–&gt;</p>
-<!-- <!-- # fit a sensible-seeming Poisson GLMM, accounting for block effects, genetic similarity in the F2, and replicate line -->
-<p>–&gt;
-<!-- <!-- # The sociosex experimental factor is added as a main effect since we're not much interested in it here -->
-–&gt;
-<!-- <!-- fit <- glmer(offspring ~ regime*rad + sociosex + block + (1 | m_F0maleID) + (1 | f_F0maleID) + (1 | line),  -->
-–&gt;
-<!-- <!--              data = dominant_load, family = "poisson") -->
-–&gt;</p>
-<!-- <!-- emm <- emmeans(fit, ~ regime | rad)  -->
-<p>–&gt; <!-- <!-- emmeans(fit, ~ rad | regime) %>% plot() --> –&gt;</p>
-<!-- <!-- delta <- contrast( -->
-<p>–&gt; <!-- <!--   emm, --> –&gt;
-<!-- <!--   method = "revpairwise",   --> –&gt;
-<!-- <!--   by = "regime" --> –&gt; <!-- <!-- ) --> –&gt;</p>
-<!-- <!-- delta %>% plot() -->
-<p>–&gt;</p>
-<!-- <!-- delta_diff <- contrast( -->
-<p>–&gt; <!-- <!--   delta, --> –&gt;
-<!-- <!--   method = "pairwise", --> –&gt; <!-- <!--   by = NULL -->
-–&gt; <!-- <!-- ) --> –&gt;</p>
-<!-- <!-- df <- as_tibble(delta_diff[2,]) %>%  -->
-<p>–&gt; <!-- <!--   mutate(Cohens_d = -1 * estimate * sqrt(3) / pi, -->
-–&gt; <!-- <!--          Cohens_SE = SE * sqrt(3) / pi, --> –&gt;
-<!-- <!--          Cohens_Var = (SE^2) * sqrt(3) / pi, --> –&gt;
-<!-- <!--          Lower_95_CI = (-1 * estimate - SE*1.96) * sqrt(3) / pi, -->
-–&gt;
-<!-- <!--          Upper_95_CI = (-1 * estimate + SE*1.96) * sqrt(3) / pi) %>%  -->
-–&gt; <!-- <!--   select(starts_with("Cohen"), ends_with("CI")) -->
-–&gt;</p>
-<!-- <!-- tibble(Study = "Baur and Berger (2020)", -->
-<p>–&gt; <!-- <!--        Trait = "Resistance to mutation", --> –&gt;
-<!-- <!--        Generations = 41, --> –&gt;
-<!-- <!--        Organism = "Callosobruchus maculatus", --> –&gt;
-<!-- <!--        interpretation = "The positive effect size indicates that populations in which... .", -->
-–&gt; <!-- <!--        Estimate = df$Cohens_d, --> –&gt;
-<!-- <!--        Var = df$Cohens_Var, --> –&gt;
-<!-- <!--        Lower_95_CI = df$Lower_95_CI, --> –&gt;
-<!-- <!--        Upper_95_CI = df$Upper_95_CI) %>%  --> –&gt;
-<!-- <!--   write_csv("effect_sizes/baur2020.csv") --> –&gt;</p>
-<!-- <!-- ``` -->
-<p>–&gt;</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
