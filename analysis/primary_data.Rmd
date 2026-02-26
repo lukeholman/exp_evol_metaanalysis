@@ -710,7 +710,7 @@ mes(m.1 = df$mean[df$treatment == "control" & df$sex == "female"],
   parse_es(study = "Prasad et al. (2007) Am. Nat. 169, 29-37",
            generations = 25,
            organism = "Drosophila melanogaster",
-           trait = "Female body mass",
+           trait = "Female body mass (2007)",
            interpretation = "This positive effect size indicates that females carrying male-evolved haplotypes are lighter than control females (i.e. have a masculinised phenotype).") %>% 
   write_csv("effect_sizes/prasad2007_5.csv")
 
@@ -723,7 +723,7 @@ mes(m.1 = df$mean[df$treatment == "control" & df$sex == "male"],
   parse_es(study = "Prasad et al. (2007) Am. Nat. 169, 29-37",
            generations = 25,
            organism = "Drosophila melanogaster",
-           trait = "Male body mass",
+           trait = "Male body mass (2007)",
            interpretation = "This positive effect size indicates that males carrying male-evolved haplotypes are lighter than control males (i.e. have a masculinised phenotype).") %>% 
   write_csv("effect_sizes/prasad2007_6.csv")
 ```
@@ -855,7 +855,7 @@ mes(m.1 = abb$body_mass[1], m.2 = abb$body_mass[2],
     sd.1 = abb$bodymass_SD[1], sd.2 = abb$bodymass_SD[2],
     n.1 = abb$N[1], n.2 = abb$N[2], verbose=F) %>% 
   parse_es(study = "Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997", 
-           trait = "Female body mass", 
+           trait = "Female body mass (2010)", 
            generations = 82, 
            organism = "Drosophila melanogaster", 
            interpretation = "The positive effect size indicates that females carrying male-evolved haplotypes have lower body mass than females carrying control genotypes.") %>% 
@@ -869,7 +869,7 @@ mes(m.1 = abb$body_mass[3], m.2 = abb$body_mass[4],
     sd.1 = abb$bodymass_SD[3], sd.2 = abb$bodymass_SD[4],
     n.1 = abb$N[3], n.2 = abb$N[4], verbose=F) %>% 
   parse_es(study = "Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997", 
-           trait = "Male body mass", 
+           trait = "Male body mass  (2010)", 
            generations = 82, 
            organism = "Drosophila melanogaster", 
            interpretation = "The positive effect size indicates that males carrying male-evolved haplotypes have lower body mass than males carrying control genotypes.") %>% 
