@@ -851,9 +851,146 @@ mes(m.2 = abb$fitness[3], m.1 = abb$fitness[4],
 
 Jiang, P. P., Bedhomme, S., Prasad, N. G., & Chippindale, A. K. (2011). Sperm competition and mate harm unresponsive to male-limited selection in _Drosophila_: An evolving genetic architecture under domestication. _Evolution_, 65(9), 2448–2460.
 
+### Mating defence
+
+#### Jiang et al.'s original data
+
+These data were transcribed from the right 2 columns in Figure 2A (i.e. using the data for LH_ST females, since these better measure the effects of male-limitation rather than adaptation to the clone generator females) using PlotDigitiser. The sample size is estimated based on the overall number of replicates being 12.6 (mentioned in the text) with 10 females per replicate. This is a bit pseudo-replicated, overstating the precision of the effect size. 
+
 ```{r}
-# IDEALLY ASK ADAM FOR THE RAW DATA - complex design, sample size info is incomplete
+df <- tibble(
+  mean = c(0.6349673427294603, 0.5952973530422826),
+  SE = c(0.6734272946029564 - 0.6349673427294603, 
+         0.628030250945342 - 0.5952973530422826),
+  SD = SE * sqrt(126),
+  N = c(126, 126),
+  treatment = c("MLE", "control")
+)
+
+df %>% 
+  kable() %>% 
+  kable_styling(full_width = F)
 ```
+
+### Calculating effect size
+
+```{r}
+mes(m.1 = df$mean[2], m.2 = df$mean[1],
+    sd.1 = df$SD[2], sd.2 = df$SD[1],
+    n.1 = df$N[2], n.2 = df$N[1], verbose = F) %>% 
+  parse_es(study = "Jiang et al. (2011) Evolution 65-9: 2448–2460", 
+           trait = "Mating defence", 
+           generations = 65, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "A positive effect size would mean that the mates of males carrying haplotypes that had undergone male-limited evolution are less likely to remate with a new male, compared to the mates of control males (the effect goes non-significantly in the opposite direction, though).") %>% 
+   write_csv("effect_sizes/jiang_2011_1.csv")
+```
+
+### Sperm defence
+
+#### Jiang et al.'s original data
+
+These data were transcribed from the right 2 columns in Figure 2B (i.e. using the data for LH_ST females, since these better measure the effects of male-limitation rather than adaptation to the clone generator females) using PlotDigitiser. Same sample size estimate as before.
+
+```{r}
+df <- tibble(
+  mean = c(0.293426235316184, 0.2820820973803586),
+  SE = c(0.30766024550020493 - 0.293426235316184, 
+         0.29350959701565116 - 0.2820820973803586),
+  SD = SE * sqrt(126),
+  N = c(126, 126),
+  treatment = c("MLE", "control")
+)
+
+df %>% 
+  kable() %>% 
+  kable_styling(full_width = F)
+```
+
+### Calculating effect size
+
+```{r}
+mes(m.1 = df$mean[1], m.2 = df$mean[2],
+    sd.1 = df$SD[1], sd.2 = df$SD[2],
+    n.1 = df$N[1], n.2 = df$N[2], verbose = F) %>% 
+  parse_es(study = "Jiang et al. (2011) Evolution 65-9: 2448–2460", 
+           trait = "Sperm defence", 
+           generations = 65, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "A positive effect size would mean that males carrying haplotypes that had undergone male-limited evolution sire more offspring when mating first with twice-mated females, compared to control males (the effect goes non-significantly in the opposite direction, though).") %>% 
+   write_csv("effect_sizes/jiang_2011_2.csv")
+```
+
+### Male mating success
+
+#### Jiang et al.'s original data
+
+These data were transcribed from the right 2 columns in Figure 3A (i.e. using the data for LH_ST females, since these better measure the effects of male-limitation rather than adaptation to the clone generator females) using PlotDigitiser. Same sample size estimate as before. Note this trait is called 'Mating offence' in the paper since the females had previously mated, but we've renamed it here for clarity outside the context of Jiang et al. and consistency with other traits in the meta-analysis.
+
+```{r}
+df <- tibble(
+  mean = c(0.7297174519489161, 0.730766769892253),
+  SE = c(0.7630716863307143 - 0.7297174519489161, 
+         0.7582729762239909 - 0.730766769892253),
+  SD = SE * sqrt(126),
+  N = c(126, 126),
+  treatment = c("MLE", "control")
+)
+
+df %>% 
+  kable() %>% 
+  kable_styling(full_width = F)
+```
+
+### Calculating effect size
+
+```{r}
+mes(m.1 = df$mean[1], m.2 = df$mean[2],
+    sd.1 = df$SD[1], sd.2 = df$SD[2],
+    n.1 = df$N[1], n.2 = df$N[2], verbose = F) %>% 
+  parse_es(study = "Jiang et al. (2011) Evolution 65-9: 2448–2460", 
+           trait = "Male mating success", 
+           generations = 65, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "A positive effect size would mean that the males carrying haplotypes that had undergone male-limited evolution are more likely to mate with females, compared to the mates of control males (there is no difference in mating rates, though).") %>% 
+   write_csv("effect_sizes/jiang_2011_3.csv")
+```
+
+### Sperm offence
+
+#### Jiang et al.'s original data
+
+These data were transcribed from the right 2 columns in Figure 3B (i.e. using the data for LH_ST females, since these better measure the effects of male-limitation rather than adaptation to the clone generator females) using PlotDigitiser. Same sample size estimate as before. 
+
+```{r}
+df <- tibble(
+  mean = c(0.8227287156371025, 0.8270903434702559),
+  SE = c(0.8284807313821345 - 0.8227287156371025, 
+         0.8337502380801219 - 0.8270903434702559),
+  SD = SE * sqrt(126),
+  N = c(126, 126),
+  treatment = c("MLE", "control")
+)
+
+df %>% 
+  kable() %>% 
+  kable_styling(full_width = F)
+```
+
+### Calculating effect size
+
+```{r}
+mes(m.1 = df$mean[1], m.2 = df$mean[2],
+    sd.1 = df$SD[1], sd.2 = df$SD[2],
+    n.1 = df$N[1], n.2 = df$N[2], verbose = F) %>% 
+  parse_es(study = "Jiang et al. (2011) Evolution 65-9: 2448–2460", 
+           trait = "Sperm offence", 
+           generations = 65, 
+           organism = "Drosophila melanogaster", 
+           interpretation = "Apositive effect size would mean that males carrying haplotypes that had undergone male-limited evolution sire more offspring when mating second with twice-mated females, compared to control males (there is no difference in mating rates, though).") %>% 
+   write_csv("effect_sizes/jiang_2011_4.csv")
+```
+
 
 ## Bedhomme et al. (2011)
 
