@@ -533,15 +533,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree3e2b8938bd98e8390385d5564885f78776e5f849targetblank3e2b893a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreebf1e9d33f61a9f1c656950962ec8631cd6f5ca7ftargetblankbf1e9d3a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/3e2b8938bd98e8390385d5564885f78776e5f849" target="_blank">3e2b893</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/bf1e9d33f61a9f1c656950962ec8631cd6f5ca7f" target="_blank">bf1e9d3</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree3e2b8938bd98e8390385d5564885f78776e5f849targetblank3e2b893a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreebf1e9d33f61a9f1c656950962ec8631cd6f5ca7ftargetblankbf1e9d3a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -551,7 +551,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/3e2b8938bd98e8390385d5564885f78776e5f849" target="_blank">3e2b893</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/bf1e9d33f61a9f1c656950962ec8631cd6f5ca7f" target="_blank">bf1e9d3</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -594,10 +594,11 @@ Untracked files:
     Untracked:  effect_sizes/prasad2007_6.csv
 
 Unstaged changes:
-    Modified:   analysis/meta_analysis.Rmd
     Deleted:    data/README.md
     Modified:   effect_sizes/abbott2010_1.csv
     Modified:   effect_sizes/abbott2010_2.csv
+    Modified:   effect_sizes/abbott2010_5.csv
+    Modified:   effect_sizes/abbott2010_6.csv
     Modified:   effect_sizes/abbott_2013_2.csv
     Deleted:    effect_sizes/martinossiAllibert2019_1.csv
     Deleted:    effect_sizes/martinossiAllibert2019_2.csv
@@ -648,6 +649,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/bf1e9d33f61a9f1c656950962ec8631cd6f5ca7f/analysis/primary_data.Rmd" target="_blank">bf1e9d3</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-26
+</td>
+<td>
+wflow_publish("analysis/primary_data.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/674ad007f9126d93f696e8995f7edc17792b6b34/docs/primary_data.html" target="_blank">674ad00</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -7151,10 +7186,10 @@ TrtmntMl:s_  0.497 -0.345 -0.702 -0.707  0.491</code></pre>
   select(trait = contrast, Estimate = estimate, SE)
 
 cohens_d$trait &lt;- c(
-  &quot;Female fitness (effect of feminising allele)&quot;,
-  &quot;Female fitness (effect of masculinising allele)&quot;,
-  &quot;Male fitness (effect of feminising allele)&quot;,
-  &quot;Male fitness (effect of masculinising allele)&quot;)
+  &quot;Female fitness (female-limited lines)&quot;,
+  &quot;Female fitness (male-limited lines)&quot;,
+  &quot;Male fitness (female-limited lines)&quot;,
+  &quot;Male fitness (male-limited lines)&quot;)
 
 cohens_d$Estimate &lt;- cohens_d$Estimate * c(-1, 1, 1, -1) 
 
@@ -7176,6 +7211,21 @@ tibble(Study = &quot;Nordén et al. (2020) Evolution 77, 1066-1076&quot;,
        Lower_95_CI = cohens_d$Lower_95_CI,
        Upper_95_CI = cohens_d$Upper_95_CI) %&gt;% 
   write_csv(&quot;effect_sizes/norden2020.csv&quot;)</code></pre>
+<!-- ## Melo-Gavin et al. (2026) -->
+<!-- Melo-Gavin, C., Liu, M. J., & Agrawal, A. F. (2026). Local Adaptation to the Sex Environment: Reciprocal Sex-Limited Selection in Different Thermal Regimes. bioRxiv, 2026-01. https://doi.org/10.64898/2026.01.23.701411 -->
+<!-- ### Female fitness -->
+<!-- #### Melo-Gavin et al.'s original data -->
+<!-- ```{r} -->
+<!-- df <- tibble( -->
+<!--   chr_type = c("female-limited", "male-limited"), -->
+<!--   mean = c(1.0764962187609557, 0.9991861571593129), -->
+<!--   SE = c(1.0956453147693694 - 1.0764962187609557,  -->
+<!--          1.0255621775930286 - 0.9991861571593129), -->
+<!--   n = c(??,??)) -->
+<!-- kable(df) %>%  -->
+<!--   kable_styling(full_width = F) -->
+<!-- Melo-Gavin et al. (2026). bioRxiv, https://doi.org/10.64898/2026.01.23.701411 -->
+<!-- ``` -->
 </div>
 </div>
 <div id="middle-class-neighbourhood-experiments" class="section level1">
