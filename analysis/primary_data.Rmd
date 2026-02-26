@@ -878,7 +878,7 @@ df %>%
 mes(m.1 = df$mean[2], m.2 = df$mean[1],
     sd.1 = df$SD[2], sd.2 = df$SD[1],
     n.1 = df$N[2], n.2 = df$N[1], verbose = F) %>% 
-  parse_es(study = "Jiang et al. (2011) Evolution 65-9: 2448–2460", 
+  parse_es(study = "Jiang et al. (2011) Evolution 65: 2448-2460", 
            trait = "Mating defence", 
            generations = 65, 
            organism = "Drosophila melanogaster", 
@@ -913,7 +913,7 @@ df %>%
 mes(m.1 = df$mean[1], m.2 = df$mean[2],
     sd.1 = df$SD[1], sd.2 = df$SD[2],
     n.1 = df$N[1], n.2 = df$N[2], verbose = F) %>% 
-  parse_es(study = "Jiang et al. (2011) Evolution 65-9: 2448–2460", 
+  parse_es(study = "Jiang et al. (2011) Evolution 65: 2448-2460", 
            trait = "Sperm defence", 
            generations = 65, 
            organism = "Drosophila melanogaster", 
@@ -948,7 +948,7 @@ df %>%
 mes(m.1 = df$mean[1], m.2 = df$mean[2],
     sd.1 = df$SD[1], sd.2 = df$SD[2],
     n.1 = df$N[1], n.2 = df$N[2], verbose = F) %>% 
-  parse_es(study = "Jiang et al. (2011) Evolution 65-9: 2448–2460", 
+  parse_es(study = "Jiang et al. (2011) Evolution 65: 2448-2460", 
            trait = "Male mating success", 
            generations = 65, 
            organism = "Drosophila melanogaster", 
@@ -983,7 +983,7 @@ df %>%
 mes(m.1 = df$mean[1], m.2 = df$mean[2],
     sd.1 = df$SD[1], sd.2 = df$SD[2],
     n.1 = df$N[1], n.2 = df$N[2], verbose = F) %>% 
-  parse_es(study = "Jiang et al. (2011) Evolution 65-9: 2448–2460", 
+  parse_es(study = "Jiang et al. (2011) Evolution 65: 2448-2460", 
            trait = "Sperm offence", 
            generations = 65, 
            organism = "Drosophila melanogaster", 
