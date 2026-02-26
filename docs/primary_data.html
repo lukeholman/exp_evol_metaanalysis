@@ -533,15 +533,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreea3a96cb0e1a27732a2dc655b657fe3835c465954targetblanka3a96cba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree3e2b8938bd98e8390385d5564885f78776e5f849targetblank3e2b893a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/a3a96cb0e1a27732a2dc655b657fe3835c465954" target="_blank">a3a96cb</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/3e2b8938bd98e8390385d5564885f78776e5f849" target="_blank">3e2b893</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreea3a96cb0e1a27732a2dc655b657fe3835c465954targetblanka3a96cba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree3e2b8938bd98e8390385d5564885f78776e5f849targetblank3e2b893a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -551,7 +551,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/a3a96cb0e1a27732a2dc655b657fe3835c465954" target="_blank">a3a96cb</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/3e2b8938bd98e8390385d5564885f78776e5f849" target="_blank">3e2b893</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -596,6 +596,8 @@ Untracked files:
 Unstaged changes:
     Modified:   analysis/meta_analysis.Rmd
     Deleted:    data/README.md
+    Modified:   effect_sizes/abbott2010_1.csv
+    Modified:   effect_sizes/abbott2010_2.csv
     Modified:   effect_sizes/abbott_2013_2.csv
     Deleted:    effect_sizes/martinossiAllibert2019_1.csv
     Deleted:    effect_sizes/martinossiAllibert2019_2.csv
@@ -646,6 +648,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/3e2b8938bd98e8390385d5564885f78776e5f849/analysis/primary_data.Rmd" target="_blank">3e2b893</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-26
+</td>
+<td>
+wflow_publish("analysis/primary_data.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/1c0d55ca2fd9fec647bc98423d67f8dba378bb27/docs/primary_data.html" target="_blank">1c0d55c</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -5186,7 +5222,7 @@ ML
     sd.1 = abb$fitness_SD[1], sd.2 = abb$fitness_SD[2],
     n.1 = abb$N[1], n.2 = abb$N[2], verbose=F) %&gt;% 
   parse_es(study = &quot;Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997&quot;, 
-           trait = &quot;Female fitness&quot;, 
+           trait = &quot;Female fitness (2010)&quot;, 
            generations = 82, 
            organism = &quot;Drosophila melanogaster&quot;, 
            interpretation = &quot;The positive effect size indicates that females carrying male-evolved haplotypes have lower fitness thanthan females carrying control genotypes.&quot;) %&gt;% 
@@ -5198,7 +5234,7 @@ ML
     sd.2 = abb$fitness_SD[3], sd.1 = abb$fitness_SD[4],
     n.2 = abb$N[3], n.1 = abb$N[4], verbose=F) %&gt;% 
   parse_es(study = &quot;Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997&quot;, 
-           trait = &quot;Male fitness&quot;, 
+           trait = &quot;Male fitness  (2010)&quot;, 
            generations = 82, 
            organism = &quot;Drosophila melanogaster&quot;, 
            interpretation = &quot;The positive effect size indicates that males carrying male-evolved haplotypes have higher fitness than males carrying control genotypes.&quot;) %&gt;% 
