@@ -586,18 +586,14 @@ Prasad, N. G., Bedhomme, S., Day, T., & Chippindale, A. K. (2007). An evolutiona
 
 #### Prasad et al.'s original data
 
-The data come from Figure 2 (transcribed with PlotDigitizer). 
+The data come from Figure 2 (transcribed with PlotDigitizer). The same size is given as n=15 per replicate population (there were 4 replicates for the control and 4 for the male-limited treatment).
 ```{r}
 df <- data.frame(
-  treatment = c(
-    "control","control", "male_evolved", "male_evolved"),
-  sex = c(
-    "female","male","female","male"),
-  mean = c(
-    0.858247281,0.73376332,0.785461824,0.845795256),
-  SE = c(
-    0.015168311,0.015320071,0.015529016,0.015670879
-  )
+  treatment = c("control","control", "male_evolved", "male_evolved"),
+  sex = c("female", "male", "female", "male"),
+  mean = c(0.858247281, 0.73376332, 0.785461824, 0.845795256),
+  SE = c(0.015168311, 0.015320071, 0.015529016, 0.015670879),
+  n = rep(60, 4)
 )
 
 kable(df) %>% 
@@ -605,40 +601,131 @@ kable(df) %>%
 ```
 
 #### Calculating effect size
-The effect size was calculated from the means and standard errors for each treatment, separately for both male fitness and female fitness. 
-
-<!-- This approach is not ideal because it ignores the experimental design (there were 4 replicate lines, and the study does not show the data for each one). -->
 
 ```{r}
-# mes(m.1 = df$mean[df$treatment == "control" & df$sex == "female"],
-#     m.2 = df$mean[df$treatment == "male_evolved" & df$sex == "female"],
-#     sd.1 = df$SE[df$treatment == "control" & df$sex == "female"] * sqrt(15),
-#     sd.2 = df$SE[df$treatment == "male_evolved" & df$sex == "female"] * sqrt(15),
-#     n.1 = 15, n.2 = 15, verbose=F) %>% 
-#   parse_es()
-# 
-# mes(m.1 = df$mean[df$treatment == "control" & df$sex == "male"],
-#     m.2 = df$mean[df$treatment == "male_evolved" & df$sex == "male"],
-#     sd.1 = df$SE[df$treatment == "control" & df$sex == "male"] * sqrt(15),
-#     sd.2 = df$SE[df$treatment == "male_evolved" & df$sex == "male"] * sqrt(15),
-#     n.1 = 15, n.2 = 15, verbose=F) %>% 
-#   parse_es()
+# For female fitness:
+mes(m.1 = df$mean[df$treatment == "control" & df$sex == "female"],
+    m.2 = df$mean[df$treatment == "male_evolved" & df$sex == "female"],
+    sd.1 = df$SE[df$treatment == "control" & df$sex == "female"] * sqrt(60),
+    sd.2 = df$SE[df$treatment == "male_evolved" & df$sex == "female"] * sqrt(60),
+    n.1 = 60, n.2 = 60, verbose=F) %>%
+  parse_es(study = "Prasad et al. (2007) Am. Nat. 169, 29-37",
+           generations = 25,
+           organism = "Drosophila melanogaster",
+           trait = "Female fitness (2007)",
+           interpretation = "This positive effect size indicates that females carrying male-evolved haplotypes were less fit than control females.") %>% 
+  write_csv("effect_sizes/prasad2007_1.csv")
 
+# For male fitness:
+mes(m.2 = df$mean[df$treatment == "control" & df$sex == "male"],
+    m.1 = df$mean[df$treatment == "male_evolved" & df$sex == "male"],
+    sd.2 = df$SE[df$treatment == "control" & df$sex == "male"] * sqrt(60),
+    sd.1 = df$SE[df$treatment == "male_evolved" & df$sex == "male"] * sqrt(60),
+    n.1 = 60, n.2 = 60, verbose=F) %>%
+  parse_es(study = "Prasad et al. (2007) Am. Nat. 169, 29-37",
+           generations = 25,
+           organism = "Drosophila melanogaster",
+           trait = "Male fitness (2007)",
+           interpretation = "This positive effect size indicates that males carrying male-evolved haplotypes were fitter than control males.") %>% 
+  write_csv("effect_sizes/prasad2007_2.csv")
 ```
 
 ### Development time
-to do...
 
-### Dry mass
-to do...
+#### Prasad et al.'s original data
+
+These data (development time in hours) are presented in prose in the Results. The sample size is not recorded, so we estimated it as n=60 flies per treatment (a feasible number of individuals on the same order as the same study's fitness assays). An error here would over- or under-inflate the effect size precision, but likely not have a major effect on the overall effect size estimate.
 
 ```{r}
-# development time and dry mass data:
-# 
-# treatment	sex	trait	mean	se	n
-# ml	male	dt	229.8	0.54	
-# 
-# sample sizes and ANOVA degrees of freedom are not given - ask Adam or jsut guess them. Ideally get the raw data.
+df <- data.frame(
+  treatment = c("control","control", "male_evolved", "male_evolved"),
+  sex = c("female", "male", "female", "male"),
+  mean = c(224.8, 225.9, 227.0, 229.8),
+  SE = c(0.61, 0.59, 0.57, 0.54),
+  n = rep(60, 4)
+)
+
+kable(df) %>% 
+  kable_styling(full_width = F)
+```
+
+#### Calculating effect size
+
+```{r}
+# For female DT:
+mes(m.2 = df$mean[df$treatment == "control" & df$sex == "female"],
+    m.1 = df$mean[df$treatment == "male_evolved" & df$sex == "female"],
+    sd.2 = df$SE[df$treatment == "control" & df$sex == "female"] * sqrt(60),
+    sd.1 = df$SE[df$treatment == "male_evolved" & df$sex == "female"] * sqrt(60),
+    n.1 = 60, n.2 = 60, verbose=F) %>%
+  parse_es(study = "Prasad et al. (2007) Am. Nat. 169, 29-37",
+           generations = 25,
+           organism = "Drosophila melanogaster",
+           trait = "Female development time",
+           interpretation = "This positive effect size indicates that females carrying male-evolved haplotypes developed faster than control females  (i.e. have a masculinised phenotype).") %>% 
+  write_csv("effect_sizes/prasad2007_3.csv")
+
+# For male DT:
+mes(m.2 = df$mean[df$treatment == "control" & df$sex == "male"],
+    m.1 = df$mean[df$treatment == "male_evolved" & df$sex == "male"],
+    sd.2 = df$SE[df$treatment == "control" & df$sex == "male"] * sqrt(60),
+    sd.1 = df$SE[df$treatment == "male_evolved" & df$sex == "male"] * sqrt(60),
+    n.1 = 60, n.2 = 60, verbose=F) %>%
+  parse_es(study = "Prasad et al. (2007) Am. Nat. 169, 29-37",
+           generations = 25,
+           organism = "Drosophila melanogaster",
+           trait = "Male development time",
+           interpretation = "This positive effect size indicates that males carrying male-evolved haplotypes developed faster than control males  (i.e. have a masculinised phenotype).") %>% 
+  write_csv("effect_sizes/prasad2007_4.csv")
+```
+
+### Dry mass
+
+#### Prasad et al.'s original data
+
+These data (dry mass in micrograms) are presented in prose in the Results. The sample size is not recorded, so we estimated it as n=60 flies per treatment (a feasible number of individuals on the same order as the same study's fitness assays). An error here would over- or under-inflate the effect size precision, but likely not have a major effect on the overall effect size estimate.
+
+```{r}
+df <- data.frame(
+  treatment = c("control","control", "male_evolved", "male_evolved"),
+  sex = c("female", "male", "female", "male"),
+  mean = c(275.9, 217.9, 267.4, 212.5),
+  SE = c(1.45, 1.25, 1.82, 1.43),
+  n = rep(60, 4)
+)
+
+kable(df) %>% 
+  kable_styling(full_width = F)
+```
+
+#### Calculating effect size
+
+```{r}
+# For female dry mass:
+mes(m.1 = df$mean[df$treatment == "control" & df$sex == "female"],
+    m.2 = df$mean[df$treatment == "male_evolved" & df$sex == "female"],
+    sd.1 = df$SE[df$treatment == "control" & df$sex == "female"] * sqrt(60),
+    sd.2 = df$SE[df$treatment == "male_evolved" & df$sex == "female"] * sqrt(60),
+    n.1 = 60, n.2 = 60, verbose=F) %>%
+  parse_es(study = "Prasad et al. (2007) Am. Nat. 169, 29-37",
+           generations = 25,
+           organism = "Drosophila melanogaster",
+           trait = "Female body mass",
+           interpretation = "This positive effect size indicates that females carrying male-evolved haplotypes are lighter than control females (i.e. have a masculinised phenotype).") %>% 
+  write_csv("effect_sizes/prasad2007_5.csv")
+
+# For male dry mass:
+mes(m.1 = df$mean[df$treatment == "control" & df$sex == "male"],
+    m.2 = df$mean[df$treatment == "male_evolved" & df$sex == "male"],
+    sd.1 = df$SE[df$treatment == "control" & df$sex == "male"] * sqrt(60),
+    sd.2 = df$SE[df$treatment == "male_evolved" & df$sex == "male"] * sqrt(60),
+    n.1 = 60, n.2 = 60, verbose=F) %>%
+  parse_es(study = "Prasad et al. (2007) Am. Nat. 169, 29-37",
+           generations = 25,
+           organism = "Drosophila melanogaster",
+           trait = "Male body mass",
+           interpretation = "This positive effect size indicates that males carrying male-evolved haplotypes are lighter than control males (i.e. have a masculinised phenotype).") %>% 
+  write_csv("effect_sizes/prasad2007_6.csv")
 ```
 
 
