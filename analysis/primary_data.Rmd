@@ -1873,7 +1873,7 @@ tibble(Study = "Thyagarajan et al. (2025) J. Hered. esaf072",
 
 ### Male mating success
 
-```{r}
+```{r message=F}
 mating_competition <- read_csv("input_data/Thyagarajan_2025_dryad_data/M_MC_wt.cr.csv",
                                show_col_types = F) %>% 
   filter(!is.na(Mated.male)) %>% 
@@ -1952,7 +1952,6 @@ fitness.dataCS <- read.csv("input_data/norden_dryad_data/Mlig_fitness_data_C_sta
   mutate(Stand_Fitness = as.numeric(scale(Stand_Fitness)))
 
 modfitCS <- lmer(Stand_Fitness~Treatment*sex_role + (1|ID) + (1|Treatment:sex_role:Population), data = fitness.dataCS)
-summary(modfitCS)
 
 cohens_d <- emmeans(modfitCS, ~ Treatment | sex_role) %>% 
   pairs() %>% as_tibble() %>% 
@@ -2171,6 +2170,8 @@ mes(m.1 = df$mean[df$trait == "female fitness" & df$treatment == "selected sex"]
   write_csv("effect_sizes/morrow2008_2.csv")
 ```
 
+
+```{r include=FALSE, eval=FALSE}
 <!-- ## Martinossi-Allibert et al. (2019) -->
 
 <!-- Martinossi-Allibert, I., Thilliez, E., Arnqvist, G., & Berger, D. (2019). Sexual selection, environmental robustness, and evolutionary demography of maladapted populations: A test using experimental evolution in seed beetles. Evolutionary Applications, 12(7), 1371–1384. -->
@@ -2291,6 +2292,9 @@ mes(m.1 = df$mean[df$trait == "female fitness" & df$treatment == "selected sex"]
 <!-- <!--   write_csv("effect_sizes/baur2020.csv") --> -->
 
 <!-- <!-- ``` --> -->
+
+```
+
 
 
 
