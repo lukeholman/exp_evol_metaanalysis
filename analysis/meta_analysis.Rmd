@@ -41,12 +41,6 @@ my_data_table <- function(df){
         list(
           extend = 'csv',
           filename = 'holman_meta_analysis'
-        ),
-        list(
-          extend = 'pdf',
-          pageSize = 'A4',
-          orientation = 'landscape',
-          filename = 'holman_meta_analysis'
         )
       ),
       pageLength = 100
@@ -94,7 +88,7 @@ n_effects <- nrow(meta_analysis_data)
 ```
 
 
-This table is scrollable, searchable, and can be exported as a `.csv` or `.pdf` file. You can also sort by column, or hide columns. The table lists `r n_effects` effect sizes (and their associated variance and 95% CIs) from `r n_expts` independent experimental evolution projects, which were published across `r n_pubs` journal articles. The `Trait` column gives the name of the trait being measured, `Generations` gives the number of generations of selection before measuring this trait, `Interpretation` gives a plain English description of what the effect size means, `Origin_of_lines` column gives the reference that first created the lines, the two `Experiment_type` columns are two ways of categorising the type of experiment, and `Sex` gives the sex of the individuals being measured
+This table is scrollable, searchable, and can be exported as a `.csv` file. You can also sort by column, or hide columns. The table lists `r n_effects` effect sizes (and their associated variance and 95% CIs) from `r n_expts` independent experimental evolution projects, which were published across `r n_pubs` journal articles. The `Trait` column gives the name of the trait being measured, `Generations` gives the number of generations of selection before measuring this trait, `Interpretation` gives a plain English description of what the effect size means, `Origin_of_lines` column gives the reference that first created the lines, the two `Experiment_type` columns are two ways of categorising the type of experiment, and `Sex` gives the sex of the individuals being measured
 
 ```{r}
 meta_analysis_data %>% 
