@@ -180,7 +180,7 @@ fit_ma("~ Generations")
 
 ## Forest plot of effect sizes (Figure 1)
 
-```{r fig.height = 8.2, fig.width=7, message=F, warning=F}
+```{r fig.height = 7.6, fig.width=7, message=F, warning=F}
 exp2_levs <- c("Male-limited haplotypes", 
                "Male-limited autosome",
                "Female-limited markers",
@@ -196,8 +196,6 @@ plot_data <- meta_analysis_data %>%
          Lower_95_CI, 
          Upper_95_CI) %>% 
   mutate(Experiment_type2 = factor(Experiment_type2, exp2_levs))
-
-
 
 mean_effect <- tibble(
     Origin_of_lines = " ", Short_name = "**Mean effect size**", 
@@ -233,10 +231,7 @@ plot_data$Short_name[plot_data$Short_name == "Radwan et al. (2004)"] <- "**Relax
 
 plot_data$Short_name[plot_data$Short_name == "Morrow et al. (2008)"] <- "**Relaxed selection on both sexes**<br>Morrow et al. (2004)"
 
-
 plot_data$Short_name <- str_remove_all(plot_data$Short_name, " et al[.]")
-plot_data$Short_name <- str_remove_all(plot_data$Short_name, ";")
-
 levs <- plot_data$Short_name %>% unique()
 
 plot_data <- plot_data %>% 
@@ -295,7 +290,7 @@ plot_data %>%
               scales = "free_y",
               space = "free_y") +
   theme_minimal()+
-  theme(legend.position = "top",
+  theme(legend.position = "none",
         strip.text.y = ggtext::element_markdown(angle = 0, hjust = 0, size = 7),
         axis.text.y = element_text(size = 7),
         strip.background = element_blank(),
@@ -315,7 +310,7 @@ plot_data %>%
   #                              "1" = rgb(144, 165, 210, maxColorValue=255))) +
 ```
 
-**Figure 1**: Forest plot showing the estimated effect sizes (Cohen's _d_ \(\pm \) 95% CIs). The y-axis indicates which trait was measured, and the coloured bands group effect sizes that come from the same set of experimental evolution lines (which are covered in one or more publications, named on the right). Positive effect sizes indicate evolutionary change in the direction predicted under IaSC, while negative effects indicate evolution in the opposite direction. Point colour differentiates between studies that manipulated inheritance vs selection. The grand mean effect size, shown at the bottom, is significantly positive. 
+**Figure 1**: Forest plot showing the estimated effect sizes (Cohen's _d_ \(\pm \) 95% CIs). The y-axis indicates the trait being measured while horizontal grey bands show the `r nrow(bands)-1` independent experimental evolution projects (projects are measured in one or more publications, named on the right). Positive effect sizes indicate evolutionary change in the direction predicted under IaSC, while negative effects indicate evolution in the opposite direction. Point colour highlights experiments using sex-limited inheritance of autosomal (blue) or X (red) genomic regions, or sex-specific relaxed selection (green). The mean effect size from meta-analysis is shown in black.
 
 ## Plotting effect of moderator `Generations`
 
