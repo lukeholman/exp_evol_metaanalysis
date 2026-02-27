@@ -264,8 +264,8 @@ plot_data %>%
                                  "Sex-specific X",
                                  "Sex-specific relaxed selection", "  "))) %>% 
   ggplot(aes(y = Trait_study, x = Estimate, colour = Experiment_type1)) +
-  # scale_color_brewer(palette = "Set1", direction = -1) + 
-  scale_colour_manual(values = c("steelblue", "tomato", "forestgreen", NA)) +
+  
+  # Horizontal grey bars
   geom_rect(
     data = bands,
     aes(
@@ -276,20 +276,25 @@ plot_data %>%
       fill = factor(stripe)),
     alpha = 0.3,
     inherit.aes = FALSE) +
+  # vertical line at zero
   geom_vline(xintercept = 0, linetype = 2, colour = "grey10") +
+  
+  # Points and error bars for primary effects
   geom_errorbar(aes(xmin = Lower_95_CI, 
                     xmax = Upper_95_CI)) +
   geom_point() + 
   
+  # Point and bars for the overall mean effect
   geom_errorbar(data = mean_effect, aes(xmin = Lower_95_CI, 
                                         xmax = Upper_95_CI), colour = "black") +
   geom_point(data = mean_effect, colour = "black") + 
   
+  # Scales, theme and parsed text labels
   scale_y_discrete(labels = function(x) sub("~.*$", "", x)) + 
   facet_grid2(rows = vars(Short_name),
               scales = "free_y",
               space = "free_y") +
-  theme_minimal()+
+  theme_minimal() +
   theme(legend.position = "none",
         strip.text.y = ggtext::element_markdown(angle = 0, hjust = 0, size = 7),
         axis.text.y = element_text(size = 7),
@@ -302,12 +307,10 @@ plot_data %>%
        y = NULL,
        colour = NULL) +  
   coord_cartesian(clip = "off") + 
-
+  scale_colour_manual(values = c("steelblue", "tomato", "forestgreen", NA)) +
   scale_fill_manual(values = c("0" = "grey80", 
                                "1" = "grey50")) +
   guides(fill = "none")
-  # scale_fill_manual(values = c("0" = rgb(1, 98, 71, maxColorValue=255), 
-  #                              "1" = rgb(144, 165, 210, maxColorValue=255))) +
 ```
 
 **Figure 1**: Forest plot showing the estimated effect sizes (Cohen's _d_ \(\pm \) 95% CIs). The y-axis indicates the trait being measured while horizontal grey bands show the `r nrow(bands)-1` independent experimental evolution projects (projects are measured in one or more publications, named on the right). Positive effect sizes indicate evolutionary change in the direction predicted under IaSC, while negative effects indicate evolution in the opposite direction. Point colour highlights experiments using sex-limited inheritance of autosomal (blue) or X (red) genomic regions, or sex-specific relaxed selection (green). The mean effect size from meta-analysis is shown in black.
