@@ -551,15 +551,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree0ffe7536589eb764b3e3f0db825761af2dc12a29targetblank0ffe753a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree1bc8273bb75eb6f3d9f3b0fb76cd95c1cfbdf5fftargetblank1bc8273a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/0ffe7536589eb764b3e3f0db825761af2dc12a29" target="_blank">0ffe753</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/1bc8273bb75eb6f3d9f3b0fb76cd95c1cfbdf5ff" target="_blank">1bc8273</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree0ffe7536589eb764b3e3f0db825761af2dc12a29targetblank0ffe753a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree1bc8273bb75eb6f3d9f3b0fb76cd95c1cfbdf5fftargetblank1bc8273a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -569,7 +569,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/0ffe7536589eb764b3e3f0db825761af2dc12a29" target="_blank">0ffe753</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/1bc8273bb75eb6f3d9f3b0fb76cd95c1cfbdf5ff" target="_blank">1bc8273</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -670,6 +670,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/1bc8273bb75eb6f3d9f3b0fb76cd95c1cfbdf5ff/analysis/meta_analysis.Rmd" target="_blank">1bc8273</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-27
+</td>
+<td>
+Improve figure
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/0b90819d1539fc41b9c402062e16a51225b04c19/docs/meta_analysis.html" target="_blank">0b90819</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-27
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1590,8 +1624,6 @@ plot_data &lt;- meta_analysis_data %&gt;%
          Upper_95_CI) %&gt;% 
   mutate(Experiment_type2 = factor(Experiment_type2, exp2_levs))
 
-
-
 mean_effect &lt;- tibble(
     Origin_of_lines = &quot; &quot;, Short_name = &quot;**Mean effect size**&quot;, 
          Experiment_type1 = &quot;  &quot;, Trait = &quot; &quot;, 
@@ -1626,10 +1658,7 @@ plot_data$Short_name[plot_data$Short_name == &quot;Radwan et al. (2004)&quot;] &
 
 plot_data$Short_name[plot_data$Short_name == &quot;Morrow et al. (2008)&quot;] &lt;- &quot;**Relaxed selection on both sexes**&lt;br&gt;Morrow et al. (2004)&quot;
 
-
 plot_data$Short_name &lt;- str_remove_all(plot_data$Short_name, &quot; et al[.]&quot;)
-plot_data$Short_name &lt;- str_remove_all(plot_data$Short_name, &quot;;&quot;)
-
 levs &lt;- plot_data$Short_name %&gt;% unique()
 
 plot_data &lt;- plot_data %&gt;% 
@@ -1688,7 +1717,7 @@ plot_data %&gt;%
               scales = &quot;free_y&quot;,
               space = &quot;free_y&quot;) +
   theme_minimal()+
-  theme(legend.position = &quot;top&quot;,
+  theme(legend.position = &quot;none&quot;,
         strip.text.y = ggtext::element_markdown(angle = 0, hjust = 0, size = 7),
         axis.text.y = element_text(size = 7),
         strip.background = element_blank(),
@@ -1878,14 +1907,15 @@ luekholman
   #                              &quot;1&quot; = rgb(144, 165, 210, maxColorValue=255))) +</code></pre>
 <p><strong>Figure 1</strong>: Forest plot showing the estimated effect
 sizes (Cohen’s <em>d</em> <span class="math inline">\(\pm\)</span> 95%
-CIs). The y-axis indicates which trait was measured, and the coloured
-bands group effect sizes that come from the same set of experimental
-evolution lines (which are covered in one or more publications, named on
-the right). Positive effect sizes indicate evolutionary change in the
-direction predicted under IaSC, while negative effects indicate
-evolution in the opposite direction. Point colour differentiates between
-studies that manipulated inheritance vs selection. The grand mean effect
-size, shown at the bottom, is significantly positive.</p>
+CIs). The y-axis indicates the trait being measured while horizontal
+grey bands show the 10 independent experimental evolution projects
+(projects are measured in one or more publications, named on the right).
+Positive effect sizes indicate evolutionary change in the direction
+predicted under IaSC, while negative effects indicate evolution in the
+opposite direction. Point colour highlights experiments using
+sex-limited inheritance of autosomal (blue) or X (red) genomic regions,
+or sex-specific relaxed selection (green). The mean effect size from
+meta-analysis is shown in black.</p>
 </div>
 <div id="plotting-effect-of-moderator-generations"
 class="section level2">
