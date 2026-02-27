@@ -533,15 +533,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree4980e8d092316063b1a35680793367c6ed9bd0datargetblank4980e8da">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree2ed995ad03a46ffb282bc74a61bee345980a3d2etargetblank2ed995aa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/4980e8d092316063b1a35680793367c6ed9bd0da" target="_blank">4980e8d</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/2ed995ad03a46ffb282bc74a61bee345980a3d2e" target="_blank">2ed995a</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree4980e8d092316063b1a35680793367c6ed9bd0datargetblank4980e8da"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree2ed995ad03a46ffb282bc74a61bee345980a3d2etargetblank2ed995aa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -551,7 +551,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/4980e8d092316063b1a35680793367c6ed9bd0da" target="_blank">4980e8d</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/2ed995ad03a46ffb282bc74a61bee345980a3d2e" target="_blank">2ed995a</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -592,9 +592,9 @@ Untracked files:
     Untracked:  effect_sizes/prasad2007_4.csv
     Untracked:  effect_sizes/prasad2007_5.csv
     Untracked:  effect_sizes/prasad2007_6.csv
+    Untracked:  effect_sizes/thyagarajan2025_4.csv
 
 Unstaged changes:
-    Modified:   analysis/meta_analysis.Rmd
     Deleted:    data/README.md
     Modified:   effect_sizes/abbott2010_1.csv
     Modified:   effect_sizes/abbott2010_2.csv
@@ -604,10 +604,16 @@ Unstaged changes:
     Modified:   effect_sizes/abbott_2013_2.csv
     Modified:   effect_sizes/abbott_2020_2.csv
     Modified:   effect_sizes/bedhomme2008_1.csv
+    Modified:   effect_sizes/manat_3.csv
+    Modified:   effect_sizes/manat_4.csv
     Deleted:    effect_sizes/martinossiAllibert2019_1.csv
     Deleted:    effect_sizes/martinossiAllibert2019_2.csv
     Modified:   effect_sizes/melo_gavin2025_maleharm.csv
     Modified:   effect_sizes/norden2020.csv
+    Modified:   effect_sizes/rice98_2.csv
+    Modified:   effect_sizes/rice98_3.csv
+    Modified:   effect_sizes/rice98_4.csv
+    Modified:   effect_sizes/thyagarajan2025_3.csv
     Modified:   input_data/study_metadata.csv
     Deleted:    output/README.md
 
@@ -654,6 +660,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/2ed995ad03a46ffb282bc74a61bee345980a3d2e/analysis/primary_data.Rmd" target="_blank">2ed995a</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-27
+</td>
+<td>
+Add HT female productivity
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/00199796780d331243ffee19b01c3819335a0348/docs/primary_data.html" target="_blank">0019979</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-27
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -5371,7 +5411,7 @@ ML
     sd.1 = abb$bodymass_SD[3], sd.2 = abb$bodymass_SD[4],
     n.1 = abb$N[3], n.2 = abb$N[4], verbose=F) %&gt;% 
   parse_es(study = &quot;Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997&quot;, 
-           trait = &quot;Male body mass  (2010)&quot;, 
+           trait = &quot;Male body mass (2010)&quot;, 
            generations = 82, 
            organism = &quot;Drosophila melanogaster&quot;, 
            interpretation = &quot;The positive effect size indicates that males carrying male-evolved haplotypes have lower body mass than males carrying control genotypes.&quot;) %&gt;% 
@@ -5419,7 +5459,7 @@ ML
     sd.2 = abb$fitness_SD[3], sd.1 = abb$fitness_SD[4],
     n.2 = abb$N[3], n.1 = abb$N[4], verbose=F) %&gt;% 
   parse_es(study = &quot;Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997&quot;, 
-           trait = &quot;Male fitness  (2010)&quot;, 
+           trait = &quot;Male fitness (2010)&quot;, 
            generations = 82, 
            organism = &quot;Drosophila melanogaster&quot;, 
            interpretation = &quot;The positive effect size indicates that males carrying male-evolved haplotypes have higher fitness than males carrying control genotypes.&quot;) %&gt;% 
@@ -7148,7 +7188,8 @@ control), replicate, and generation as fixed effects (no interactions
 are fitted, i.e. I estimate the average treatment effect across the 3
 starting genomes, labelled ‘replicates’). From the binomial GLM I get
 the treatment effect size as a log odds ratio, and then convert that to
-Cohen’s d.</p>
+Cohen’s d. For both sexes, the effect size compares the control and
+single-dose male limited treatments.</p>
 <pre class="r"><code>female_CRF &lt;- read_csv(&quot;input_data/Thyagarajan_2025_dryad_data/F_CRF_wt.cr.csv&quot;,
                        show_col_types = F) %&gt;% 
   mutate(Sex = &quot;F&quot;, Replicate = factor(Replicate))
@@ -7219,7 +7260,7 @@ tibble(
   Trait = &quot;Male mating success&quot;,
   Generations = 64,
   Organism = &quot;Drosophila melanogaster&quot;,
-  Interpretation = &quot;A positive effectwould mean that males carrying male-evolved haplotypes are more likely to mate with females (over standard male competitors) compared to males carrying control genomes (there is no signficant difference).&quot;,
+  Interpretation = &quot;A positive effect would mean that males carrying male-evolved haplotypes are more likely to mate with females (over standard male competitors) compared to males carrying control genomes (there is no signficant difference).&quot;,
   Estimate = LOR_effects$Estimate,
   Var = LOR_effects$Var,
   Lower_95_CI = LOR_effects$Lower_95_CI,
@@ -7254,6 +7295,36 @@ tibble(
   Lower_95_CI = LOR_effects$Lower_95_CI,
   Upper_95_CI = LOR_effects$Upper_95_CI) %&gt;% 
   write_csv(&quot;effect_sizes/thyagarajan2025_3.csv&quot;)</code></pre>
+</div>
+<div id="female-productivity-1" class="section level3">
+<h3>Female productivity</h3>
+<pre class="r"><code>female_prod_data &lt;- read_csv(&quot;input_data/Thyagarajan_2025_dryad_data/F_HClines.csv&quot;,
+                            show_col_types = F) %&gt;% 
+  mutate(Pupal.count = as.numeric(scale(Pupal.count)),
+         Dams.Count = as.numeric(scale(Dams.Count))) %&gt;% 
+  mutate(Line = factor(Line),
+         Vial = paste(Line, Vial, sep = &quot;_&quot;))
+
+model &lt;- lmer(Pupal.count ~ Dams.Count + Selection + (1| Line), data = female_prod_data) 
+
+effects &lt;- contrast(emmeans(model, ~ Selection), method = &quot;pairwise&quot;) %&gt;% 
+  as_tibble() %&gt;% 
+  mutate(Estimate = estimate,
+         Var = SE ^ 2,
+         Lower_95_CI = (Estimate - SE * 1.96),
+         Upper_95_CI = (Estimate + SE * 1.96))
+
+tibble(
+  Study = &quot;Thyagarajan et al. (2025) J. Hered. esaf072&quot;,
+  Trait = &quot;Female productivity&quot;,
+  Generations = 64,
+  Organism = &quot;Drosophila melanogaster&quot;,
+  Interpretation = &quot;A positive effect would indicate that females carrying male-evolved haplotypes produce fewer offspring compared to females carrying control genomes (there is a non-significant trend in the opposite direction).&quot;,
+  Estimate = effects$Estimate,
+  Var = effects$Var,
+  Lower_95_CI = effects$Lower_95_CI,
+  Upper_95_CI = effects$Upper_95_CI) %&gt;% 
+  write_csv(&quot;effect_sizes/thyagarajan2025_4.csv&quot;)</code></pre>
 </div>
 </div>
 <div id="nordén-et-al.-2023" class="section level2">
