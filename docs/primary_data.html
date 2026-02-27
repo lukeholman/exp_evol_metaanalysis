@@ -533,15 +533,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreeccb39206151e4f4b82d28e8fb45b9671140b9d6etargetblankccb3920a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree4980e8d092316063b1a35680793367c6ed9bd0datargetblank4980e8da">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/ccb39206151e4f4b82d28e8fb45b9671140b9d6e" target="_blank">ccb3920</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/4980e8d092316063b1a35680793367c6ed9bd0da" target="_blank">4980e8d</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreeccb39206151e4f4b82d28e8fb45b9671140b9d6etargetblankccb3920a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree4980e8d092316063b1a35680793367c6ed9bd0datargetblank4980e8da"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -551,7 +551,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/ccb39206151e4f4b82d28e8fb45b9671140b9d6e" target="_blank">ccb3920</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/4980e8d092316063b1a35680793367c6ed9bd0da" target="_blank">4980e8d</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -603,6 +603,7 @@ Unstaged changes:
     Modified:   effect_sizes/abbott_2013_1.csv
     Modified:   effect_sizes/abbott_2013_2.csv
     Modified:   effect_sizes/abbott_2020_2.csv
+    Modified:   effect_sizes/bedhomme2008_1.csv
     Deleted:    effect_sizes/martinossiAllibert2019_1.csv
     Deleted:    effect_sizes/martinossiAllibert2019_2.csv
     Modified:   effect_sizes/melo_gavin2025_maleharm.csv
@@ -653,6 +654,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/4980e8d092316063b1a35680793367c6ed9bd0da/analysis/primary_data.Rmd" target="_blank">4980e8d</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-27
+</td>
+<td>
+improved figure
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/22e1d5f1fa9464c28ac765c40de37237b0d7da56/docs/primary_data.html" target="_blank">22e1d5f</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-27
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -2090,7 +2125,7 @@ CAB
 <h4>Effect size</h4>
 <pre class="r"><code>get_effect_size_2x2_matrix(x) %&gt;% 
     mutate(Study = &quot;Rice (1998) PNAS, 95, 6217–6221&quot;, 
-           Trait = &quot;Male attractiveness to mated females&quot;, 
+           Trait = &quot;Male attractiveness&quot;, 
            Generations = &quot;38&quot;,
            Organism = &quot;Drosophila melanogaster&quot;,
            Interpretation = &quot;The positive effect size means that males carrying a haplotype that underwent male-limited evolution attained more matings with previously-mated females compared to males carrying control haplotypes&quot;,
@@ -2244,7 +2279,7 @@ effect size here would mean better sperm defence in EAB males than CAB
 
 get_effect_size_2x2_matrix(x) %&gt;% 
     mutate(Study = &quot;Rice (1998) PNAS, 95, 6217–6221&quot;, 
-           Trait = &quot;Male sperm defence&quot;, 
+           Trait = &quot;Sperm defence&quot;, 
            Generations = &quot;40&quot;,
            Organism = &quot;Drosophila melanogaster&quot;,
            Interpretation = &quot;A positive effect size means that males carrying a haplotype that underwent male-limited evolution fertilise more offspring when mating first in twice-mated females, compared to males carrying control haplotypes (though there is no significant difference between the two treatments)&quot;,
@@ -2358,7 +2393,7 @@ effect size here would mean better sperm offence in EAB males than CAB
 # positive effect means higher sperm offence for EAB males. It is not significant, contra Rice&#39;s analysis
 get_effect_size_2x2_matrix(x) %&gt;% 
     mutate(Study = &quot;Rice (1998) PNAS, 95, 6217–6221&quot;, 
-           Trait = &quot;Male sperm offence&quot;, 
+           Trait = &quot;Sperm offence&quot;, 
            Generations = &quot;40&quot;,
            Organism = &quot;Drosophila melanogaster&quot;,
            Interpretation = &quot;A positive effect size means that males carrying a haplotype that underwent male-limited evolution fertilise more offspring when mating second in twice-mated females, compared to males carrying control haplotypes (though there is no significant difference between the two treatments)&quot;,
@@ -6018,7 +6053,7 @@ mes(m.1 = df$mean[2], m.2 = df$mean[1],
     sd.1 = df$SD[4], sd.2 = df$SD[3],
     n.1 = df$N[4], n.2 = df$N[3], verbose = F) %&gt;% 
   parse_es(study = &quot;Abbott et al. (2013) PLOS ONE 8, e70493&quot;, 
-           trait = &quot;% sons among surviving progeny&quot;, 
+           trait = &quot;Male effect on % sons&quot;, 
            generations = 40, 
            organism = &quot;Drosophila melanogaster&quot;, 
            interpretation = &quot;The proportion of sons among the progeny of males carrying an X chromosome that underwent male-limited evolution is higher than that of males carrying an X that experienced only 1 generation of father-to-son inheritance.&quot;) %&gt;% 
@@ -6907,7 +6942,7 @@ CFM
     sd.2 = df$SE[1] * sqrt(80),
     n.1 = 880, n.2 = 80, verbose = F) %&gt;% 
   parse_es(study = &quot;Manat et al. (2021) Biol. Lett. 17, 20200915&quot;, 
-           trait = &quot;Male sperm offence&quot;, 
+           trait = &quot;Sperm offence&quot;, 
            generations = &quot;160&quot;,
            organism = &quot;Drosophila melanogaster&quot;,
            interpretation = &quot;A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have worse sperm offence (i.e. sire fewer offspring with previously mated females) compared to males carrying control X chromosomes (however the finding is significant in the opposite direction).&quot;) %&gt;% 
@@ -6985,7 +7020,7 @@ CFM
     sd.2 = df$SE[1] * sqrt(80),
     n.1 = 880, n.2 = 80, verbose = F) %&gt;% 
   parse_es(study = &quot;Manat et al. (2021) Biol. Lett. 17, 20200915&quot;, 
-           trait = &quot;Male sperm defence&quot;, 
+           trait = &quot;Sperm defence&quot;, 
            generations = &quot;160&quot;,
            organism = &quot;Drosophila melanogaster&quot;,
            interpretation = &quot;The positive effect indicates that males carrying an X chromosome that underwent female-limited evolution have worse sperm defence (i.e. sire fewer offspring when after the female remates) compared to males carrying control X chromosomes.&quot;) %&gt;% 
@@ -7210,7 +7245,7 @@ LOR_effects &lt;- contrast(emmeans(model, ~ Treatment), method = &quot;pairwise&
 
 tibble(
   Study = &quot;Thyagarajan et al. (2025) J. Hered. esaf072&quot;,
-  Trait = &quot;Male sperm offence&quot;,
+  Trait = &quot;Sperm offence&quot;,
   Generations = 64,
   Organism = &quot;Drosophila melanogaster&quot;,
   Interpretation = &quot;A positive effect would indicate that males carrying male-evolved haplotypes sire more offspring when mating with previously-mated females, compared to males carrying control genomes (there is no significant effect).&quot;,
