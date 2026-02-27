@@ -75,9 +75,13 @@ meta_analysis_data <- list.files("effect_sizes/", full.names = T) %>%
   left_join(read_csv("input_data/study_metadata.csv"), by = join_by(Study)) %>% 
   mutate(year = str_extract(Short_name, "[:digit:]+")) %>% 
   arrange(year) %>% 
-  mutate(Sex = "Both",
-         Sex = replace(Sex, str_detect(Trait, "Male"), "Male"),
-         Sex = replace(Sex, str_detect(Trait, "Female"), "Female"))
+  mutate(
+    first_word = map_chr(str_split(Trait, " "), ~.x[[1]]),
+    Sex = NA,
+    Sex = replace(Sex, first_word %in% c("Male", "Sperm", "Mating"), "Male"),
+    Sex = replace(Sex, first_word %in% c("Viability", "Egg-to-adult"), "Both"),
+    Sex = replace(Sex, first_word == "Female", "Female")) %>% 
+  select(-first_word)
 ```
 
 ## Data collected for the meta-analysis
@@ -90,7 +94,7 @@ n_effects <- nrow(meta_analysis_data)
 ```
 
 
-This table is searchable and can be exported as a `.csv` or `.pdf` file. You can also hide columns to help read it. There are `r n_effects` effect sizes from `r n_expts` independent experimental evolution projects, which were published across `r n_pubs` journal articles.
+This table is scrollable, searchable, and can be exported as a `.csv` or `.pdf` file. You can also sort by column, or hide columns. The table lists `r n_effects` effect sizes (and their associated variance and 95% CIs) from `r n_expts` independent experimental evolution projects, which were published across `r n_pubs` journal articles. The `Trait` column gives the name of the trait being measured, `Generations` gives the number of generations of selection before measuring this trait, `Interpretation` gives a plain English description of what the effect size means, `Origin_of_lines` column gives the reference that first created the lines, the two `Experiment_type` columns are two ways of categorising the type of experiment, and `Sex` gives the sex of the individuals being measured
 
 ```{r}
 meta_analysis_data %>% 
@@ -126,9 +130,11 @@ The top model includes the moderator `Generations`, and it is ahead of second-be
 ```{r}
 fit_ma <- function(formula){
   
+  # there are only 2 effect sizes relating to both sexes, so they crash the model. Just remove from this moderator analysis. Also scale the generations variable to mean 0, variance 1. 
   scaled_meta_analysis_data <-
     meta_analysis_data %>% 
-    mutate(Generations = as.numeric(scale(Generations)))
+    mutate(Generations = as.numeric(scale(Generations))) %>% 
+    filter(Sex != "Both") 
   
   if(formula == "Intercept only"){
     return(meta_analysis)
@@ -174,11 +180,16 @@ fit_all(c("~ Generations + Sex + Experiment_type1",
 
 ```{r include=FALSE}
 mean_gen <- round(mean(meta_analysis_data$Generations),1)
+
+gen_ma <- fit_ma("~ Generations")
+
+mean_effect_gen <- paste0(pretty3(as.numeric(gen_ma$b[1,1])), " (",
+                          pretty3(as.numeric(gen_ma$ci.lb)[1]), "-",
+                          pretty3(as.numeric(gen_ma$ci.ub)[1]), ")", collapse = "")
 ```
 
 
-
-Below are the results of the top model containing moderators, showing the significant negative effect of the moderator `Generations` on effect size (note: `Generations` was scaled to have mean 0, SD 1, prior to analysis). This is a counter-intuitive result since we might expect greater effects after more generations of selection, but it is not very informative since `Generations` is confounded with other factors (e.g. species, type of experimental design, type of trait being measured, and whether I used the raw data or summary statistics to calculate effect size). The grand mean effect size (predicted here for the average value of `Generations`, which is `r mean_gen`) is much the same after adjusting for the effect of `Generations`.
+Below are the results of the top model (ranked by AICc) with one or more moderators, showing the significant negative effect of the moderator `Generations` on effect size (note: `Generations` was scaled to have mean 0, SD 1, prior to analysis). This is a counter-intuitive result since we might expect greater effects after more generations of selection, but it is not very informative since `Generations` is confounded with other factors (e.g. species, type of experimental design, type of trait being measured, and whether I used the raw data or summary statistics to calculate effect size). The grand mean effect size (predicted here for the average value of `Generations`, which is `r mean_gen`) is `r mean_effect_gen`, which is much the same as the previous meta-analysis that did not adjust for the effect of `Generations`.
 
 ```{r}
 fit_ma("~ Generations")
