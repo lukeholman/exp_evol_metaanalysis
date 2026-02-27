@@ -871,7 +871,7 @@ mes(m.1 = abb$body_mass[3], m.2 = abb$body_mass[4],
     sd.1 = abb$bodymass_SD[3], sd.2 = abb$bodymass_SD[4],
     n.1 = abb$N[3], n.2 = abb$N[4], verbose=F) %>% 
   parse_es(study = "Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997", 
-           trait = "Male body mass  (2010)", 
+           trait = "Male body mass (2010)", 
            generations = 82, 
            organism = "Drosophila melanogaster", 
            interpretation = "The positive effect size indicates that males carrying male-evolved haplotypes have lower body mass than males carrying control genotypes.") %>% 
@@ -927,7 +927,7 @@ mes(m.2 = abb$fitness[3], m.1 = abb$fitness[4],
     sd.2 = abb$fitness_SD[3], sd.1 = abb$fitness_SD[4],
     n.2 = abb$N[3], n.1 = abb$N[4], verbose=F) %>% 
   parse_es(study = "Abbott et al. (2010) J. Evol. Biol. 23, 1989–1997", 
-           trait = "Male fitness  (2010)", 
+           trait = "Male fitness (2010)", 
            generations = 82, 
            organism = "Drosophila melanogaster", 
            interpretation = "The positive effect size indicates that males carrying male-evolved haplotypes have higher fitness than males carrying control genotypes.") %>% 
@@ -1823,7 +1823,7 @@ Thyagarajan, H., Sayyed, I., Baroody, M. G., Kowal, J. A., Day, T., & Chippindal
 
 ### Female and male fitness
 
-These variables are referred to as 'competitive reproductive fitness' in the paper. I obtained the raw data from Dryad and ran one model for each sex. The models were binomial GLMs with treatment (male-evolved or control), replicate, and generation as fixed effects (no interactions are fitted, i.e. I estimate the average treatment effect across the 3 starting genomes, labelled 'replicates'). From the binomial GLM I get the treatment effect size as a log odds ratio, and then convert that to Cohen's d.
+These variables are referred to as 'competitive reproductive fitness' in the paper. I obtained the raw data from Dryad and ran one model for each sex. The models were binomial GLMs with treatment (male-evolved or control), replicate, and generation as fixed effects (no interactions are fitted, i.e. I estimate the average treatment effect across the 3 starting genomes, labelled 'replicates'). From the binomial GLM I get the treatment effect size as a log odds ratio, and then convert that to Cohen's d. For both sexes, the effect size compares the control and single-dose male limited treatments.
 
 ```{r}
 female_CRF <- read_csv("input_data/Thyagarajan_2025_dryad_data/F_CRF_wt.cr.csv",
@@ -1899,7 +1899,7 @@ tibble(
   Trait = "Male mating success",
   Generations = 64,
   Organism = "Drosophila melanogaster",
-  Interpretation = "A positive effectwould mean that males carrying male-evolved haplotypes are more likely to mate with females (over standard male competitors) compared to males carrying control genomes (there is no signficant difference).",
+  Interpretation = "A positive effect would mean that males carrying male-evolved haplotypes are more likely to mate with females (over standard male competitors) compared to males carrying control genomes (there is no signficant difference).",
   Estimate = LOR_effects$Estimate,
   Var = LOR_effects$Var,
   Lower_95_CI = LOR_effects$Lower_95_CI,
@@ -1938,6 +1938,40 @@ tibble(
   Upper_95_CI = LOR_effects$Upper_95_CI) %>% 
   write_csv("effect_sizes/thyagarajan2025_3.csv")
 ```
+
+### Female productivity
+
+```{r}
+female_prod_data <- read_csv("input_data/Thyagarajan_2025_dryad_data/F_HClines.csv",
+                            show_col_types = F) %>% 
+  mutate(Pupal.count = as.numeric(scale(Pupal.count)),
+         Dams.Count = as.numeric(scale(Dams.Count))) %>% 
+  mutate(Line = factor(Line),
+         Vial = paste(Line, Vial, sep = "_"))
+
+model <- lmer(Pupal.count ~ Dams.Count + Selection + (1| Line), data = female_prod_data) 
+
+effects <- contrast(emmeans(model, ~ Selection), method = "pairwise") %>% 
+  as_tibble() %>% 
+  mutate(Estimate = estimate,
+         Var = SE ^ 2,
+         Lower_95_CI = (Estimate - SE * 1.96),
+         Upper_95_CI = (Estimate + SE * 1.96))
+
+tibble(
+  Study = "Thyagarajan et al. (2025) J. Hered. esaf072",
+  Trait = "Female productivity",
+  Generations = 64,
+  Organism = "Drosophila melanogaster",
+  Interpretation = "A positive effect would indicate that females carrying male-evolved haplotypes produce fewer offspring compared to females carrying control genomes (there is a non-significant trend in the opposite direction).",
+  Estimate = effects$Estimate,
+  Var = effects$Var,
+  Lower_95_CI = effects$Lower_95_CI,
+  Upper_95_CI = effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/thyagarajan2025_4.csv")
+```
+
+
 
 ## Nordén et al. (2023) 
 
