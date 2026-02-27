@@ -36,12 +36,17 @@ my_data_table <- function(df){
       scrollY = 1000,
       scrollCollapse = TRUE,
       buttons = list(
-        'pageLength', 'colvis', 'csv',
+        'pageLength',
+        'colvis',
+        list(
+          extend = 'csv',
+          filename = 'holman_meta_analysis'
+        ),
         list(
           extend = 'pdf',
           pageSize = 'A4',
           orientation = 'landscape',
-          filename = 'Trait_data'
+          filename = 'holman_meta_analysis'
         )
       ),
       pageLength = 100
@@ -85,7 +90,7 @@ n_effects <- nrow(meta_analysis_data)
 ```
 
 
-This table is searchable and can be exported as a file. You can also hide columns to help read it. There are `r n_effects` effect sizes from `r n_expts` independent experimental evolution projects, which were published across `r n_pubs` journal articles.
+This table is searchable and can be exported as a `.csv` or `.pdf` file. You can also hide columns to help read it. There are `r n_effects` effect sizes from `r n_expts` independent experimental evolution projects, which were published across `r n_pubs` journal articles.
 
 ```{r}
 meta_analysis_data %>% 
