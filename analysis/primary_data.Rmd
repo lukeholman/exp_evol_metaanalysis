@@ -746,6 +746,8 @@ This leaves the data on courthsip. The authors measured the number of observed c
 
 The data come from Table 1. The means represent the number of courtship events towards females per vial, in vials where the males carried either MLE or control genomes (females were a standard genotype). There were 40 vials in total, 10 vials per evolving population, with 4 replicate populations of the MLE treatment and 4 of the control.
 
+Note that the authors were surprised to see LESS courtship by the MLE males, though they note they mate just as often as controls, and rationalised _post hoc_ that the lower courtship reflects less need to engage in courtship in order to mate. We therefor have coded this effect size as positive even though it should arguably be negative, since it went against the _a priori_ expectation under IaSC. Changing this effect to negative does not change the overall positive, significant effect size in the meta-analysis (it just makes it slightly less positive, but still confidently above zero).
+
 ```{r}
 # The authors were surprised to see LESS courtship by the MLE males, though they note they mate just as often as controls,
 # and suggest this finding reflects increased attractiveness of MLE males so they do not need to court as much
@@ -761,8 +763,8 @@ df <- tibble(
 
 #### Calculating effect size
 ```{r}
-mes(m.1 = df$mean[1], m.2 = df$mean[2],
-    sd.1 = df$SD[1], sd.2 = df$SD[2],
+mes(m.2 = df$mean[1], m.1 = df$mean[2],
+    sd.2 = df$SD[1], sd.1 = df$SD[2],
     n.1 = 40, n.2 = 40, verbose = F) %>% 
   parse_es(study = "Bedhomme et al. (2008) PLOS ONE 3, e2187",
            generations = 52,
