@@ -8,13 +8,6 @@ editor_options:
   code_folding: hide
 ---
 
-```{r include=FALSE}
-pretty3 <- function(x) {
-  formatC(x, format = "f", digits = 3)
-}
-```
-
-
 Load packages, the meta-analysis data, and a helper function.
 
 ```{r message=F}
@@ -58,6 +51,15 @@ my_data_table <- function(df){
       columns = num_cols,
       digits = 3
     ) 
+}
+
+# Text formatters
+pretty2 <- function(x) {
+  formatC(x, format = "f", digits = 2)
+}
+
+pretty3 <- function(x) {
+  formatC(x, format = "f", digits = 3)
 }
 
 
@@ -190,6 +192,12 @@ exp2_levs <- c("Male-limited haplotypes",
                "Relaxed selection in females",
                "Relaxed selection in both sexes")
 
+MA_result <- paste0(pretty2(as.numeric(meta_analysis$b)), " (", 
+                    pretty2(as.numeric(meta_analysis$ci.lb)),
+                    "-", 
+                    pretty2(as.numeric(meta_analysis$ci.ub)),
+                    ")", collapse = "")
+
 plot_data <- meta_analysis_data %>% 
   select(Origin_of_lines, Short_name, 
          Experiment_type1, Experiment_type2, Trait, Estimate, 
@@ -197,13 +205,16 @@ plot_data <- meta_analysis_data %>%
          Upper_95_CI) %>% 
   mutate(Experiment_type2 = factor(Experiment_type2, exp2_levs))
 
+mean_text <- paste0("**Mean effect size:** ", MA_result, collapse="")
+
 mean_effect <- tibble(
-    Origin_of_lines = " ", Short_name = "**Mean effect size**", 
+    Origin_of_lines = " ", Short_name = mean_text, 
          Experiment_type1 = "  ", Trait = " ", 
     Estimate = as.numeric(meta_analysis$b), 
          Lower_95_CI = as.numeric(meta_analysis$ci.lb), 
     Upper_95_CI  = as.numeric(meta_analysis$ci.ub)
   )
+
 
 plot_data <- plot_data %>% 
   group_by(Origin_of_lines) %>% 
@@ -256,7 +267,7 @@ plot_data <- plot_data %>%
                               unique(paste(Trait, Short_name, sep = "~"))))
 
 mean_effect <- plot_data %>% 
-  filter(Short_name == "**Mean effect size**")
+  filter(Short_name == mean_text)
 
 plot_data %>% 
   mutate(Experiment_type1 = factor(
