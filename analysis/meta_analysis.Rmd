@@ -180,17 +180,24 @@ fit_ma("~ Generations")
 
 ## Forest plot of effect sizes (Figure 1)
 
-```{r fig.height = 8.2, fig.width=7}
+```{r fig.height = 8.2, fig.width=7, message=F}
+exp2_levs <- c("Male-limited haplotypes", 
+               "Male-limited autosome",
+               "Female-limited markers",
+               "Reciprocal sex-limited markers",
+               "Male-limited X chromosomes",
+               "Female-limited X chromosomes",
+               "Relaxed selection in females",
+               "Relaxed selection in both sexes")
+
 plot_data <- meta_analysis_data %>% 
   select(Origin_of_lines, Short_name, 
          Experiment_type1, Experiment_type2, Trait, Estimate, 
          Lower_95_CI, 
-         Upper_95_CI) 
+         Upper_95_CI) %>% 
+  mutate(Experiment_type2 = factor(Experiment_type2, exp2_levs))
 
-plot_data$Trait[plot_data$Trait == "Male fitness" & 
-                  plot_data$Short_name == "Abbott et al. (2013)"] <- "Male fitness (2013)"
-plot_data$Trait[plot_data$Trait == "Male fitness" & 
-                  plot_data$Short_name == "Abbott et al. (2020)"] <- "Male fitness (2020)"
+
 
 mean_effect <- tibble(
     Origin_of_lines = " ", Short_name = "**Mean effect size**", 
@@ -213,7 +220,6 @@ plot_data$Short_name[plot_data$Short_name == "Prasad et al. (2007);\nBedhomme et
 plot_data$Short_name[plot_data$Short_name == "Thyagarajan et al. (2025)"] <- "**Male-limited haplotypes**<br>Thyagarajan et al. (2025)"
 
 plot_data$Short_name[plot_data$Short_name == "Rice (1992)"] <- "**Female-limited region** (Rice 1992)"
-
 
 plot_data$Short_name[plot_data$Short_name == "Grieshop et al. (2025);\nMelo-Gavin et al. (2025)"] <- "**Male-limited autosome**<br>Grieshop et al. (2025), Melo-Gavin et al. (2025)"
 
@@ -294,10 +300,8 @@ plot_data %>%
         axis.text.y = element_text(size = 7),
         strip.background = element_blank(),
         panel.grid.major.y = element_blank(),
-        axis.ticks.x = element_line(colour = "grey20", size = 0.2),
-        panel.border = element_rect(colour = "grey20", size = 0.2),
-        panel.clip = "off",
-        # strip.text.y = element_text(angle = 0, hjust=0),
+        axis.ticks.x = element_line(colour = "grey20", linewidth = 0.2),
+        panel.border = element_rect(colour = "grey20", linewidth = 0.2),
         panel.spacing.y=unit(0, "pt"))+ 
   labs(x = "Effect size (Cohen's d) \u00B1 95% CIs", 
        y = NULL,
