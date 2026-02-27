@@ -180,7 +180,7 @@ fit_ma("~ Generations")
 
 ## Forest plot of effect sizes (Figure 1)
 
-```{r fig.height = 7.6, fig.width=7, message=F, warning=F}
+```{r fig.height = 7.6, fig.width=6, message=F, warning=F}
 exp2_levs <- c("Male-limited haplotypes", 
                "Male-limited autosome",
                "Female-limited markers",
