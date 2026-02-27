@@ -298,7 +298,7 @@ kable(x) %>% kable_styling(full_width = F)
 ```{r}
 get_effect_size_2x2_matrix(x) %>% 
     mutate(Study = "Rice (1998) PNAS, 95, 6217–6221", 
-           Trait = "Male attractiveness to mated females", 
+           Trait = "Male attractiveness", 
            Generations = "38",
            Organism = "Drosophila melanogaster",
            Interpretation = "The positive effect size means that males carrying a haplotype that underwent male-limited evolution attained more matings with previously-mated females compared to males carrying control haplotypes",
@@ -343,7 +343,7 @@ x <- matrix(c(m$n[1] + m$n[3],
 
 get_effect_size_2x2_matrix(x) %>% 
     mutate(Study = "Rice (1998) PNAS, 95, 6217–6221", 
-           Trait = "Male sperm defence", 
+           Trait = "Sperm defence", 
            Generations = "40",
            Organism = "Drosophila melanogaster",
            Interpretation = "A positive effect size means that males carrying a haplotype that underwent male-limited evolution fertilise more offspring when mating first in twice-mated females, compared to males carrying control haplotypes (though there is no significant difference between the two treatments)",
@@ -395,7 +395,7 @@ x <- matrix(c(m$n[5] + m$n[7],
 # positive effect means higher sperm offence for EAB males. It is not significant, contra Rice's analysis
 get_effect_size_2x2_matrix(x) %>% 
     mutate(Study = "Rice (1998) PNAS, 95, 6217–6221", 
-           Trait = "Male sperm offence", 
+           Trait = "Sperm offence", 
            Generations = "40",
            Organism = "Drosophila melanogaster",
            Interpretation = "A positive effect size means that males carrying a haplotype that underwent male-limited evolution fertilise more offspring when mating second in twice-mated females, compared to males carrying control haplotypes (though there is no significant difference between the two treatments)",
@@ -1171,7 +1171,7 @@ mes(m.1 = df$mean[4], m.2 = df$mean[3],
     sd.1 = df$SD[4], sd.2 = df$SD[3],
     n.1 = df$N[4], n.2 = df$N[3], verbose = F) %>% 
   parse_es(study = "Abbott et al. (2013) PLOS ONE 8, e70493", 
-           trait = "% sons among surviving progeny", 
+           trait = "Male effect on % sons", 
            generations = 40, 
            organism = "Drosophila melanogaster", 
            interpretation = "The proportion of sons among the progeny of males carrying an X chromosome that underwent male-limited evolution is higher than that of males carrying an X that experienced only 1 generation of father-to-son inheritance.") %>% 
@@ -1678,7 +1678,7 @@ mes(m.1 = df$mean[2],
     sd.2 = df$SE[1] * sqrt(80),
     n.1 = 880, n.2 = 80, verbose = F) %>% 
   parse_es(study = "Manat et al. (2021) Biol. Lett. 17, 20200915", 
-           trait = "Male sperm offence", 
+           trait = "Sperm offence", 
            generations = "160",
            organism = "Drosophila melanogaster",
            interpretation = "A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have worse sperm offence (i.e. sire fewer offspring with previously mated females) compared to males carrying control X chromosomes (however the finding is significant in the opposite direction).") %>% 
@@ -1712,7 +1712,7 @@ mes(m.1 = df$mean[2],
     sd.2 = df$SE[1] * sqrt(80),
     n.1 = 880, n.2 = 80, verbose = F) %>% 
   parse_es(study = "Manat et al. (2021) Biol. Lett. 17, 20200915", 
-           trait = "Male sperm defence", 
+           trait = "Sperm defence", 
            generations = "160",
            organism = "Drosophila melanogaster",
            interpretation = "The positive effect indicates that males carrying an X chromosome that underwent female-limited evolution have worse sperm defence (i.e. sire fewer offspring when after the female remates) compared to males carrying control X chromosomes.") %>% 
@@ -1928,7 +1928,7 @@ LOR_effects <- contrast(emmeans(model, ~ Treatment), method = "pairwise") %>%
 
 tibble(
   Study = "Thyagarajan et al. (2025) J. Hered. esaf072",
-  Trait = "Male sperm offence",
+  Trait = "Sperm offence",
   Generations = 64,
   Organism = "Drosophila melanogaster",
   Interpretation = "A positive effect would indicate that males carrying male-evolved haplotypes sire more offspring when mating with previously-mated females, compared to males carrying control genomes (there is no significant effect).",
