@@ -533,15 +533,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree6cfc93504e2907d9345ff31a020b52d9771beb65targetblank6cfc935a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree32950a06a8128d60cb4eb7dd3704f662ae62c521targetblank32950a0a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/6cfc93504e2907d9345ff31a020b52d9771beb65" target="_blank">6cfc935</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/32950a06a8128d60cb4eb7dd3704f662ae62c521" target="_blank">32950a0</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree6cfc93504e2907d9345ff31a020b52d9771beb65targetblank6cfc935a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree32950a06a8128d60cb4eb7dd3704f662ae62c521targetblank32950a0a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -551,7 +551,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/6cfc93504e2907d9345ff31a020b52d9771beb65" target="_blank">6cfc935</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/32950a06a8128d60cb4eb7dd3704f662ae62c521" target="_blank">32950a0</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -582,6 +582,7 @@ Ignored files:
     Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/ThoraxSizeGeneration72/.Rapp.history
 
 Untracked files:
+    Untracked:  effect_sizes/MeloGavin2026.csv
     Untracked:  effect_sizes/jiang_2011_1.csv
     Untracked:  effect_sizes/jiang_2011_2.csv
     Untracked:  effect_sizes/jiang_2011_3.csv
@@ -662,6 +663,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/32950a06a8128d60cb4eb7dd3704f662ae62c521/analysis/primary_data.Rmd" target="_blank">32950a0</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-03-03
+</td>
+<td>
+wflow_publish("analysis/primary_data.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/67762461ddb405882945aee8dfaa13cb4f4be98b/docs/primary_data.html" target="_blank">6776246</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-03-03
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -7419,8 +7454,69 @@ tibble(Study = &quot;Nordén et al. (2020) Evolution 77, 1066-1076&quot;,
        Lower_95_CI = cohens_d$Lower_95_CI,
        Upper_95_CI = cohens_d$Upper_95_CI) %&gt;% 
   write_csv(&quot;effect_sizes/norden2020.csv&quot;)</code></pre>
-<!-- ## Melo-Gavin et al. (2026) -->
-<!-- Melo-Gavin, C., Liu, M. J., & Agrawal, A. F. (2026). Local Adaptation to the Sex Environment: Reciprocal Sex-Limited Selection in Different Thermal Regimes. bioRxiv, 2026-01. https://doi.org/10.64898/2026.01.23.701411 -->
+</div>
+<div id="melo-gavin-et-al.-2026" class="section level2">
+<h2>Melo-Gavin et al. (2026)</h2>
+<p>Melo-Gavin, C., Liu, M. J., &amp; Agrawal, A. F. (2026). Local
+Adaptation to the Sex Environment: Reciprocal Sex-Limited Selection in
+Different Thermal Regimes. bioRxiv, 2026-01. <a
+href="https://doi.org/10.64898/2026.01.23.701411"
+class="uri">https://doi.org/10.64898/2026.01.23.701411</a></p>
+</div>
+<div id="information-provided-by-the-authors" class="section level2">
+<h2>Information provided by the authors</h2>
+<p>The authors kindly re-ran a quasibinomial mixed model matching the
+one presented in the paper, then used
+<code>contrast(emmeans(model_fit, ~ Sex * Chromosome * Environment), method = "pairwise)"</code>
+to compute the effect sizes contrasting the chromosomes types
+(separately for each combination of sex and environment). The edited
+output is shown below (keeping only effect sizes that relate to fitness
+measures of one sex, measured in one environment). For example, the
+first row shows the difference in female fitness (<code>F</code>)
+between female and male-limited (<code>FL</code> and <code>ML</code>)
+chromosomes in the benign conditions (lines were both evolved in and
+measured in this environmental condition). The effect size estimate is a
+log odds ratio.</p>
+<pre class="r"><code>df &lt;- data.frame(
+  Comparison = c(
+    &quot;FL F BENIGN - ML F BENIGN&quot;,
+    &quot;FL M BENIGN - ML M BENIGN&quot;,
+    &quot;FL F NOVEL - ML F NOVEL&quot;,
+    &quot;FL M NOVEL - ML M NOVEL&quot;
+  ),
+  Estimate = c(0.3352, -0.1148, 0.3096, -0.7905),
+  SE = c(0.136, 0.137, 0.136, 0.136)
+)</code></pre>
+</div>
+<div id="effect-size-3" class="section level2">
+<h2>Effect size</h2>
+<pre class="r"><code>df &lt;- df %&gt;% 
+  mutate(Cohens_d = Estimate * sqrt(3) / pi, 
+         Cohens_d = Cohens_d * c(1,1,1,-1),
+         Cohens_SE = SE * sqrt(3) / pi, 
+         Cohens_Var = (SE^2) * sqrt(3) / pi, 
+         Lower_95_CI = (Estimate * c(1,1,1,-1) - SE*1.96) * sqrt(3) / pi, 
+         Upper_95_CI = (Estimate * c(1,1,1,-1) + SE*1.96) * sqrt(3) / pi) %&gt;% 
+  select(Comparison, Estimate = Cohens_d, Var = Cohens_Var, contains(&quot;95&quot;))
+
+
+tibble(Study = &quot;Melo-Gavin et al. (2026) bioRxiv, https://doi.org/10.64898/2026.01.23.701411&quot;,
+       Trait = c(&quot;Female fitness (benign env.)&quot;,
+                 &quot;Male fitness (benign env.)&quot;,
+                 &quot;Female fitness (novel env.)&quot;,
+                 &quot;Male fitness (novel env.)&quot;),
+       Generations = 15,
+       Organism = &quot;Drosophila melanogaster&quot;,
+       Interpretation = c(
+         &quot;The positive effect size means that females carrying the female-limited chromosome had higher fitness than females with the male-limited chromosome, when evolved and measured under benign conditions.&quot;,
+         &quot;A positive effect size would that males carrying the male-limited chromosome had higher fitness than males with the female-limited chromosome, when evolved and measured under benign conditions (there is no difference though).&quot;,
+         &quot;The positive effect size means that females carrying the female-limited chromosome had higher fitness than females with the male-limited chromosome, when evolved and measured under novel conditions.&quot;,
+         &quot;The positive effect size means that males carrying the male-limited chromosome had higher fitness than males with the female-limited chromosome, when evolved and measured under novel conditions.&quot;),
+       Estimate = df$Estimate,
+       Var = df$Var,
+       Lower_95_CI = df$Lower_95_CI,
+       Upper_95_CI = df$Upper_95_CI) %&gt;% 
+  write_csv(&quot;effect_sizes/MeloGavin2026.csv&quot;)</code></pre>
 <!-- ### Female fitness -->
 <!-- #### Melo-Gavin et al.'s original data -->
 <!-- ```{r} -->
