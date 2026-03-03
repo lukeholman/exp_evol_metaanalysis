@@ -2022,9 +2022,62 @@ tibble(Study = "Nordén et al. (2020) Evolution 77, 1066-1076",
   write_csv("effect_sizes/norden2020.csv")
 ```
 
-<!-- ## Melo-Gavin et al. (2026) -->
+## Melo-Gavin et al. (2026)
 
-<!-- Melo-Gavin, C., Liu, M. J., & Agrawal, A. F. (2026). Local Adaptation to the Sex Environment: Reciprocal Sex-Limited Selection in Different Thermal Regimes. bioRxiv, 2026-01. https://doi.org/10.64898/2026.01.23.701411 -->
+Melo-Gavin, C., Liu, M. J., & Agrawal, A. F. (2026). Local Adaptation to the Sex Environment: Reciprocal Sex-Limited Selection in Different Thermal Regimes. bioRxiv, 2026-01. https://doi.org/10.64898/2026.01.23.701411
+
+## Information provided by the authors
+
+The authors kindly re-ran a quasibinomial mixed model matching the one presented in the paper, then used `contrast(emmeans(model_fit, ~ Sex * Chromosome * Environment), method = "pairwise)"` to compute the effect sizes contrasting the chromosomes types (separately for each combination of sex and environment). The edited output is shown below (keeping only effect sizes that relate to fitness measures of one sex, measured in one environment). For example, the first row shows the difference in female fitness (`F`) between female and male-limited (`FL` and `ML`) chromosomes in the benign conditions (lines were both evolved in and measured in this environmental condition). The effect size estimate is a log odds ratio.
+
+```{r}
+df <- data.frame(
+  Comparison = c(
+    "FL F BENIGN - ML F BENIGN",
+    "FL M BENIGN - ML M BENIGN",
+    "FL F NOVEL - ML F NOVEL",
+    "FL M NOVEL - ML M NOVEL"
+  ),
+  Estimate = c(0.3352, -0.1148, 0.3096, -0.7905),
+  SE = c(0.136, 0.137, 0.136, 0.136)
+)
+```
+
+
+## Effect size
+
+
+```{r}
+df <- df %>% 
+  mutate(Cohens_d = Estimate * sqrt(3) / pi, 
+         Cohens_d = Cohens_d * c(1,1,1,-1),
+         Cohens_SE = SE * sqrt(3) / pi, 
+         Cohens_Var = (SE^2) * sqrt(3) / pi, 
+         Lower_95_CI = (Estimate * c(1,1,1,-1) - SE*1.96) * sqrt(3) / pi, 
+         Upper_95_CI = (Estimate * c(1,1,1,-1) + SE*1.96) * sqrt(3) / pi) %>% 
+  select(Comparison, Estimate = Cohens_d, Var = Cohens_Var, contains("95"))
+
+
+tibble(Study = "Melo-Gavin et al. (2026) bioRxiv, https://doi.org/10.64898/2026.01.23.701411",
+       Trait = c("Female fitness (benign env.)",
+                 "Male fitness (benign env.)",
+                 "Female fitness (novel env.)",
+                 "Male fitness (novel env.)"),
+       Generations = 15,
+       Organism = "Drosophila melanogaster",
+       Interpretation = c(
+         "The positive effect size means that females carrying the female-limited chromosome had higher fitness than females with the male-limited chromosome, when evolved and measured under benign conditions.",
+         "A positive effect size would that males carrying the male-limited chromosome had higher fitness than males with the female-limited chromosome, when evolved and measured under benign conditions (there is no difference though).",
+         "The positive effect size means that females carrying the female-limited chromosome had higher fitness than females with the male-limited chromosome, when evolved and measured under novel conditions.",
+         "The positive effect size means that males carrying the male-limited chromosome had higher fitness than males with the female-limited chromosome, when evolved and measured under novel conditions."),
+       Estimate = df$Estimate,
+       Var = df$Var,
+       Lower_95_CI = df$Lower_95_CI,
+       Upper_95_CI = df$Upper_95_CI) %>% 
+  write_csv("effect_sizes/MeloGavin2026.csv")
+```
+
+
 
 <!-- ### Female fitness -->
 
