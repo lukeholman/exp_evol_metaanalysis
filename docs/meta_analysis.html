@@ -549,15 +549,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree12d7808f416f933ec7d1b91b031a1f237582e73etargetblank12d7808a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreee8d6438cc8abfcfcce0f6d14724a16d714ece8batargetblanke8d6438a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/12d7808f416f933ec7d1b91b031a1f237582e73e" target="_blank">12d7808</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/e8d6438cc8abfcfcce0f6d14724a16d714ece8ba" target="_blank">e8d6438</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree12d7808f416f933ec7d1b91b031a1f237582e73etargetblank12d7808a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreee8d6438cc8abfcfcce0f6d14724a16d714ece8batargetblanke8d6438a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -567,7 +567,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/12d7808f416f933ec7d1b91b031a1f237582e73e" target="_blank">12d7808</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/e8d6438cc8abfcfcce0f6d14724a16d714ece8ba" target="_blank">e8d6438</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -612,6 +612,7 @@ Untracked files:
     Untracked:  effect_sizes/thyagarajan2025_4.csv
 
 Unstaged changes:
+    Modified:   analysis/primary_data.Rmd
     Deleted:    data/README.md
     Modified:   effect_sizes/abbott2010_1.csv
     Modified:   effect_sizes/abbott2010_2.csv
@@ -678,6 +679,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/e8d6438cc8abfcfcce0f6d14724a16d714ece8ba/analysis/meta_analysis.Rmd" target="_blank">e8d6438</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-03-03
+</td>
+<td>
+wflow_publish("analysis/meta_analysis.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/25b7e79a3cb884fb4c682c6f52df7c1b0e91271e/docs/meta_analysis.html" target="_blank">25b7e79</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-03-03
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1988,25 +2023,25 @@ plot_data &lt;- plot_data %&gt;%
 
 plot_data$Short_name[plot_data$Short_name == &quot;Rice (1996);\nRice (1998)&quot;] &lt;- &quot;**Male-limited haplotypes**&lt;br&gt;Rice (1996, 1998)&quot;
 
-plot_data$Short_name[plot_data$Short_name == &quot;Prasad et al. (2007);\nBedhomme et al. (2008);\nAbbott et al. (2010);\nBedhomme et al. (2011);\nJiang et al. (2011)&quot;] &lt;- &quot;**Male-limited haplotypes**&lt;br&gt;Prasad et al. (2007)&lt;br&gt;Bedhomme et al. (2008, 2011)&lt;br&gt;Jiang et al. (2011)&quot;
+plot_data$Short_name[plot_data$Short_name == &quot;Prasad et al. (2007);\nBedhomme et al. (2008);\nAbbott et al. (2010);\nBedhomme et al. (2011);\nJiang et al. (2011)&quot;] &lt;- &quot;**Male-limited haplotypes**&lt;br&gt;Prasad *et al*. (2007)&lt;br&gt;Bedhomme *et al*. (2008, 2011)&lt;br&gt;Jiang *et al*. (2011)&quot;
   
-plot_data$Short_name[plot_data$Short_name == &quot;Thyagarajan et al. (2025)&quot;] &lt;- &quot;**Male-limited haplotypes**&lt;br&gt;Thyagarajan et al. (2025)&quot;
+plot_data$Short_name[plot_data$Short_name == &quot;Thyagarajan et al. (2025)&quot;] &lt;- &quot;**Male-limited haplotypes**&lt;br&gt;Thyagarajan *et al*. (2025)&quot;
 
 plot_data$Short_name[plot_data$Short_name == &quot;Rice (1992)&quot;] &lt;- &quot;**Female-limited region** (Rice 1992)&quot;
 
-plot_data$Short_name[plot_data$Short_name == &quot;Grieshop et al. (2025);\nMelo-Gavin et al. (2025)&quot;] &lt;- &quot;**Male-limited autosome**&lt;br&gt;Grieshop et al. (2025)&lt;br&gt;Melo-Gavin et al. (2025)&quot;
+plot_data$Short_name[plot_data$Short_name == &quot;Grieshop et al. (2025);\nMelo-Gavin et al. (2025)&quot;] &lt;- &quot;**Male-limited autosome**&lt;br&gt;Grieshop *et al*. (2025)&lt;br&gt;Melo-Gavin *et al*. (2025)&quot;
 
-plot_data$Short_name[plot_data$Short_name == &quot;Nordén et al. (2020)&quot;] &lt;- &quot;**Reciprocal sex-limited markers**&lt;br&gt;Nordén et al. (2020)&quot;
+plot_data$Short_name[plot_data$Short_name == &quot;Nordén et al. (2020)&quot;] &lt;- &quot;**Reciprocal sex-limited markers**&lt;br&gt;Nordén *et al* (2020)&quot;
 
-plot_data$Short_name[plot_data$Short_name == &quot;Melo-Gavin et al. (2026)&quot;] &lt;- &quot;**Symmetrical sex-limited**&lt;br&gt;**autosomes**&lt;br&gt;Melo-Gavin et al. (2026)&quot;
+plot_data$Short_name[plot_data$Short_name == &quot;Melo-Gavin et al. (2026)&quot;] &lt;- &quot;**Symmetrical sex-limited**&lt;br&gt;**autosomes**&lt;br&gt;Melo-Gavin *et al*. (2026)&quot;
 
 plot_data$Short_name[plot_data$Short_name == &quot;Abbott et al. (2013);\nAbbott et al. (2020)&quot;] &lt;- &quot;**Male-limited X**&lt;br&gt;Abbott et al. (2013, 2020)&quot;
 
-plot_data$Short_name[plot_data$Short_name == &quot;Lund-Hansen et al. (2020);\nManat et al. (2021)&quot;] &lt;- &quot;**Female-limited X**&lt;br&gt;Lund-Hansen et al. (2020)&lt;br&gt;Manat et al. (2021)&quot;
+plot_data$Short_name[plot_data$Short_name == &quot;Lund-Hansen et al. (2020);\nManat et al. (2021)&quot;] &lt;- &quot;**Female-limited X**&lt;br&gt;Lund-Hansen *et al*. (2020)&lt;br&gt;Manat *et al*. (2021)&quot;
 
-plot_data$Short_name[plot_data$Short_name == &quot;Radwan et al. (2004)&quot;] &lt;- &quot;**Relaxed selection on females**&lt;br&gt;Radwan et al. (2004)&quot;
+plot_data$Short_name[plot_data$Short_name == &quot;Radwan et al. (2004)&quot;] &lt;- &quot;**Relaxed selection on females**&lt;br&gt;Radwan *et al*. (2004)&quot;
 
-plot_data$Short_name[plot_data$Short_name == &quot;Morrow et al. (2008)&quot;] &lt;- &quot;**Relaxed selection on both sexes**&lt;br&gt;Morrow et al. (2004)&quot;
+plot_data$Short_name[plot_data$Short_name == &quot;Morrow et al. (2008)&quot;] &lt;- &quot;**Relaxed selection on both sexes**&lt;br&gt;Morrow *et al*. (2004)&quot;
 
 
 # plot_data$Short_name &lt;- str_remove_all(plot_data$Short_name, &quot; et al[.]&quot;)
@@ -2114,6 +2149,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/25b7e79a3cb884fb4c682c6f52df7c1b0e91271e/docs/figure/meta_analysis.Rmd/unnamed-chunk-8-1.png" target="_blank">25b7e79</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-03-03
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/8cb0ab751ff1d199d21d64ede5b724950efa8796/docs/figure/meta_analysis.Rmd/unnamed-chunk-8-1.png" target="_blank">8cb0ab7</a>
 </td>
 <td>
@@ -2186,7 +2232,7 @@ luekholman
 sizes (Cohen’s <em>d</em> <span class="math inline">\(\pm\)</span> 95%
 CIs). The y-axis indicates the trait being measured while horizontal
 grey bands show the 11 independent experimental evolution projects
-(projects are measured in one or more publications, named on the right).
+(projects are reported in one or more publications, named on the right).
 Positive effect sizes indicate evolutionary change in the direction
 predicted under IaSC, while negative effects indicate evolution in the
 opposite direction. Point colour highlights experiments using
