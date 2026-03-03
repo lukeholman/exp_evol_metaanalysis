@@ -245,7 +245,7 @@ plot_data$Short_name[plot_data$Short_name == "Grieshop et al. (2025);\nMelo-Gavi
 
 plot_data$Short_name[plot_data$Short_name == "Nordén et al. (2020)"] <- "**Reciprocal sex-limited markers**<br>Nordén et al. (2020)"
 
-plot_data$Short_name[plot_data$Short_name == "Melo-Gavin et al. (2026)"] <- "**Symmetrical sex-limited autosomes**<br>Melo-Gavin et al. (2026)"
+plot_data$Short_name[plot_data$Short_name == "Melo-Gavin et al. (2026)"] <- "**Symmetrical sex-limited**<br>**autosomes**<br>Melo-Gavin et al. (2026)"
 
 plot_data$Short_name[plot_data$Short_name == "Abbott et al. (2013);\nAbbott et al. (2020)"] <- "**Male-limited X**<br>Abbott et al. (2013, 2020)"
 
