@@ -119,7 +119,7 @@ The above results table shows that the grand mean effect size is `r pretty3(as.n
 
 Here, I use AICc model selection to compare 7 competing meta-analysis models, which fit `Generations`, `Sex`, `Experiment_type`, a combination of 2 or all of these, or the intercept-only null model. `Generations` gives the number of generations of selection at the time the focal trait was measured, `Sex` gives the sex of the individuals expressing the trait (male, female, or both sexes), and `Experiment_type` is either "Sex-specific autosome(s)", "Sex-specific X", or "Sex-specific relaxed selection" (as described by the point colours in Figure 1).
 
-The top model includes the moderator `Generations`, and it is ahead of second-best model (which also includes `Sex`) by much more than 2 AICc, suggesting that `Generations` explains substantial variation in the data but the other moderators do not.
+The top model includes the moderator `Generations`, and it is ahead of second-best model (which also includes `Sex`) by more than 2 AICc, suggesting that `Generations` explains substantial variation in the data but the other moderators do not.
 
 ```{r}
 fit_ma <- function(formula){
@@ -197,6 +197,7 @@ exp2_levs <- c("Male-limited haplotypes",
                "Male-limited autosome",
                "Female-limited markers",
                "Reciprocal sex-limited markers",
+               "Symmetrical sex-limited autosomes", 
                "Male-limited X chromosomes",
                "Female-limited X chromosomes",
                "Relaxed selection in females",
@@ -244,6 +245,8 @@ plot_data$Short_name[plot_data$Short_name == "Grieshop et al. (2025);\nMelo-Gavi
 
 plot_data$Short_name[plot_data$Short_name == "Nordén et al. (2020)"] <- "**Reciprocal sex-limited markers**<br>Nordén et al. (2020)"
 
+plot_data$Short_name[plot_data$Short_name == "Melo-Gavin et al. (2026)"] <- "**Symmetrical sex-limited autosomes**<br>Melo-Gavin et al. (2026)"
+
 plot_data$Short_name[plot_data$Short_name == "Abbott et al. (2013);\nAbbott et al. (2020)"] <- "**Male-limited X**<br>Abbott et al. (2013, 2020)"
 
 plot_data$Short_name[plot_data$Short_name == "Lund-Hansen et al. (2020);\nManat et al. (2021)"] <- "**Female-limited X**<br>Lund-Hansen et al. (2020)<br>Manat et al. (2021)"
@@ -252,7 +255,8 @@ plot_data$Short_name[plot_data$Short_name == "Radwan et al. (2004)"] <- "**Relax
 
 plot_data$Short_name[plot_data$Short_name == "Morrow et al. (2008)"] <- "**Relaxed selection on both sexes**<br>Morrow et al. (2004)"
 
-plot_data$Short_name <- str_remove_all(plot_data$Short_name, " et al[.]")
+
+# plot_data$Short_name <- str_remove_all(plot_data$Short_name, " et al[.]")
 levs <- plot_data$Short_name %>% unique()
 
 plot_data <- plot_data %>% 
