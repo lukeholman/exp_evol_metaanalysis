@@ -240,7 +240,7 @@ plot_data$Short_name[plot_data$Short_name == "Thyagarajan et al. (2025)"] <- "**
 
 plot_data$Short_name[plot_data$Short_name == "Rice (1992)"] <- "**Female-limited region** (Rice 1992)"
 
-plot_data$Short_name[plot_data$Short_name == "Grieshop et al. (2025);\nMelo-Gavin et al. (2025)"] <- "**Male-limited autosome**<br>Grieshop et al. (2025), Melo-Gavin et al. (2025)"
+plot_data$Short_name[plot_data$Short_name == "Grieshop et al. (2025);\nMelo-Gavin et al. (2025)"] <- "**Male-limited autosome**<br>Grieshop et al. (2025)<br>Melo-Gavin et al. (2025)"
 
 plot_data$Short_name[plot_data$Short_name == "Nordén et al. (2020)"] <- "**Reciprocal sex-limited markers**<br>Nordén et al. (2020)"
 
