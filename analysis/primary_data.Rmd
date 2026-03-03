@@ -1171,7 +1171,7 @@ mes(m.1 = df$mean[4], m.2 = df$mean[3],
     sd.1 = df$SD[4], sd.2 = df$SD[3],
     n.1 = df$N[4], n.2 = df$N[3], verbose = F) %>% 
   parse_es(study = "Abbott et al. (2013) PLOS ONE 8, e70493", 
-           trait = "Male effect on % sons", 
+           trait = "Male effect on % sons (2013)", 
            generations = 40, 
            organism = "Drosophila melanogaster", 
            interpretation = "The proportion of sons among the progeny of males carrying an X chromosome that underwent male-limited evolution is higher than that of males carrying an X that experienced only 1 generation of father-to-son inheritance.") %>% 
@@ -1291,7 +1291,7 @@ mes(m.1 = df$mean[10], m.2 = df$mean[9],
     sd.1 = df$SD[10], sd.2 = df$SD[9],
     n.1 = df$N[10], n.2 = df$N[9], verbose = F) %>% 
   parse_es(study = "Abbott et al. (2020) J. Evol. Biol. 33, 738–750", 
-           trait = "Female effect on % sons", 
+           trait = "Female effect on % sons  (2020)", 
            generations = 40, 
            organism = "Drosophila melanogaster", 
            interpretation = "The positive effect size indicates that females carrying a male-evolved X chromosome have a greater proportion of sons among their progeny that reach adulthood (indicating enhanced male survival, reduced female survival, and/or changes to the primary sex ratio). Note that all sons and 50% daughters actually inherit the male-evolved X from the tester females.") %>% 
