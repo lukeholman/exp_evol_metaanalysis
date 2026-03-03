@@ -235,25 +235,25 @@ plot_data <- plot_data %>%
 
 plot_data$Short_name[plot_data$Short_name == "Rice (1996);\nRice (1998)"] <- "**Male-limited haplotypes**<br>Rice (1996, 1998)"
 
-plot_data$Short_name[plot_data$Short_name == "Prasad et al. (2007);\nBedhomme et al. (2008);\nAbbott et al. (2010);\nBedhomme et al. (2011);\nJiang et al. (2011)"] <- "**Male-limited haplotypes**<br>Prasad et al. (2007)<br>Bedhomme et al. (2008, 2011)<br>Jiang et al. (2011)"
+plot_data$Short_name[plot_data$Short_name == "Prasad et al. (2007);\nBedhomme et al. (2008);\nAbbott et al. (2010);\nBedhomme et al. (2011);\nJiang et al. (2011)"] <- "**Male-limited haplotypes**<br>Prasad *et al*. (2007)<br>Bedhomme *et al*. (2008, 2011)<br>Jiang *et al*. (2011)"
   
-plot_data$Short_name[plot_data$Short_name == "Thyagarajan et al. (2025)"] <- "**Male-limited haplotypes**<br>Thyagarajan et al. (2025)"
+plot_data$Short_name[plot_data$Short_name == "Thyagarajan et al. (2025)"] <- "**Male-limited haplotypes**<br>Thyagarajan *et al*. (2025)"
 
 plot_data$Short_name[plot_data$Short_name == "Rice (1992)"] <- "**Female-limited region** (Rice 1992)"
 
-plot_data$Short_name[plot_data$Short_name == "Grieshop et al. (2025);\nMelo-Gavin et al. (2025)"] <- "**Male-limited autosome**<br>Grieshop et al. (2025)<br>Melo-Gavin et al. (2025)"
+plot_data$Short_name[plot_data$Short_name == "Grieshop et al. (2025);\nMelo-Gavin et al. (2025)"] <- "**Male-limited autosome**<br>Grieshop *et al*. (2025)<br>Melo-Gavin *et al*. (2025)"
 
-plot_data$Short_name[plot_data$Short_name == "Nordén et al. (2020)"] <- "**Reciprocal sex-limited markers**<br>Nordén et al. (2020)"
+plot_data$Short_name[plot_data$Short_name == "Nordén et al. (2020)"] <- "**Reciprocal sex-limited markers**<br>Nordén *et al* (2020)"
 
-plot_data$Short_name[plot_data$Short_name == "Melo-Gavin et al. (2026)"] <- "**Symmetrical sex-limited**<br>**autosomes**<br>Melo-Gavin et al. (2026)"
+plot_data$Short_name[plot_data$Short_name == "Melo-Gavin et al. (2026)"] <- "**Symmetrical sex-limited**<br>**autosomes**<br>Melo-Gavin *et al*. (2026)"
 
 plot_data$Short_name[plot_data$Short_name == "Abbott et al. (2013);\nAbbott et al. (2020)"] <- "**Male-limited X**<br>Abbott et al. (2013, 2020)"
 
-plot_data$Short_name[plot_data$Short_name == "Lund-Hansen et al. (2020);\nManat et al. (2021)"] <- "**Female-limited X**<br>Lund-Hansen et al. (2020)<br>Manat et al. (2021)"
+plot_data$Short_name[plot_data$Short_name == "Lund-Hansen et al. (2020);\nManat et al. (2021)"] <- "**Female-limited X**<br>Lund-Hansen *et al*. (2020)<br>Manat *et al*. (2021)"
 
-plot_data$Short_name[plot_data$Short_name == "Radwan et al. (2004)"] <- "**Relaxed selection on females**<br>Radwan et al. (2004)"
+plot_data$Short_name[plot_data$Short_name == "Radwan et al. (2004)"] <- "**Relaxed selection on females**<br>Radwan *et al*. (2004)"
 
-plot_data$Short_name[plot_data$Short_name == "Morrow et al. (2008)"] <- "**Relaxed selection on both sexes**<br>Morrow et al. (2004)"
+plot_data$Short_name[plot_data$Short_name == "Morrow et al. (2008)"] <- "**Relaxed selection on both sexes**<br>Morrow *et al*. (2004)"
 
 
 # plot_data$Short_name <- str_remove_all(plot_data$Short_name, " et al[.]")
@@ -338,7 +338,7 @@ plot_data %>%
   guides(fill = "none")
 ```
 
-**Figure 1**: Forest plot showing the estimated effect sizes (Cohen's _d_ \(\pm \) 95% CIs). The y-axis indicates the trait being measured while horizontal grey bands show the `r nrow(bands)-1` independent experimental evolution projects (projects are measured in one or more publications, named on the right). Positive effect sizes indicate evolutionary change in the direction predicted under IaSC, while negative effects indicate evolution in the opposite direction. Point colour highlights experiments using sex-limited inheritance of autosomal (blue) or X (red) genomic regions, or sex-specific relaxed selection (green). The mean effect size from meta-analysis is shown in black.
+**Figure 1**: Forest plot showing the estimated effect sizes (Cohen's _d_ \(\pm \) 95% CIs). The y-axis indicates the trait being measured while horizontal grey bands show the `r nrow(bands)-1` independent experimental evolution projects (projects are reported in one or more publications, named on the right). Positive effect sizes indicate evolutionary change in the direction predicted under IaSC, while negative effects indicate evolution in the opposite direction. Point colour highlights experiments using sex-limited inheritance of autosomal (blue) or X (red) genomic regions, or sex-specific relaxed selection (green). The mean effect size from meta-analysis is shown in black.
 
 ## Plotting effect of moderator `Generations`
 
