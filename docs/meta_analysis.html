@@ -549,15 +549,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreeba4bca1e8a1b7dd6a3ca222ea996b8a10761e259targetblankba4bca1a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree5d8a15e4c3e1a9a32855d100d571132aac5af444targetblank5d8a15ea">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/ba4bca1e8a1b7dd6a3ca222ea996b8a10761e259" target="_blank">ba4bca1</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/5d8a15e4c3e1a9a32855d100d571132aac5af444" target="_blank">5d8a15e</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreeba4bca1e8a1b7dd6a3ca222ea996b8a10761e259targetblankba4bca1a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree5d8a15e4c3e1a9a32855d100d571132aac5af444targetblank5d8a15ea"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -567,7 +567,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/ba4bca1e8a1b7dd6a3ca222ea996b8a10761e259" target="_blank">ba4bca1</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/5d8a15e4c3e1a9a32855d100d571132aac5af444" target="_blank">5d8a15e</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -679,6 +679,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/5d8a15e4c3e1a9a32855d100d571132aac5af444/analysis/meta_analysis.Rmd" target="_blank">5d8a15e</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-03-04
+</td>
+<td>
+wflow_publish("analysis/meta_analysis.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/1b348c577dc5d28b9154ae8f549d0b0a913f3111/docs/meta_analysis.html" target="_blank">1b348c5</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-03-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -2297,14 +2331,15 @@ driven by a couple of studies, Lund-Hansen et al. (2020) and Manat et
 al. (2021), which both relate to the same set of experimental evolution
 lines, and which both focus on female-limited evolution of X chromosomes
 (uniquely in the full dataset). It’s possible that making the X
-female-limited results in less evolution than other designs,
-e.g. because the X is already present in females 66% of the time, though
-without replication this conclusion is tentative. Furthermore, we
-calculated the effect sizes for those 2 studies from models of their raw
-data, unlike for many of the studies in on the left of the x-axis (short
-generation number), where only summary statistics were available, which
-potentially inflates effect size (since it ignores details of the
-experimental design, incurring pseudoreplication).</p>
+female-limited results in less evolution than other designs
+(e.g. male-limited X or autosomes), e.g. because the X is already
+present in females 66% of the time, though without replication this
+conclusion is tentative. Furthermore, generation time is confounded with
+the method that we used to calculate effect size. The long-generation
+studies (like Lund-Hansen and Manat et al.) tended to have raw data
+available while shorter-generation ones did not, necessitating
+calculation of effect size from summary statistics in the latter (which
+potentially inflates the effect size).</p>
 <pre class="r"><code>library(ggrepel)
 meta_analysis_data %&gt;% 
   ggplot(aes(Generations, Estimate)) + 
