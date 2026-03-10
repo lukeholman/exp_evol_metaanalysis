@@ -418,7 +418,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2026-03-04
+<strong>Last updated:</strong> 2026-03-10
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -549,15 +549,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree1381aad0bdfc7133d44670fd4642d8df2ec1c3d7targetblank1381aada">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree9eb405d2b17f1895e74a3c376043a872d2f49216targetblank9eb405da">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/1381aad0bdfc7133d44670fd4642d8df2ec1c3d7" target="_blank">1381aad</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/9eb405d2b17f1895e74a3c376043a872d2f49216" target="_blank">9eb405d</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree1381aad0bdfc7133d44670fd4642d8df2ec1c3d7targetblank1381aada"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree9eb405d2b17f1895e74a3c376043a872d2f49216targetblank9eb405da"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -567,7 +567,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/1381aad0bdfc7133d44670fd4642d8df2ec1c3d7" target="_blank">1381aad</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/9eb405d2b17f1895e74a3c376043a872d2f49216" target="_blank">9eb405d</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -583,8 +583,8 @@ were generated:
 <pre><code>
 Ignored files:
     Ignored:    .DS_Store
+    Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    analysis/figure/
     Ignored:    input_data/.DS_Store
     Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/.DS_Store
     Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/DevelopmentTimeGeneration/.Rapp.history
@@ -613,7 +613,6 @@ Untracked files:
     Untracked:  effect_sizes/thyagarajan2025_4.csv
 
 Unstaged changes:
-    Modified:   analysis/primary_data.Rmd
     Deleted:    data/README.md
     Modified:   effect_sizes/abbott2010_1.csv
     Modified:   effect_sizes/abbott2010_2.csv
@@ -680,6 +679,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/9eb405d2b17f1895e74a3c376043a872d2f49216/analysis/meta_analysis.Rmd" target="_blank">9eb405d</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-03-10
+</td>
+<td>
+wflow_publish("analysis/meta_analysis.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/2cce43434088af0e43cb1775926827bd54d80749/docs/meta_analysis.html" target="_blank">2cce434</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-03-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1840,6 +1873,53 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 <p>The above results table shows that the grand mean effect size is
 0.318, with a standard error of 0.085 and 95% CIs of 0.152 to 0.484.</p>
 </div>
+<div id="testing-for-robustness-by-removing-3-studies"
+class="section level2">
+<h2>Testing for robustness by removing 3 studies</h2>
+<p>The literature review highlighted possible confounding effects in
+Rice (1996), Prasad et al. (2007), and Abbott et al. (2013) that might
+mean that improvements in fitness were due to experimental conditions,
+rather than allele frequency change at sexually antagonistic loci. We
+here re-run the meta-analysis excluding these three studies to verify
+that the mean effect size remains positive.</p>
+<pre class="r"><code>filtered_meta_analysis_data &lt;- meta_analysis_data %&gt;% 
+  filter(!(Origin_of_lines %in% 
+             c(&quot;Prasad et al. (2007)&quot;, 
+               &quot;Rice (1996)&quot;, 
+               &quot;Abbott et al. (2013)&quot;)))
+
+meta_analysis_strict &lt;- rma.mv(
+  yi = Estimate,
+  V = Var,
+  random = ~ 1 | Origin_of_lines/Study,
+  data = filtered_meta_analysis_data,
+  method = &quot;REML&quot;
+)
+
+summary(meta_analysis_strict)</code></pre>
+<pre><code>
+Multivariate Meta-Analysis Model (k = 35; method: REML)
+
+  logLik  Deviance       AIC       BIC      AICc   
+-89.8202  179.6403  185.6403  190.2194  186.4403   
+
+Variance Components:
+
+            estim    sqrt  nlvls  fixed                 factor 
+sigma^2.1  0.0565  0.2377      8     no        Origin_of_lines 
+sigma^2.2  0.0256  0.1601     10     no  Origin_of_lines/Study 
+
+Test for Heterogeneity:
+Q(df = 34) = 374.5541, p-val &lt; .0001
+
+Model Results:
+
+estimate      se    zval    pval   ci.lb   ci.ub    
+  0.2336  0.1022  2.2866  0.0222  0.0334  0.4338  * 
+
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
 <div id="testing-for-effects-of-moderators" class="section level2">
 <h2>Testing for effects of moderators</h2>
 <p>Here, I use AICc model selection to compare 7 competing meta-analysis
@@ -2227,161 +2307,7 @@ plot_data %&gt;%
   scale_fill_manual(values = c(&quot;0&quot; = &quot;grey80&quot;, 
                                &quot;1&quot; = &quot;grey50&quot;)) +
   guides(fill = &quot;none&quot;)</code></pre>
-<p><img src="figure/meta_analysis.Rmd/unnamed-chunk-8-1.png" alt="" width="576" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
-Past versions of unnamed-chunk-8-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-8-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/ea73e7f3bd9cc52f496eab40a83be07f1b4671fb/docs/figure/meta_analysis.Rmd/unnamed-chunk-8-1.png" target="_blank">ea73e7f</a>
-</td>
-<td>
-luekholman
-</td>
-<td>
-2026-03-03
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/25b7e79a3cb884fb4c682c6f52df7c1b0e91271e/docs/figure/meta_analysis.Rmd/unnamed-chunk-8-1.png" target="_blank">25b7e79</a>
-</td>
-<td>
-luekholman
-</td>
-<td>
-2026-03-03
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/8cb0ab751ff1d199d21d64ede5b724950efa8796/docs/figure/meta_analysis.Rmd/unnamed-chunk-8-1.png" target="_blank">8cb0ab7</a>
-</td>
-<td>
-luekholman
-</td>
-<td>
-2026-03-03
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/be1bcf7fe1b47d9079553d7bed0864d26daf45bf/docs/figure/meta_analysis.Rmd/unnamed-chunk-8-1.png" target="_blank">be1bcf7</a>
-</td>
-<td>
-luekholman
-</td>
-<td>
-2026-03-03
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/a5fa09890db94a1dc347788eba878d55443499ed/docs/figure/meta_analysis.Rmd/unnamed-chunk-8-1.png" target="_blank">a5fa098</a>
-</td>
-<td>
-luekholman
-</td>
-<td>
-2026-02-27
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/8915f976768410d78163f3f309aad70d66fc40e4/docs/figure/meta_analysis.Rmd/unnamed-chunk-8-1.png" target="_blank">8915f97</a>
-</td>
-<td>
-luekholman
-</td>
-<td>
-2026-02-27
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/6029ddfff62d25282a0b2966449edc5d789c2c0c/docs/figure/meta_analysis.Rmd/unnamed-chunk-8-1.png" target="_blank">6029ddf</a>
-</td>
-<td>
-luekholman
-</td>
-<td>
-2026-02-09
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/7057ba1a28bb7ccd9001d258a29f881a16c9bc02/docs/figure/meta_analysis.Rmd/unnamed-chunk-8-1.png" target="_blank">7057ba1</a>
-</td>
-<td>
-luekholman
-</td>
-<td>
-2026-02-09
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><strong>Figure 1</strong>: Forest plot showing the estimated effect
-sizes (Cohen’s <em>d</em> <span class="math inline">\(\pm\)</span> 95%
-CIs). The y-axis indicates the trait being measured while horizontal
-grey bands show the 11 independent experimental evolution projects
-(projects are reported in one or more publications, named on the right).
-Positive effect sizes indicate evolutionary change in the direction
-predicted under IaSC, while negative effects indicate evolution in the
-opposite direction. Point colour highlights experiments using
-sex-limited inheritance of autosomal (blue) or X (red) genomic regions,
-or sex-specific relaxed selection (green). The mean effect size from
-meta-analysis is shown in black.</p>
-</div>
-<div id="plotting-effect-of-moderator-generations"
-class="section level2">
-<h2>Plotting effect of moderator <code>Generations</code></h2>
-<p>In short, it seems likely the negative effect of
-<code>Generations</code> on effect size results from confounding
-(i.e. the true causes are correlates of <code>Generations</code>, not
-that variable itself).</p>
-<p>On the right of x-axis (high generation number), this result is
-driven by a couple of studies, Lund-Hansen et al. (2020) and Manat et
-al. (2021), which both relate to the same set of experimental evolution
-lines, and which both focus on female-limited evolution of X chromosomes
-(uniquely in the full dataset). It’s possible that making the X
-female-limited results in less evolution than other designs
-(e.g. male-limited X or autosomes), e.g. because the X is already
-present in females 66% of the time, though without replication this
-conclusion is tentative. Furthermore, generation time is confounded with
-the method that we used to calculate effect size. All the
-high-generation studies ( Lund-Hansen et al., Manat et al., and Grieshop
-et al.) had accessible raw data while many shorter-generation ones were
-older studies that predate the practice of data archiving, necessitating
-calculation of effect size from summary statistics in the latter (which
-potentially inflates the effect size).</p>
-<pre class="r"><code>library(ggrepel)
-meta_analysis_data %&gt;% 
-  ggplot(aes(Generations, Estimate)) + 
-  geom_point() + 
-  geom_text_repel(aes(label = Short_name), size = 2, max.overlaps = 1000)</code></pre>
-<p><img src="figure/meta_analysis.Rmd/unnamed-chunk-9-1.png" alt="" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/meta_analysis.Rmd/unnamed-chunk-9-1.png" alt="" width="576" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
 Past versions of unnamed-chunk-9-1.png
@@ -2605,6 +2531,171 @@ luekholman
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/7057ba1a28bb7ccd9001d258a29f881a16c9bc02/docs/figure/meta_analysis.Rmd/unnamed-chunk-9-1.png" target="_blank">7057ba1</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Figure 1</strong>: Forest plot showing the estimated effect
+sizes (Cohen’s <em>d</em> <span class="math inline">\(\pm\)</span> 95%
+CIs). The y-axis indicates the trait being measured while horizontal
+grey bands show the 11 independent experimental evolution projects
+(projects are reported in one or more publications, named on the right).
+Positive effect sizes indicate evolutionary change in the direction
+predicted under IaSC, while negative effects indicate evolution in the
+opposite direction. Point colour highlights experiments using
+sex-limited inheritance of autosomal (blue) or X (red) genomic regions,
+or sex-specific relaxed selection (green). The mean effect size from
+meta-analysis is shown in black.</p>
+</div>
+<div id="plotting-effect-of-moderator-generations"
+class="section level2">
+<h2>Plotting effect of moderator <code>Generations</code></h2>
+<p>In short, it seems likely the negative effect of
+<code>Generations</code> on effect size results from confounding
+(i.e. the true causes are correlates of <code>Generations</code>, not
+that variable itself).</p>
+<p>On the right of x-axis (high generation number), this result is
+driven by a couple of studies, Lund-Hansen et al. (2020) and Manat et
+al. (2021), which both relate to the same set of experimental evolution
+lines, and which both focus on female-limited evolution of X chromosomes
+(uniquely in the full dataset). It’s possible that making the X
+female-limited results in less evolution than other designs
+(e.g. male-limited X or autosomes), e.g. because the X is already
+present in females 66% of the time, though without replication this
+conclusion is tentative. Furthermore, generation time is confounded with
+the method that we used to calculate effect size. All the
+high-generation studies ( Lund-Hansen et al., Manat et al., and Grieshop
+et al.) had accessible raw data while many shorter-generation ones were
+older studies that predate the practice of data archiving, necessitating
+calculation of effect size from summary statistics in the latter (which
+potentially inflates the effect size).</p>
+<pre class="r"><code>library(ggrepel)
+meta_analysis_data %&gt;% 
+  ggplot(aes(Generations, Estimate)) + 
+  geom_point() + 
+  geom_text_repel(aes(label = Short_name), size = 2, max.overlaps = 1000)</code></pre>
+<p><img src="figure/meta_analysis.Rmd/unnamed-chunk-10-1.png" alt="" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/8915f976768410d78163f3f309aad70d66fc40e4/docs/figure/meta_analysis.Rmd/unnamed-chunk-10-1.png" target="_blank">8915f97</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-27
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/65e72630f87388d85e41fab0dbec7bd263503c66/docs/figure/meta_analysis.Rmd/unnamed-chunk-10-1.png" target="_blank">65e7263</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-27
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/8d9eb2b5652334ec7ecd14bce45c735f541cc0d1/docs/figure/meta_analysis.Rmd/unnamed-chunk-10-1.png" target="_blank">8d9eb2b</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-26
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/f80a6dd7cdf77582a834685c87da3d954f239553/docs/figure/meta_analysis.Rmd/unnamed-chunk-10-1.png" target="_blank">f80a6dd</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-26
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/0560e728b1a4436cbb74e112c0342601e02bdd0e/docs/figure/meta_analysis.Rmd/unnamed-chunk-10-1.png" target="_blank">0560e72</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-26
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/cbdc84d6dca2ed9d2241a20464cdb7e9ebcb819b/docs/figure/meta_analysis.Rmd/unnamed-chunk-10-1.png" target="_blank">cbdc84d</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-25
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/4719bf8fc197e2d0fa097114f3efa09cea71e432/docs/figure/meta_analysis.Rmd/unnamed-chunk-10-1.png" target="_blank">4719bf8</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-20
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/b0251e46003e3d313cc1d9ad34d9974bb136ba26/docs/figure/meta_analysis.Rmd/unnamed-chunk-10-1.png" target="_blank">b0251e4</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-02-09
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/7057ba1a28bb7ccd9001d258a29f881a16c9bc02/docs/figure/meta_analysis.Rmd/unnamed-chunk-10-1.png" target="_blank">7057ba1</a>
 </td>
 <td>
 luekholman
