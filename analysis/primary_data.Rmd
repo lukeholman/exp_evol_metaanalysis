@@ -2046,6 +2046,7 @@ df <- data.frame(
 
 ## Effect size
 
+Here we convert the log odds ratios to Cohen's d and adjust the effect size sign where needed.
 
 ```{r}
 df <- df %>% 
@@ -2056,7 +2057,6 @@ df <- df %>%
          Lower_95_CI = (Estimate * c(1,1,1,-1) - SE*1.96) * sqrt(3) / pi, 
          Upper_95_CI = (Estimate * c(1,1,1,-1) + SE*1.96) * sqrt(3) / pi) %>% 
   select(Comparison, Estimate = Cohens_d, Var = Cohens_Var, contains("95"))
-
 
 tibble(Study = "Melo-Gavin et al. (2026) bioRxiv, https://doi.org/10.64898/2026.01.23.701411",
        Trait = c("Female fitness (benign env.)",
