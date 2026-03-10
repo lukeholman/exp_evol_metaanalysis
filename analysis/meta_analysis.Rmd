@@ -115,6 +115,29 @@ summary(meta_analysis)
 
 The above results table shows that the grand mean effect size is `r pretty3(as.numeric(meta_analysis$b))`, with a standard error of `r pretty3(meta_analysis$se)` and 95% CIs of `r pretty3(meta_analysis$ci.lb)` to `r pretty3(meta_analysis$ci.ub)`.
 
+## Testing for robustness by removing 3 studies
+
+The literature review highlighted possible confounding effects in Rice (1996), Prasad et al. (2007), and Abbott et al. (2013) that might mean that improvements in fitness were due to experimental conditions, rather than allele frequency change at sexually antagonistic loci. We here re-run the meta-analysis excluding these three studies to verify that the mean effect size remains positive.
+
+```{r}
+filtered_meta_analysis_data <- meta_analysis_data %>% 
+  filter(!(Origin_of_lines %in% 
+             c("Prasad et al. (2007)", 
+               "Rice (1996)", 
+               "Abbott et al. (2013)")))
+
+meta_analysis_strict <- rma.mv(
+  yi = Estimate,
+  V = Var,
+  random = ~ 1 | Origin_of_lines/Study,
+  data = filtered_meta_analysis_data,
+  method = "REML"
+)
+
+summary(meta_analysis_strict)
+```
+
+
 ## Testing for effects of moderators
 
 Here, I use AICc model selection to compare 7 competing meta-analysis models, which fit `Generations`, `Sex`, `Experiment_type`, a combination of 2 or all of these, or the intercept-only null model. `Generations` gives the number of generations of selection at the time the focal trait was measured, `Sex` gives the sex of the individuals expressing the trait (male, female, or both sexes), and `Experiment_type` is either "Sex-specific autosome(s)", "Sex-specific X", or "Sex-specific relaxed selection" (as described by the point colours in Figure 1).
