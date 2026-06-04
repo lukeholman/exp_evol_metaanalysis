@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Effect_size_source,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Lund-Hansen et al. (2022) Behav. Ecol. Sociobiol. 76, 120.",Female longevity,189,Drosophila melanogaster,"A positive effect would mean that females carrying female-evolved X chromosomes survived longer in mixed-sex conditions than females with the control FM genotype (there is a non-significant effect in the opposite direction, though).",Model of the raw data,-0.1341929801975897,0.011090299812351411,-0.28745448738998003,0.01906852699480062

@@ -20,6 +20,7 @@ library(car)
 library(lmerTest)
 library(emmeans)
 library(survival)
+library(coxme)
 library(kableExtra)
 library(compute.es)
 
@@ -33,6 +34,7 @@ parse_es <- function(x, study, trait, generations, organism, interpretation){
     pivot_wider(names_from = type, values_from = value) %>% 
     mutate(Study = study, Trait = trait, Generations = generations, 
            Organism = organism, Interpretation = interpretation, 
+           Effect_size_source = "Calculated from sample means (pseudoreplicated)",
            .before = 1)
 }
 
@@ -158,6 +160,7 @@ get_effect_size_2x2_matrix(x) %>%
            Generations = "29",
            Organism = "Drosophila melanogaster",
            Interpretation = "A positive effect size means that males carrying a genomic region that underwent female-limited evolution had lower fitness compared to males carrying control genomes.",
+           Effect_size_source = "Chi-square test on total counts (pseudoreplicated)",
            .before = 1) %>% 
   write_csv("effect_sizes/rice92.csv")
 ```
@@ -247,6 +250,7 @@ bootstrapped_effect_sizes %>%
            Generations = "32",
            Organism = "Drosophila melanogaster",
            Interpretation = "The positive effect size means that males carrying a genomic region that underwent male-limited evolution had higher fitness than males carrying control genomes",
+           Effect_size_source = "Calculated from means, with simulation used to estimate sampling variance (see archived analysis code)",
            .before = 1)  %>% 
   write_csv("effect_sizes/rice96.csv")
 ```
@@ -278,6 +282,7 @@ get_effect_size_2x2_matrix(x) %>%
            Generations = "38",
            Organism = "Drosophila melanogaster",
            Interpretation = "The positive effect size means that males carrying a haplotype that underwent male-limited evolution mated with previously-unmated females faster than males carrying control haplotypes",
+           Effect_size_source = "Chi-square test on total counts (pseudoreplicated)",
            .before = 1) %>% 
   write_csv("effect_sizes/rice98_1.csv")
 ```
@@ -302,6 +307,7 @@ get_effect_size_2x2_matrix(x) %>%
            Generations = "38",
            Organism = "Drosophila melanogaster",
            Interpretation = "The positive effect size means that males carrying a haplotype that underwent male-limited evolution attained more matings with previously-mated females compared to males carrying control haplotypes",
+           Effect_size_source = "Chi-square test on total counts (pseudoreplicated)",
            .before = 1) %>% 
   write_csv("effect_sizes/rice98_2.csv")
 ```
@@ -347,6 +353,7 @@ get_effect_size_2x2_matrix(x) %>%
            Generations = "40",
            Organism = "Drosophila melanogaster",
            Interpretation = "A positive effect size means that males carrying a haplotype that underwent male-limited evolution fertilise more offspring when mating first in twice-mated females, compared to males carrying control haplotypes (though there is no significant difference between the two treatments)",
+           Effect_size_source = "Chi-square test on total counts (pseudoreplicated)",
            .before = 1) %>% 
   write_csv("effect_sizes/rice98_3.csv")
 ```
@@ -399,6 +406,7 @@ get_effect_size_2x2_matrix(x) %>%
            Generations = "40",
            Organism = "Drosophila melanogaster",
            Interpretation = "A positive effect size means that males carrying a haplotype that underwent male-limited evolution fertilise more offspring when mating second in twice-mated females, compared to males carrying control haplotypes (though there is no significant difference between the two treatments)",
+           Effect_size_source = "Chi-square test on total counts (pseudoreplicated)",
            .before = 1) %>% 
   write_csv("effect_sizes/rice98_4.csv")
 ```
@@ -457,6 +465,7 @@ tibble(
            Generations = "30",
            Organism = "Drosophila melanogaster",
            Interpretation = "The positive effect size means females carrying haplotypes that underwent male-limited evolution took longer to complete development than females carrying control genomes.",
+           Effect_size_source = "Calculated from the raw data (digitised from a plot) using a model",
            .before = 1) %>% 
   write_csv("effect_sizes/rice98_5.csv")
 ```
@@ -484,6 +493,7 @@ get_effect_size_2x2_matrix(x) %>%
            Generations = "30",
            Organism = "Drosophila melanogaster",
            Interpretation = "A positive effect size means that females carrying a haplotype that underwent male-limited evolution produced fewer offspring than females carrying a control haplotype (though there is no significant difference).",
+           Effect_size_source = "Chi-square test on total counts (pseudoreplicated)",
            .before = 1) %>% 
   write_csv("effect_sizes/rice98_6.csv")
 ```
@@ -574,6 +584,7 @@ tibble(
            Generations = "30",
            Organism = "Drosophila melanogaster",
            Interpretation = "A positive effect size means that males carrying a haplotype that underwent male-limited evolution have a negative effect on the survival of their mates.",
+           Effect_size_source = "Calculated from the raw data (digitised from a plot) using a model",
            .before = 1) %>% 
   write_csv("effect_sizes/rice98_7.csv")
 ```
@@ -1362,6 +1373,7 @@ tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
        Generations = 41,
        Organism = "Drosophila melanogaster",
        Interpretation = "A positive effect would mean that females carrying female-evolved X chromosomes have higher fitness than the control FM genotype (there is no difference, though).",
+       Effect_size_source = "Model of the raw data",
        Estimate = effects$Estimate,
        Var = effects$Var,
        Lower_95_CI = effects$Lower_95_CI,
@@ -1388,6 +1400,7 @@ tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
        Generations = 41,
        Organism = "Drosophila melanogaster",
        Interpretation = "The positive effect indicates that males carrying female-evolved X chromosomes have lower fitness than the control FM genotype (there is no difference, though).",
+       Effect_size_source = "Model of the raw data",
        Estimate = effects$Estimate,
        Var = effects$Var,
        Lower_95_CI = effects$Lower_95_CI,
@@ -1424,6 +1437,7 @@ tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
        Generations = 43,
        Organism = "Drosophila melanogaster",
        Interpretation = "A positive effect would mean that females carrying female-evolved X chromosomes take less time to develop higher fitness than the control FM genotype (there is no difference, though).",
+       Effect_size_source = "Model of the raw data",
        Estimate = effects$Estimate,
        Var = effects$Var,
        Lower_95_CI = effects$Lower_95_CI,
@@ -1452,6 +1466,7 @@ tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
        Generations = 43,
        Organism = "Drosophila melanogaster",
        Interpretation = "A positive effect would mean that males carrying female-evolved X chromosomes take less time to develop higher fitness than the control FM genotype (there is no difference, though).",
+       Effect_size_source = "Model of the raw data",
        Estimate = effects$Estimate,
        Var = effects$Var,
        Lower_95_CI = effects$Lower_95_CI,
@@ -1485,6 +1500,7 @@ tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
        Generations = 123,
        Organism = "Drosophila melanogaster",
        Interpretation = "A positive effect would mean that females carrying female-evolved X chromosomes are less active than females carrying the control FM genotype (there is no difference, though).",
+       Effect_size_source = "Model of the raw data",
        Estimate = LOR_effects$Estimate,
        Var = LOR_effects$Var,
        Lower_95_CI = LOR_effects$Lower_95_CI,
@@ -1514,6 +1530,7 @@ tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
        Generations = 123,
        Organism = "Drosophila melanogaster",
        Interpretation = "A positive effect would mean that males carrying female-evolved X chromosomes are less active than males carrying the control FM genotype (actually it's significant in the opposite direction).",
+       Effect_size_source = "Model of the raw data",
        Estimate = LOR_effects$Estimate,
        Var = LOR_effects$Var,
        Lower_95_CI = LOR_effects$Lower_95_CI,
@@ -1548,6 +1565,7 @@ tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
        Generations = 72,
        Organism = "Drosophila melanogaster",
        Interpretation = "The positive effect indicates that females carrying female-evolved X chromosomes had larger thoraxes than females with the control FM genotype.",
+       Effect_size_source = "Model of the raw data",
        Estimate = effects$Estimate,
        Var = effects$Var,
        Lower_95_CI = effects$Lower_95_CI,
@@ -1574,6 +1592,7 @@ tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
        Generations = 72,
        Organism = "Drosophila melanogaster",
        Interpretation = "A positive effect would mean that males carrying female-evolved X chromosomes had larger thoraxes than males with the control FM genotype (there is no difference, though).",
+       Effect_size_source = "Model of the raw data",
        Estimate = effects$Estimate,
        Var = effects$Var,
        Lower_95_CI = effects$Lower_95_CI,
@@ -1613,6 +1632,7 @@ as.matrix(df[,2:3]) %>%
          Generations = "107",
          Organism = "Drosophila melanogaster",
          Interpretation = "A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have lower mating success compared to males carrying control X chromosomes (however, there's a significant difference in the opposite direction).",
+       Effect_size_source = "Chi-square test on total counts (pseudoreplicated)", 
          .before = 1) %>% 
   write_csv("effect_sizes/manat_1.csv")
 ```
@@ -1647,7 +1667,7 @@ mes(m.1 = df$mean[1],
            trait = "Male mating speed", 
            generations = "107",
            organism = "Drosophila melanogaster",
-           interpretation = "A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would take longer to induce females to mate compared to males carrying control X chromosomes (however, there is a significant difference in the opposite direction).") %>% 
+           interpretation = "A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would take longer to induce females to mate compared to males carrying control X chromosomes (however, there is a significant difference in the opposite direction).") %>%  
   write_csv("effect_sizes/manat_2.csv")
 ```
 
@@ -1719,6 +1739,211 @@ mes(m.1 = df$mean[2],
   write_csv("effect_sizes/manat_4.csv")
 ```
 
+
+## Lund-Hansen et al. (2022)
+
+Lund-Hansen, K. K., Kutzer, M. A., Armitage, S. A., Gornard, S., Keilani, H., & Abbott, J. K. (2022). Female-limited X chromosome evolution reveals that lifespan is mainly modulated by interlocus rather than intralocus sexual conflict. _Behavioral Ecology and Sociobiology_, 76(9), 120.
+
+### Female longevity 
+
+These data come from Figure 1b, and consider female longevity/lifespan for females kept in mixed-sex groups. The raw data were provided by the authors in a Github repo ([link](https://github.com/KKLund-Hansen/FLXLongevityImmune)).
+
+#### Calculating effect size
+
+We calculated the effect size from a Cox model with fixed and random effects, by re-using the archived analysis code to reproduce the exact model chosen by the original authors (which included random effects accounting for the experimental design). We then extracted the difference in survival rate between females carrying either a female-limited (FLX) or control X chromosome (specifically the CFM control, i.e. a control X that had co-evolved with X balancer chromosomes), expressed as a log hazard ratio, which we transformed to Cohen's $d$. The effect size was made negative, since females with the female-limited X showed non-significantly worse longevity than controls.
+
+```{r}
+# Authors' original code start:
+FLG.data <- read.csv(
+  "input_data/LundHansen2022_FLXLongevityImmune/FemaleLongevity/FemaleLongevityGroup.csv", 
+  header = T, sep = ",", stringsAsFactors = TRUE)
+surv.FLG <- Surv(FLG.data$age, FLG.data$dead)
+cox.FLG <- coxme(surv.FLG ~ regime + (1|regime/rep_population) + (1|vial), 
+                 data = FLG.data)
+# Authors' original code ends.
+
+estimates <- contrast(emmeans(cox.FLG, "regime"), method = "pairwise") %>% 
+  as.data.frame()
+
+logHR <- estimates$estimate[estimates$contrast == "aFLX - bCFM"] * -1
+Var_HR <- estimates$SE[estimates$contrast == "aFLX - bCFM"] ^ 2
+CI_logHR <- logHR + c(-1, 1) * 1.96 * sqrt(Var_HR)
+
+effects <- tibble(Estimate = logHR * sqrt(3) / pi,
+                  Var = Var_HR * sqrt(3) / pi,
+                  Lower_95_CI = CI_logHR[1] * sqrt(3) / pi,
+                  Upper_95_CI = CI_logHR[2] * sqrt(3) / pi)
+
+tibble(Study = "Lund-Hansen et al. (2022) Behav. Ecol. Sociobiol. 76, 120.",
+       Trait = "Female longevity",
+       Generations = 189,
+       Organism = "Drosophila melanogaster",
+       Interpretation = "A positive effect would mean that females carrying female-evolved X chromosomes survived longer in mixed-sex conditions than females with the control FM genotype (there is a non-significant effect in the opposite direction, though).",
+       Effect_size_source = "Model of the raw data",
+       Estimate = effects$Estimate,
+       Var = effects$Var,
+       Lower_95_CI = effects$Lower_95_CI,
+       Upper_95_CI = effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/lundhansen2022_1.csv")
+```
+
+### Male longevity 
+
+These data come from Figure 1d, and consider male longevity/lifespan for males kept in mixed-sex groups. The raw data were provided by the authors in a Github repo ([link](https://github.com/KKLund-Hansen/FLXLongevityImmune)).
+
+#### Calculating effect size
+
+The methods are the same as for the female longevity data. The effect size was positive, indicating males carrying a female-evolved X chromosome had (non-significantly) worse survival than males carrying a control-evolved X (as expected if the experimental removal of IaSC across the FLX allows male-harming alleles to increase).
+
+```{r}
+# Authors' original code start:
+MLG.data <- read.csv(
+  "input_data/LundHansen2022_FLXLongevityImmune/MaleLongevity/MaleLongevityGroup.csv", 
+  header = T, sep = ",", stringsAsFactors = TRUE)
+surv.MLG <- Surv(MLG.data$age, MLG.data$dead)
+cox.MLG <- coxme(surv.MLG ~ regime + (1|regime/rep_population) + (1|vial), 
+                 data = MLG.data)
+# Authors' original code ends.
+
+estimates <- contrast(emmeans(cox.MLG, "regime"), method = "pairwise") %>% 
+  as.data.frame()
+
+logHR <- estimates$estimate[estimates$contrast == "aFLX - bCFM"] 
+Var_HR <- estimates$SE[estimates$contrast == "aFLX - bCFM"] ^ 2
+CI_logHR <- logHR + c(-1, 1) * 1.96 * sqrt(Var_HR)
+
+effects <- tibble(Estimate = logHR * sqrt(3) / pi,
+                  Var = Var_HR * sqrt(3) / pi,
+                  Lower_95_CI = CI_logHR[1] * sqrt(3) / pi,
+                  Upper_95_CI = CI_logHR[2] * sqrt(3) / pi)
+
+tibble(Study = "Lund-Hansen et al. (2022) Behav. Ecol. Sociobiol. 76, 120.",
+       Trait = "Male longevity",
+       Generations = 189,
+       Organism = "Drosophila melanogaster",
+       Interpretation = "A positive effect would mean that females carrying female-evolved X chromosomes survived longer in mixed-sex conditions than females with the control FM genotype (there is no difference, though).",
+       Effect_size_source = "Model of the raw data",
+       Estimate = effects$Estimate,
+       Var = effects$Var,
+       Lower_95_CI = effects$Lower_95_CI,
+       Upper_95_CI = effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/lundhansen2022_2.csv")
+```
+
+### Female bacterial resistance
+
+These data come from the same Github repo ([link](https://github.com/KKLund-Hansen/FLXLongevityImmune)). The data give the mean bacterial load (in CFU) of the gram-negative _Lactococcus lactis_ in flies carrying three types of X chromosomes (female-evolved, control-evolved 'CFM', and wild type control). Higher bacterial load indicates lower resistance. 
+
+#### Calculating effect size
+
+We followed the code of the authors, which involved transforming the bacterial load data via $log(x+1)$ and removing one outlier, then running a linear mixed model with random effects accounting for the experimental design. We standardised the response variable (after the log transformation) to have mean 0, variance 1, such that the effect sizes were in units of Cohen's $d$.
+
+```{r}
+# Authors' code follows (except where noted!):
+IA.data <- read.csv(
+  "input_data/LundHansen2022_FLXLongevityImmune/InfectionAssay/infectionassay.csv", 
+  header = T, sep = ",", stringsAsFactors = TRUE)
+
+#Before I do the model I log transform the data and add a +1 because of a 0 value
+IA.data$lnCFU <- log(IA.data$CFU_fly + 1)
+
+#After running the model and looking at the residuals, the 0 value is a clear outlier so I removed it
+outlierIA <- IA.data$lnCFU[which((abs(IA.data$lnCFU - median(IA.data$lnCFU)) / mad(IA.data$lnCFU)) > 2)]
+IA.data$lnCFU[IA.data$lnCFU %in% outlierIA[1]] <- NA
+
+# This line added by Luke Holman: scaling response to mean 0, SD=1 to estimate Cohen's d
+IA.data$lnCFU <- scale(IA.data$lnCFU)
+
+#Linear mixed model testing if regime has a significant effect on bacterial load
+model.BL <- lmer(lnCFU ~ regime + block + (1|regime:rep_population), data = IA.data)
+# End of authors' code
+
+estimates <- contrast(emmeans(model.BL, "regime"), method = "pairwise") %>% 
+  as.data.frame()
+
+d <- estimates$estimate[estimates$contrast == "aFLX - bCFM"] * -1
+Var_d <- estimates$SE[estimates$contrast == "aFLX - bCFM"] ^ 2
+CI_d <- d + c(-1, 1) * 1.96 * sqrt(Var_d)
+
+
+tibble(Study = "Lund-Hansen et al. (2022) Behav. Ecol. Sociobiol. 76, 120.",
+       Trait = "Female L. lactis resistance",
+       Generations = 48,
+       Organism = "Drosophila melanogaster",
+       Interpretation = "A positive effect would mean that females carrying female-evolved X chromosomes were more resistant (i.e. had lower bacterial load of L. lactis) than females with the control FM genotype (there is no difference, though).",
+       Effect_size_source = "Model of the raw data",
+       Estimate = d,
+       Var = Var_d,
+       Lower_95_CI = CI_d[1],
+       Upper_95_CI = CI_d[2]) %>% 
+  write_csv("effect_sizes/lundhansen2022_3.csv")
+```
+
+### Female bacterial tolerance
+
+These data come from the same Github repo ([link](https://github.com/KKLund-Hansen/FLXLongevityImmune)). The data give the number of surviving female flies 7 days post-treatment from experiments in which females were either naive, wounded, or infected with one of two bacteria (gram-negative _Lactococcus lactis_ or gram-positive _Pseudomonas entomophila_) in flies carrying three types of X chromosomes (female-evolved, control-evolved 'CFM', and wild type control). Higher bacterial load indicates lower resistance. The wounding treatment is a procedural control for the mode of infection.
+
+#### Calculating effect size
+
+We re-used the authors' code to run the same Cox survival model with random effects. We then calculated interaction contrasts using `emmeans`, to first find the difference in survival probability between the wounding control and the bacteria treatments, and second to compare this difference between the FLX and CFM treatments. Assuming removal of IaSC makes females healthier, we would predict a smaller worsening of survival in infected (vs wounded) flies in the FLX treatment. There is no statistically significant difference, however.
+
+```{r}
+Sur7d.data <- read.csv("input_data/LundHansen2022_FLXLongevityImmune/SurvivalAfterInfection/survival7days.csv", h = T, sep = ",", stringsAsFactors = T)
+surv.7d <- Surv(Sur7d.data$age, Sur7d.data$dead)
+cox.7d <- coxme(surv.7d ~ regime * bacterium + block + (1|vial) + (1|regime/rep_population), 
+                data = Sur7d.data)
+
+# Calculate interaction contrasts from the author's model:
+
+# Basically we want to know if the difference between:
+## A) the wounding control and the L. lactis treatment, and
+## B) the wounding control and the P. entomophila treatment
+# differ between the FLX and CFM selection regimes. If yes, then the X chr treatment affects 
+# survival tolerance to those two bacteria (in practice everything is non-significant)
+bac_eff <- contrast(
+    emmeans(cox.7d, ~ bacterium | regime),
+    method = "trt.vs.ctrl",
+    ref = "bWounded"     
+)
+x <- contrast(bac_eff, method = "pairwise", by = "contrast") %>% 
+  as.data.frame()
+
+# Wounded vs L. lactis treatment
+logHR_Llactis <- x$estimate[4] * -1
+varHR_Llactis <- x$SE[4] ^ 2
+CI_logHR_Llactis <- logHR_Llactis + c(-1, 1) * 1.96 * sqrt(varHR_Llactis)
+
+# Wounded vs P. entomophila treatment
+logHR_Pent<- x$estimate[7] * -1
+varHR_Pent <- x$SE[7] ^ 2
+CI_logHR_Pent <- logHR_Pent + c(-1, 1) * 1.96 * sqrt(varHR_Pent)
+
+tibble(Study = "Lund-Hansen et al. (2022) Behav. Ecol. Sociobiol. 76, 120.",
+       Trait = "Female L. lactis tolerance",
+       Generations = 48,
+       Organism = "Drosophila melanogaster",
+       Interpretation = "A positive effect would mean that females carrying female-evolved X chromosomes were more tolerant of L. lactis infection (i.e. had a smaller reduction in survival 7 days after infection relative to the wounded control) than females with the control FM genotype (there is no difference, though).",
+       Effect_size_source = "Model of the raw data",
+       Estimate = logHR_Llactis,
+       Var = varHR_Llactis,
+       Lower_95_CI = CI_logHR_Llactis[1],
+       Upper_95_CI = CI_logHR_Llactis[2]) %>% 
+  write_csv("effect_sizes/lundhansen2022_4.csv")
+
+tibble(Study = "Lund-Hansen et al. (2022) Behav. Ecol. Sociobiol. 76, 120.",
+       Trait = "Female P. entomophila tolerance",
+       Generations = 48,
+       Organism = "Drosophila melanogaster",
+       Interpretation = "A positive effect would mean that females carrying female-evolved X chromosomes were more tolerant of P. entomophila infection (i.e. had a smaller reduction in survival 7 days after infection relative to the wounded control) than females with the control FM genotype (there is no difference, though).",
+       Effect_size_source = "Model of the raw data",
+       Estimate = logHR_Pent,
+       Var = varHR_Pent,
+       Lower_95_CI = CI_logHR_Pent[1],
+       Upper_95_CI = CI_logHR_Pent[2]) %>% 
+  write_csv("effect_sizes/lundhansen2022_5.csv")
+```
+
+
 ## Grieshop et al. (2025)
 
 Grieshop, K., Liu, M. J., Frost, R. S., Lindsay, M. P., Bayoumi, M., Brengdahl, M. I., Molnar, R. I., & Agrawal, A. F. (2025). Expression divergence in response to sex-biased selection. _Molecular Biology and Evolution_, 42(7) msaf099.
@@ -1777,6 +2002,7 @@ tibble(Study = "Grieshop et al. (2025) Molec. Biol. Evol. 42 msaf099.",
        Interpretation = c(
          "A positive effect would mean that females carrying primarily male-evolved copies of chromosome 2 mate less often, compared to females with primarily female-evolved copies of chromosome 2 (there is no difference, though).", 
          "This positive effect means that males carrying primarily male-evolved copies of chromosome 2 mate more often, compared to males with primarily female-evolved copies of chromosome 2."),
+       Effect_size_source = "Model of the raw data",
        Estimate = LOR_effects$Estimate,
        Var = LOR_effects$Var,
        Lower_95_CI = LOR_effects$Lower_95_CI,
@@ -1865,6 +2091,7 @@ tibble(Study = "Thyagarajan et al. (2025) J. Hered. esaf072",
        Organism = "Drosophila melanogaster",
        Interpretation = c("This positive effect means that females carrying male-evolved haplotypes have lower fitness than females carrying control genomes.", 
                           "This positive effect means that males carrying male-evolved haplotypes have higher fitness than males carrying control genomes."),
+       Effect_size_source = "Model of the raw data",
        Estimate = LOR_effects$Estimate,
        Var = LOR_effects$Var,
        Lower_95_CI = LOR_effects$Lower_95_CI,
@@ -1900,6 +2127,7 @@ tibble(
   Generations = 64,
   Organism = "Drosophila melanogaster",
   Interpretation = "A positive effect would mean that males carrying male-evolved haplotypes are more likely to mate with females (over standard male competitors) compared to males carrying control genomes (there is no signficant difference).",
+  Effect_size_source = "Model of the raw data",
   Estimate = LOR_effects$Estimate,
   Var = LOR_effects$Var,
   Lower_95_CI = LOR_effects$Lower_95_CI,
@@ -1932,6 +2160,7 @@ tibble(
   Generations = 64,
   Organism = "Drosophila melanogaster",
   Interpretation = "A positive effect would indicate that males carrying male-evolved haplotypes sire more offspring when mating with previously-mated females, compared to males carrying control genomes (there is no significant effect).",
+  Effect_size_source = "Model of the raw data",
   Estimate = LOR_effects$Estimate,
   Var = LOR_effects$Var,
   Lower_95_CI = LOR_effects$Lower_95_CI,
@@ -1964,6 +2193,7 @@ tibble(
   Generations = 64,
   Organism = "Drosophila melanogaster",
   Interpretation = "A positive effect would indicate that females carrying male-evolved haplotypes produce fewer offspring compared to females carrying control genomes (there is a non-significant trend in the opposite direction).",
+  Effect_size_source = "Model of the raw data",
   Estimate = effects$Estimate,
   Var = effects$Var,
   Lower_95_CI = effects$Lower_95_CI,
@@ -2015,6 +2245,7 @@ tibble(Study = "Nordén et al. (2020) Evolution 77, 1066-1076",
          "A positive effect would mean that worms carrying the feminising allele had lower fitness when breeding in the male sex role compared to worms carrying the control allele (they did, but the difference is not significant).",
          "A positive effect would mean that worms carrying the masculinising allele had higher fitness when breeding in the male sex role compared to worms carrying the control allele (they did, but the difference is not significant)."
        ),
+       Effect_size_source = "Model of the raw data",
        Estimate = cohens_d$Estimate,
        Var = cohens_d$SE ^ 2,
        Lower_95_CI = cohens_d$Lower_95_CI,
@@ -2070,34 +2301,13 @@ tibble(Study = "Melo-Gavin et al. (2026) bioRxiv, https://doi.org/10.64898/2026.
          "A positive effect size would that males carrying the male-limited chromosome had higher fitness than males with the female-limited chromosome, when evolved and measured under benign conditions (there is no difference though).",
          "The positive effect size means that females carrying the female-limited chromosome had higher fitness than females with the male-limited chromosome, when evolved and measured under novel conditions.",
          "The positive effect size means that males carrying the male-limited chromosome had higher fitness than males with the female-limited chromosome, when evolved and measured under novel conditions."),
+       Effect_size_source = "Model of the raw data",
        Estimate = df$Estimate,
        Var = df$Var,
        Lower_95_CI = df$Lower_95_CI,
        Upper_95_CI = df$Upper_95_CI) %>% 
   write_csv("effect_sizes/MeloGavin2026.csv")
 ```
-
-
-
-<!-- ### Female fitness -->
-
-<!-- #### Melo-Gavin et al.'s original data -->
-
-<!-- ```{r} -->
-<!-- df <- tibble( -->
-<!--   chr_type = c("female-limited", "male-limited"), -->
-<!--   mean = c(1.0764962187609557, 0.9991861571593129), -->
-<!--   SE = c(1.0956453147693694 - 1.0764962187609557,  -->
-<!--          1.0255621775930286 - 0.9991861571593129), -->
-<!--   n = c(??,??)) -->
-
-<!-- kable(df) %>%  -->
-<!--   kable_styling(full_width = F) -->
-
-<!-- Melo-Gavin et al. (2026). bioRxiv, https://doi.org/10.64898/2026.01.23.701411 -->
-<!-- ``` -->
-
-
 
 # Middle-class neighbourhood experiments
 
