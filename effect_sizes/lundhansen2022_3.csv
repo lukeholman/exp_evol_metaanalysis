@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Effect_size_source,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Lund-Hansen et al. (2022) Behav. Ecol. Sociobiol. 76, 120.",Female L. lactis resistance,48,Drosophila melanogaster,"A positive effect would mean that females carrying female-evolved X chromosomes were more resistant (i.e. had lower bacterial load of L. lactis) than females with the control FM genotype (there is no difference, though).",Model of the raw data,0.35908779684581815,0.17790038403292965,-0.4676056864361674,1.1857812801278036
