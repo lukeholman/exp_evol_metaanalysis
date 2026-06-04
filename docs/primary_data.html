@@ -381,7 +381,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -392,8 +392,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -406,9 +406,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>exp_evol_metaanalysis/</code>
@@ -431,21 +431,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -536,15 +533,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree37697bb4cce205bfacf95a223995ac0b318d0134targetblank37697bba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreec35db3542d3099fa11afea2736a12f354a2ee982targetblankc35db35a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/37697bb4cce205bfacf95a223995ac0b318d0134" target="_blank">37697bb</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/c35db3542d3099fa11afea2736a12f354a2ee982" target="_blank">c35db35</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistree37697bb4cce205bfacf95a223995ac0b318d0134targetblank37697bba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreec35db3542d3099fa11afea2736a12f354a2ee982targetblankc35db35a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -554,7 +551,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/37697bb4cce205bfacf95a223995ac0b318d0134" target="_blank">37697bb</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/c35db3542d3099fa11afea2736a12f354a2ee982" target="_blank">c35db35</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -573,6 +570,15 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    input_data/.DS_Store
+    Ignored:    input_data/LundHansen2022_FLXLongevityImmune/.DS_Store
+    Ignored:    input_data/LundHansen2022_FLXLongevityImmune/FemaleLongevity/.DS_Store
+    Ignored:    input_data/LundHansen2022_FLXLongevityImmune/FemaleLongevity/.RData
+    Ignored:    input_data/LundHansen2022_FLXLongevityImmune/FemaleLongevity/.Rhistory
+    Ignored:    input_data/LundHansen2022_FLXLongevityImmune/InfectionAssay/.DS_Store
+    Ignored:    input_data/LundHansen2022_FLXLongevityImmune/InfectionAssay/.RData
+    Ignored:    input_data/LundHansen2022_FLXLongevityImmune/InfectionAssay/.Rhistory
+    Ignored:    input_data/LundHansen2022_FLXLongevityImmune/MaleLongevity/.RData
+    Ignored:    input_data/LundHansen2022_FLXLongevityImmune/MaleLongevity/.Rhistory
     Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/.DS_Store
     Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/DevelopmentTimeGeneration/.Rapp.history
     Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/LocomotionAssayGeneration123/.DS_Store
@@ -584,62 +590,6 @@ Ignored files:
     Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/StandardFitnessGeneration39-41 /.Rapp.history
     Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/ThoraxSizeGeneration15-18/.Rapp.history
     Ignored:    input_data/lundhansen_github_data_FLXevoexp-master/ThoraxSizeGeneration72/.Rapp.history
-
-Untracked files:
-    Untracked:  effect_sizes/lundhansen2022_1.csv
-    Untracked:  effect_sizes/lundhansen2022_2.csv
-    Untracked:  input_data/LundHansen2022_FLXLongevityImmune/
-
-Unstaged changes:
-    Modified:   analysis/primary_data.Rmd
-    Modified:   effect_sizes/abbott2010_1.csv
-    Modified:   effect_sizes/abbott2010_2.csv
-    Modified:   effect_sizes/abbott2010_3.csv
-    Modified:   effect_sizes/abbott2010_4.csv
-    Modified:   effect_sizes/abbott2010_5.csv
-    Modified:   effect_sizes/abbott2010_6.csv
-    Modified:   effect_sizes/abbott_2013_1.csv
-    Modified:   effect_sizes/abbott_2013_2.csv
-    Modified:   effect_sizes/abbott_2020_1.csv
-    Modified:   effect_sizes/abbott_2020_2.csv
-    Modified:   effect_sizes/abbott_2020_3.csv
-    Modified:   effect_sizes/abbott_2020_4.csv
-    Modified:   effect_sizes/abbott_2020_5.csv
-    Modified:   effect_sizes/abbott_2020_6.csv
-    Modified:   effect_sizes/bedhomme2008_1.csv
-    Modified:   effect_sizes/bedhomme2008_2.csv
-    Modified:   effect_sizes/bedhomme2011.csv
-    Modified:   effect_sizes/jiang_2011_1.csv
-    Modified:   effect_sizes/jiang_2011_2.csv
-    Modified:   effect_sizes/jiang_2011_3.csv
-    Modified:   effect_sizes/jiang_2011_4.csv
-    Modified:   effect_sizes/lundhansen_1.csv
-    Modified:   effect_sizes/lundhansen_2.csv
-    Modified:   effect_sizes/lundhansen_3.csv
-    Modified:   effect_sizes/lundhansen_4.csv
-    Modified:   effect_sizes/lundhansen_5.csv
-    Modified:   effect_sizes/lundhansen_6.csv
-    Modified:   effect_sizes/lundhansen_7.csv
-    Modified:   effect_sizes/lundhansen_8.csv
-    Modified:   effect_sizes/manat_1.csv
-    Modified:   effect_sizes/manat_2.csv
-    Modified:   effect_sizes/manat_3.csv
-    Modified:   effect_sizes/manat_4.csv
-    Modified:   effect_sizes/prasad2007_1.csv
-    Modified:   effect_sizes/prasad2007_2.csv
-    Modified:   effect_sizes/prasad2007_3.csv
-    Modified:   effect_sizes/prasad2007_4.csv
-    Modified:   effect_sizes/prasad2007_5.csv
-    Modified:   effect_sizes/prasad2007_6.csv
-    Modified:   effect_sizes/rice92.csv
-    Modified:   effect_sizes/rice96.csv
-    Modified:   effect_sizes/rice98_1.csv
-    Modified:   effect_sizes/rice98_2.csv
-    Modified:   effect_sizes/rice98_3.csv
-    Modified:   effect_sizes/rice98_4.csv
-    Modified:   effect_sizes/rice98_5.csv
-    Modified:   effect_sizes/rice98_6.csv
-    Modified:   effect_sizes/rice98_7.csv
 
 </code></pre>
 <p>
@@ -684,6 +634,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/c35db3542d3099fa11afea2736a12f354a2ee982/analysis/primary_data.Rmd" target="_blank">c35db35</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-06-04
+</td>
+<td>
+Add Lund-Hansen 2022
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/c35db3542d3099fa11afea2736a12f354a2ee982/docs/primary_data.html" target="_blank">c35db35</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-06-04
+</td>
+<td>
+Add Lund-Hansen 2022
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1778,7 +1762,7 @@ females tested.</p>
 df %&gt;% 
   kable() %&gt;% 
   kable_styling()</code></pre>
-<table class="table" style="color: black; margin-left: auto; margin-right: auto;">
+<table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:right;">
@@ -1951,7 +1935,7 @@ rice96 %&gt;%
   mutate(fitness = round(fitness,2)) %&gt;% 
   rename(`Male fitness` = fitness) %&gt;% 
   kable() %&gt;% kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:right;">
@@ -2205,7 +2189,7 @@ attractiveness and mating duration.</p>
 colnames(x) &lt;- c(&quot;male-limited&quot;, &quot;control&quot;)
 rownames(x) &lt;- c(&quot;mated&quot;, &quot;unmated&quot;)
 kable(x) %&gt;% kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -2270,7 +2254,7 @@ EAB males than CAB males.</p>
 colnames(x) &lt;- c(&quot;n_remating&quot;, &quot;n_not_remating&quot;)
 rownames(x) &lt;- c(&quot;EAB&quot;, &quot;CAB&quot;)
 kable(x) %&gt;% kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -2348,7 +2332,7 @@ defence’, i.e. reduced paternity loss to the second male.</p>
          n = round(V2)) %&gt;% select(treatment, type, n)
 
 kable(m) %&gt;% kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -2510,7 +2494,7 @@ m %&gt;%
   pivot_wider(names_from = type, values_from = n) %&gt;% 
   kable() %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -2612,7 +2596,7 @@ days.</p>
          day_centered = as.numeric(scale(day))) # mean-centre day and scale by dividing by its SD 
 
 kable(dt) %&gt;% kable_styling()</code></pre>
-<table class="table" style="color: black; margin-left: auto; margin-right: auto;">
+<table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -4400,7 +4384,7 @@ colnames(x) &lt;- c(&quot;focal_female_offspring&quot;, &quot;rival_female_offsp
 rownames(x) &lt;- c(&quot;CAB&quot;, &quot;EAB&quot;)
 
 kable(x) %&gt;% kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -4471,7 +4455,7 @@ or close to it.</p>
 
 kable(mortality) %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -4792,7 +4776,7 @@ replicates for the control and 4 for the male-limited treatment).</p>
 
 kable(df) %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -4933,7 +4917,7 @@ effect on the overall effect size estimate.</p>
 
 kable(df) %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -5074,7 +5058,7 @@ effect on the overall effect size estimate.</p>
 
 kable(df) %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -5350,7 +5334,7 @@ fitness, and <em>lower</em> female fitness).</p>
 abb %&gt;% 
   kable() %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -5649,7 +5633,7 @@ precision of the effect size.</p>
 df %&gt;% 
   kable() %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:right;">
@@ -5740,7 +5724,7 @@ females) using PlotDigitiser. Same sample size estimate as before.</p>
 df %&gt;% 
   kable() %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:right;">
@@ -5835,7 +5819,7 @@ meta-analysis.</p>
 df %&gt;% 
   kable() %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:right;">
@@ -5926,7 +5910,7 @@ females) using PlotDigitiser. Same sample size estimate as before.</p>
 df %&gt;% 
   kable() %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:right;">
@@ -6035,7 +6019,7 @@ females.</p>
        SE = c(0.351, 0.322),
        N = c(120, 120)) %&gt;% 
   kable() %&gt;% kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -6136,7 +6120,7 @@ replicate lines).</p>
 df %&gt;% 
   kable() %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -6306,7 +6290,7 @@ extra purging of male-harming alleles.</p>
 
 df %&gt;% 
   kable() %&gt;% kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -6942,7 +6926,7 @@ post-copulatory success. <em>Biology Letters</em>, 17, 20200915.</p>
 
 kable(df) %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -7010,7 +6994,7 @@ CFM
 
 kable(df) %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -7088,7 +7072,7 @@ CFM
 
 kable(df) %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -7166,7 +7150,7 @@ CFM
 
 kable(df) %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -7248,18 +7232,22 @@ href="https://github.com/KKLund-Hansen/FLXLongevityImmune">link</a>).</p>
 <h4>Calculating effect size</h4>
 <p>We calculated the effect size from a Cox model with fixed and random
 effects, by re-using the archived analysis code to reproduce the exact
-model chosen by the original authors. We then extracted the difference
-in survival rate between females carrying either a female-limited (FLX)
-or control X chromosome (specifically the CFM control, i.e. a control X
-that had co-evolved with X balancer chromosomes), expressed as a log
-hazard ratio, which we transformed to Cohen’s <span
-class="math inline">\(d\)</span>. The effect size was made negative,
-since females with the female-limited X showed non-significantly worse
-longevity than controls.</p>
+model chosen by the original authors (which included random effects
+accounting for the experimental design). We then extracted the
+difference in survival rate between females carrying either a
+female-limited (FLX) or control X chromosome (specifically the CFM
+control, i.e. a control X that had co-evolved with X balancer
+chromosomes), expressed as a log hazard ratio, which we transformed to
+Cohen’s <span class="math inline">\(d\)</span>. The effect size was made
+negative, since females with the female-limited X showed
+non-significantly worse longevity than controls.</p>
 <pre class="r"><code># Authors&#39; original code start:
-FLG.data &lt;- read.csv(&quot;input_data/LundHansen2022_FLXLongevityImmune/FemaleLongevity/FemaleLongevityGroup.csv&quot;, header = T, sep = &quot;,&quot;, stringsAsFactors = TRUE)
+FLG.data &lt;- read.csv(
+  &quot;input_data/LundHansen2022_FLXLongevityImmune/FemaleLongevity/FemaleLongevityGroup.csv&quot;, 
+  header = T, sep = &quot;,&quot;, stringsAsFactors = TRUE)
 surv.FLG &lt;- Surv(FLG.data$age, FLG.data$dead)
-cox.FLG &lt;- coxme(surv.FLG ~ regime + (1|regime/rep_population) + (1|vial), data = FLG.data)
+cox.FLG &lt;- coxme(surv.FLG ~ regime + (1|regime/rep_population) + (1|vial), 
+                 data = FLG.data)
 # Authors&#39; original code ends.
 
 estimates &lt;- contrast(emmeans(cox.FLG, &quot;regime&quot;), method = &quot;pairwise&quot;) %&gt;% 
@@ -7301,9 +7289,12 @@ chromosome had (non-significantly) worse survival than males carrying a
 control-evolved X (as expected if the experimental removal of IaSC
 across the FLX allows male-harming alleles to increase).</p>
 <pre class="r"><code># Authors&#39; original code start:
-MLG.data &lt;- read.csv(&quot;input_data/LundHansen2022_FLXLongevityImmune/MaleLongevity/MaleLongevityGroup.csv&quot;, header = T, sep = &quot;,&quot;, stringsAsFactors = TRUE)
+MLG.data &lt;- read.csv(
+  &quot;input_data/LundHansen2022_FLXLongevityImmune/MaleLongevity/MaleLongevityGroup.csv&quot;, 
+  header = T, sep = &quot;,&quot;, stringsAsFactors = TRUE)
 surv.MLG &lt;- Surv(MLG.data$age, MLG.data$dead)
-cox.MLG &lt;- coxme(surv.MLG ~ regime + (1|regime/rep_population) + (1|vial), data = MLG.data)
+cox.MLG &lt;- coxme(surv.MLG ~ regime + (1|regime/rep_population) + (1|vial), 
+                 data = MLG.data)
 # Authors&#39; original code ends.
 
 estimates &lt;- contrast(emmeans(cox.MLG, &quot;regime&quot;), method = &quot;pairwise&quot;) %&gt;% 
@@ -7329,6 +7320,141 @@ tibble(Study = &quot;Lund-Hansen et al. (2022) Behav. Ecol. Sociobiol. 76, 120.&
        Lower_95_CI = effects$Lower_95_CI,
        Upper_95_CI = effects$Upper_95_CI) %&gt;% 
   write_csv(&quot;effect_sizes/lundhansen2022_2.csv&quot;)</code></pre>
+</div>
+</div>
+<div id="female-bacterial-resistance" class="section level3">
+<h3>Female bacterial resistance</h3>
+<p>These data come from the same Github repo (<a
+href="https://github.com/KKLund-Hansen/FLXLongevityImmune">link</a>).
+The data give the mean bacterial load (in CFU) of the gram-negative
+<em>Lactococcus lactis</em> in flies carrying three types of X
+chromosomes (female-evolved, control-evolved ‘CFM’, and wild type
+control). Higher bacterial load indicates lower resistance.</p>
+<div id="calculating-effect-size-22" class="section level4">
+<h4>Calculating effect size</h4>
+<p>We followed the code of the authors, which involved transforming the
+bacterial load data via <span class="math inline">\(log(x+1)\)</span>
+and removing one outlier, then running a linear mixed model with random
+effects accounting for the experimental design. We standardised the
+response variable (after the log transformation) to have mean 0,
+variance 1, such that the effect sizes were in units of Cohen’s <span
+class="math inline">\(d\)</span>.</p>
+<pre class="r"><code># Authors&#39; code follows (except where noted!):
+IA.data &lt;- read.csv(
+  &quot;input_data/LundHansen2022_FLXLongevityImmune/InfectionAssay/infectionassay.csv&quot;, 
+  header = T, sep = &quot;,&quot;, stringsAsFactors = TRUE)
+
+#Before I do the model I log transform the data and add a +1 because of a 0 value
+IA.data$lnCFU &lt;- log(IA.data$CFU_fly + 1)
+
+#After running the model and looking at the residuals, the 0 value is a clear outlier so I removed it
+outlierIA &lt;- IA.data$lnCFU[which((abs(IA.data$lnCFU - median(IA.data$lnCFU)) / mad(IA.data$lnCFU)) &gt; 2)]
+IA.data$lnCFU[IA.data$lnCFU %in% outlierIA[1]] &lt;- NA
+
+# This line added by Luke Holman: scaling response to mean 0, SD=1 to estimate Cohen&#39;s d
+IA.data$lnCFU &lt;- scale(IA.data$lnCFU)
+
+#Linear mixed model testing if regime has a significant effect on bacterial load
+model.BL &lt;- lmer(lnCFU ~ regime + block + (1|regime:rep_population), data = IA.data)
+# End of authors&#39; code
+
+estimates &lt;- contrast(emmeans(model.BL, &quot;regime&quot;), method = &quot;pairwise&quot;) %&gt;% 
+  as.data.frame()
+
+d &lt;- estimates$estimate[estimates$contrast == &quot;aFLX - bCFM&quot;] * -1
+Var_d &lt;- estimates$SE[estimates$contrast == &quot;aFLX - bCFM&quot;] ^ 2
+CI_d &lt;- d + c(-1, 1) * 1.96 * sqrt(Var_d)
+
+
+tibble(Study = &quot;Lund-Hansen et al. (2022) Behav. Ecol. Sociobiol. 76, 120.&quot;,
+       Trait = &quot;Female L. lactis resistance&quot;,
+       Generations = 48,
+       Organism = &quot;Drosophila melanogaster&quot;,
+       Interpretation = &quot;A positive effect would mean that females carrying female-evolved X chromosomes were more resistant (i.e. had lower bacterial load of L. lactis) than females with the control FM genotype (there is no difference, though).&quot;,
+       Effect_size_source = &quot;Model of the raw data&quot;,
+       Estimate = d,
+       Var = Var_d,
+       Lower_95_CI = CI_d[1],
+       Upper_95_CI = CI_d[2]) %&gt;% 
+  write_csv(&quot;effect_sizes/lundhansen2022_3.csv&quot;)</code></pre>
+</div>
+</div>
+<div id="female-bacterial-tolerance" class="section level3">
+<h3>Female bacterial tolerance</h3>
+<p>These data come from the same Github repo (<a
+href="https://github.com/KKLund-Hansen/FLXLongevityImmune">link</a>).
+The data give the number of surviving female flies 7 days post-treatment
+from experiments in which females were either naive, wounded, or
+infected with one of two bacteria (gram-negative <em>Lactococcus
+lactis</em> or gram-positive <em>Pseudomonas entomophila</em>) in flies
+carrying three types of X chromosomes (female-evolved, control-evolved
+‘CFM’, and wild type control). Higher bacterial load indicates lower
+resistance. The wounding treatment is a procedural control for the mode
+of infection.</p>
+<div id="calculating-effect-size-23" class="section level4">
+<h4>Calculating effect size</h4>
+<p>We re-used the authors’ code to run the same Cox survival model with
+random effects. We then calculated interaction contrasts using
+<code>emmeans</code>, to first find the difference in survival
+probability between the wounding control and the bacteria treatments,
+and second to compare this difference between the FLX and CFM
+treatments. Assuming removal of IaSC makes females healthier, we would
+predict a smaller worsening of survival in infected (vs wounded) flies
+in the FLX treatment. There is no statistically significant difference,
+however.</p>
+<pre class="r"><code>Sur7d.data &lt;- read.csv(&quot;input_data/LundHansen2022_FLXLongevityImmune/SurvivalAfterInfection/survival7days.csv&quot;, h = T, sep = &quot;,&quot;, stringsAsFactors = T)
+surv.7d &lt;- Surv(Sur7d.data$age, Sur7d.data$dead)
+cox.7d &lt;- coxme(surv.7d ~ regime * bacterium + block + (1|vial) + (1|regime/rep_population), 
+                data = Sur7d.data)
+
+# Calculate interaction contrasts from the author&#39;s model:
+
+# Basically we want to know if the difference between:
+## A) the wounding control and the L. lactis treatment, and
+## B) the wounding control and the P. entomophila treatment
+# differ between the FLX and CFM selection regimes. If yes, then the X chr treatment affects 
+# survival tolerance to those two bacteria (in practice everything is non-significant)
+bac_eff &lt;- contrast(
+    emmeans(cox.7d, ~ bacterium | regime),
+    method = &quot;trt.vs.ctrl&quot;,
+    ref = &quot;bWounded&quot;     
+)
+x &lt;- contrast(bac_eff, method = &quot;pairwise&quot;, by = &quot;contrast&quot;) %&gt;% 
+  as.data.frame()
+
+# Wounded vs L. lactis treatment
+logHR_Llactis &lt;- x$estimate[4] * -1
+varHR_Llactis &lt;- x$SE[4] ^ 2
+CI_logHR_Llactis &lt;- logHR_Llactis + c(-1, 1) * 1.96 * sqrt(varHR_Llactis)
+
+# Wounded vs P. entomophila treatment
+logHR_Pent&lt;- x$estimate[7] * -1
+varHR_Pent &lt;- x$SE[7] ^ 2
+CI_logHR_Pent &lt;- logHR_Pent + c(-1, 1) * 1.96 * sqrt(varHR_Pent)
+
+tibble(Study = &quot;Lund-Hansen et al. (2022) Behav. Ecol. Sociobiol. 76, 120.&quot;,
+       Trait = &quot;Female L. lactis tolerance&quot;,
+       Generations = 48,
+       Organism = &quot;Drosophila melanogaster&quot;,
+       Interpretation = &quot;A positive effect would mean that females carrying female-evolved X chromosomes were more tolerant of L. lactis infection (i.e. had a smaller reduction in survival 7 days after infection relative to the wounded control) than females with the control FM genotype (there is no difference, though).&quot;,
+       Effect_size_source = &quot;Model of the raw data&quot;,
+       Estimate = logHR_Llactis,
+       Var = varHR_Llactis,
+       Lower_95_CI = CI_logHR_Llactis[1],
+       Upper_95_CI = CI_logHR_Llactis[2]) %&gt;% 
+  write_csv(&quot;effect_sizes/lundhansen2022_4.csv&quot;)
+
+tibble(Study = &quot;Lund-Hansen et al. (2022) Behav. Ecol. Sociobiol. 76, 120.&quot;,
+       Trait = &quot;Female P. entomophila tolerance&quot;,
+       Generations = 48,
+       Organism = &quot;Drosophila melanogaster&quot;,
+       Interpretation = &quot;A positive effect would mean that females carrying female-evolved X chromosomes were more tolerant of P. entomophila infection (i.e. had a smaller reduction in survival 7 days after infection relative to the wounded control) than females with the control FM genotype (there is no difference, though).&quot;,
+       Effect_size_source = &quot;Model of the raw data&quot;,
+       Estimate = logHR_Pent,
+       Var = varHR_Pent,
+       Lower_95_CI = CI_logHR_Pent[1],
+       Upper_95_CI = CI_logHR_Pent[2]) %&gt;% 
+  write_csv(&quot;effect_sizes/lundhansen2022_5.csv&quot;)</code></pre>
 </div>
 </div>
 </div>
@@ -7758,7 +7884,7 @@ estimate them.</p>
 
 kable(df) %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -8007,7 +8133,7 @@ Biology</em>, 21(4), 1046–1054.</p>
 
 kable(df) %&gt;% 
   kable_styling(full_width = F)</code></pre>
-<table class="table" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -8158,35 +8284,37 @@ other attached packages:
  [9] carData_3.0-6    lme4_1.1-38      Matrix_1.7-4     readxl_1.4.5    
 [13] lubridate_1.9.4  forcats_1.0.1    stringr_1.6.0    dplyr_1.2.0     
 [17] purrr_1.2.1      readr_2.1.6      tidyr_1.3.2      tibble_3.3.1    
-[21] ggplot2_4.0.2    tidyverse_2.0.0 
+[21] ggplot2_4.0.2    tidyverse_2.0.0  workflowr_1.7.2 
 
 loaded via a namespace (and not attached):
  [1] tidyselect_1.2.1    viridisLite_0.4.2   farver_2.1.2       
  [4] S7_0.2.1            fastmap_1.2.0       promises_1.5.0     
  [7] digest_0.6.39       timechange_0.4.0    estimability_1.5.1 
-[10] lifecycle_1.0.5     magrittr_2.0.4      compiler_4.5.2     
-[13] rlang_1.1.7         sass_0.4.10         tools_4.5.2        
-[16] yaml_2.3.12         knitr_1.51          bit_4.6.0          
-[19] xml2_1.5.2          RColorBrewer_1.1-3  abind_1.4-8        
-[22] workflowr_1.7.2     withr_3.0.2         numDeriv_2016.8-1.1
+[10] lifecycle_1.0.5     processx_3.8.6      magrittr_2.0.4     
+[13] compiler_4.5.2      rlang_1.1.7         sass_0.4.10        
+[16] tools_4.5.2         yaml_2.3.12         knitr_1.51         
+[19] bit_4.6.0           xml2_1.5.2          RColorBrewer_1.1-3 
+[22] abind_1.4-8         withr_3.0.2         numDeriv_2016.8-1.1
 [25] grid_4.5.2          git2r_0.36.2        scales_1.4.0       
 [28] MASS_7.3-65         cli_3.6.5           mvtnorm_1.3-3      
 [31] crayon_1.5.3        rmarkdown_2.30      reformulas_0.4.4   
 [34] generics_0.1.4      otel_0.2.0          rstudioapi_0.18.0  
-[37] tzdb_0.5.0          minqa_1.2.8         cachem_1.1.0       
-[40] splines_4.5.2       parallel_4.5.2      cellranger_1.1.0   
-[43] vctrs_0.7.1         boot_1.3-32         jsonlite_2.0.0     
-[46] hms_1.1.4           pbkrtest_0.5.5      bit64_4.6.0-1      
-[49] Formula_1.2-5       systemfonts_1.3.1   jquerylib_0.1.4    
-[52] glue_1.8.0          nloptr_2.2.1        stringi_1.8.7      
-[55] gtable_0.3.6        later_1.4.5         pillar_1.11.1      
-[58] htmltools_0.5.9     R6_2.6.1            textshaping_1.0.4  
-[61] Rdpack_2.6.5        rprojroot_2.1.1     vroom_1.7.0        
-[64] evaluate_1.0.5      lattice_0.22-7      backports_1.5.0    
-[67] rbibutils_2.4.1     broom_1.0.12        httpuv_1.6.16      
-[70] bslib_0.10.0        Rcpp_1.1.1          svglite_2.2.2      
-[73] coda_0.19-4.1       nlme_3.1-168        whisker_0.4.1      
-[76] xfun_0.56           fs_1.6.6            pkgconfig_2.0.3    </code></pre>
+[37] httr_1.4.7          tzdb_0.5.0          minqa_1.2.8        
+[40] cachem_1.1.0        splines_4.5.2       parallel_4.5.2     
+[43] cellranger_1.1.0    vctrs_0.7.1         boot_1.3-32        
+[46] jsonlite_2.0.0      callr_3.7.6         hms_1.1.4          
+[49] pbkrtest_0.5.5      bit64_4.6.0-1       Formula_1.2-5      
+[52] systemfonts_1.3.1   jquerylib_0.1.4     glue_1.8.0         
+[55] nloptr_2.2.1        ps_1.9.1            stringi_1.8.7      
+[58] gtable_0.3.6        later_1.4.5         pillar_1.11.1      
+[61] htmltools_0.5.9     R6_2.6.1            textshaping_1.0.4  
+[64] Rdpack_2.6.5        rprojroot_2.1.1     vroom_1.7.0        
+[67] evaluate_1.0.5      lattice_0.22-7      backports_1.5.0    
+[70] rbibutils_2.4.1     broom_1.0.12        httpuv_1.6.16      
+[73] bslib_0.10.0        Rcpp_1.1.1          svglite_2.2.2      
+[76] coda_0.19-4.1       nlme_3.1-168        whisker_0.4.1      
+[79] xfun_0.56           fs_1.6.6            getPass_0.2-4      
+[82] pkgconfig_2.0.3    </code></pre>
 </div>
 </div>
 </div>
