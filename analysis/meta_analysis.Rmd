@@ -74,7 +74,9 @@ meta_analysis_data <- list.files("effect_sizes/", full.names = T) %>%
     Sex = NA,
     Sex = replace(Sex, first_word %in% c("Male", "Sperm", "Mating"), "Male"),
     Sex = replace(Sex, first_word %in% c("Viability", "Egg-to-adult"), "Both"),
-    Sex = replace(Sex, first_word == "Female", "Female")) %>% 
+    Sex = replace(Sex, first_word == "Female", "Female"),
+    Sex = replace(Sex, grepl("male-limited lines", Trait), "Male"),
+    Sex = replace(Sex, grepl("female-limited lines", Trait), "Female")) %>% 
   select(-first_word)
 ```
 
@@ -196,11 +198,11 @@ fit_all(c("~ Generations + Sex + Experiment_type1",
 ```
 
 ```{r include=FALSE}
-mean_gen <- round(mean(meta_analysis_data$Generations),1)
+mean_gen <- round(mean(meta_analysis_data$Generations), 1)
 
 gen_ma <- fit_ma("~ Generations")
 
-mean_effect_gen <- paste0(pretty3(as.numeric(gen_ma$b[1,1])), " (",
+mean_effect_gen <- paste0(pretty3(as.numeric(gen_ma$b[1, 1])), " (",
                           pretty3(as.numeric(gen_ma$ci.lb)[1]), "-",
                           pretty3(as.numeric(gen_ma$ci.ub)[1]), ")", collapse = "")
 ```
@@ -266,17 +268,20 @@ plot_data$Short_name[plot_data$Short_name == "Rice (1992)"] <- "**Female-limited
 
 plot_data$Short_name[plot_data$Short_name == "Grieshop et al. (2025);\nMelo-Gavin et al. (2025)"] <- "**Male-limited autosome**<br>Grieshop *et al*. (2025)<br>Melo-Gavin *et al*. (2025)"
 
-plot_data$Short_name[plot_data$Short_name == "Nordén et al. (2020)"] <- "**Reciprocal sex-limited markers**<br>Nordén *et al* (2020)"
+plot_data$Short_name[plot_data$Short_name == "Nordén et al. (2020);\nCīrulis et al. (2026)"] <- "**Reciprocal sex-limited markers**<br>Nordén *et al* (2020)<br>Cīrulis *et al*. (2026)"
 
 plot_data$Short_name[plot_data$Short_name == "Melo-Gavin et al. (2026)"] <- "**Symmetrical sex-limited**<br>**autosomes**<br>Melo-Gavin *et al*. (2026)"
 
-plot_data$Short_name[plot_data$Short_name == "Abbott et al. (2013);\nAbbott et al. (2020)"] <- "**Male-limited X**<br>Abbott et al. (2013, 2020)"
+plot_data$Short_name[plot_data$Short_name == "Abbott et al. (2013);\nAbbott et al. (2020)"] <- "**Male-limited X**<br>Abbott *et al*. (2013, 2020)"
 
-plot_data$Short_name[plot_data$Short_name == "Lund-Hansen et al. (2020);\nManat et al. (2021)"] <- "**Female-limited X**<br>Lund-Hansen *et al*. (2020)<br>Manat *et al*. (2021)"
+plot_data$Short_name[plot_data$Short_name == "Lund-Hansen et al. (2020);\nManat et al. (2021);\nLund-Hansen et al. (2022);\nLund-Hansen et al. (this issue);\nManat et al. (this issue)"] <- "**Female-limited X**<br>Lund-Hansen *et al*. (2020)<br>Manat *et al*. (2021)<br>Lund-Hansen *et al*. (2022)<br>Lund-Hansen *et al*. (this issue)<br>Manat *et al*. (this issue)"
 
 plot_data$Short_name[plot_data$Short_name == "Radwan et al. (2004)"] <- "**Relaxed selection on females**<br>Radwan *et al*. (2004)"
 
 plot_data$Short_name[plot_data$Short_name == "Morrow et al. (2008)"] <- "**Relaxed selection on both sexes**<br>Morrow *et al*. (2004)"
+
+plot_data$Short_name[plot_data$Short_name == "Bonel et al. (2018)"] <- "**Relaxed selection on both sex functions**<br>Bonel *et al*. (2018)"
+
 
 
 # plot_data$Short_name <- str_remove_all(plot_data$Short_name, " et al[.]")
