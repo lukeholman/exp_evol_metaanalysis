@@ -1349,7 +1349,7 @@ Effect sizes are calculated from models that motly follow those in the authors' 
 These are for generation 39-41, from the file StandardFitnessG3941.csv. I ran a model following that used by the authors, as shown in their archived code.
 
 ```{r}
-SF.data <- read_csv("input_data/lundhansen_github_data_FLXevoexp-master/StandardFitnessGeneration39-41 /StandardFitnessG3941.csv", show_col_types = F)
+SF.data <- read_csv("input_data/lundhansen2020_github_data_FLXevoexp-master/StandardFitnessGeneration39-41 /StandardFitnessG3941.csv", show_col_types = F)
 female_SF <- SF.data[SF.data$sex == "f", ] %>% 
   mutate(standard = as.numeric(scale(standard)))
 male_SF <- SF.data[SF.data$sex == "m", ] %>% 
@@ -1409,7 +1409,7 @@ tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
 ### Female development time
 
 ```{r}
-dev_time <- read_csv("input_data/lundhansen_github_data_FLXevoexp-master/DevelopmentTimeGeneration/DevelopmentTimeG43.csv", show_col_types = F)
+dev_time <- read_csv("input_data/lundhansen2020_github_data_FLXevoexp-master/DevelopmentTimeGeneration/DevelopmentTimeG43.csv", show_col_types = F)
 dev_time_females <- dev_time %>% 
   filter(sex == "f") %>% 
   mutate(dev_time = as.numeric(scale(dev_time)))
@@ -1475,7 +1475,7 @@ tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
 ### Female locomotion
 
 ```{r warning=F}
-loco <- read_csv("input_data/lundhansen_github_data_FLXevoexp-master/LocomotionAssayGeneration123/LocoAssayG123.csv", show_col_types = F)
+loco <- read_csv("input_data/lundhansen2020_github_data_FLXevoexp-master/LocomotionAssayGeneration123/LocoAssayG123.csv", show_col_types = F)
 female_loco <- loco %>% filter(sex == "f")
 male_loco <- loco %>% filter(sex == "m")
 
@@ -1494,7 +1494,7 @@ LOR_effects <- contrast(emmeans(female_loco_model, ~ regime), method = "pairwise
          Upper_95_CI = (logOR + SE * 1.96) * sqrt(3) / pi)
 
 tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
-       Trait = "Female locomotion",
+       Trait = "Female locomotion (2020)",
        Generations = 123,
        Organism = "Drosophila melanogaster",
        Interpretation = "A positive effect would mean that females carrying female-evolved X chromosomes are less active than females carrying the control FM genotype (there is no difference, though).",
@@ -1524,7 +1524,7 @@ LOR_effects <- contrast(emmeans(male_loco_model, ~ regime), method = "pairwise")
          Upper_95_CI = (logOR + SE * 1.96) * sqrt(3) / pi)
 
 tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
-       Trait = "Male locomotion",
+       Trait = "Male locomotion (2020)",
        Generations = 123,
        Organism = "Drosophila melanogaster",
        Interpretation = "A positive effect would mean that males carrying female-evolved X chromosomes are less active than males carrying the control FM genotype (actually it's significant in the opposite direction).",
@@ -1539,7 +1539,7 @@ tibble(Study = "Lund-Hansen et al. (2020) Evolution 74, 2703–2713",
 ### Female thorax size
 
 ```{r}
-thorax <- read_csv("input_data/lundhansen_github_data_FLXevoexp-master/ThoraxSizeGeneration72/ThoraxSizeG72.csv", show_col_types = F)
+thorax <- read_csv("input_data/lundhansen2020_github_data_FLXevoexp-master/ThoraxSizeGeneration72/ThoraxSizeG72.csv", show_col_types = F)
 female_thorax <- thorax %>% 
   filter(sex == "f") %>% 
   mutate(size_mm = as.numeric(scale(size_mm)))
@@ -1696,7 +1696,7 @@ mes(m.1 = df$mean[2],
     sd.2 = df$SE[1] * sqrt(80),
     n.1 = 880, n.2 = 80, verbose = F) %>% 
   parse_es(study = "Manat et al. (2021) Biol. Lett. 17, 20200915", 
-           trait = "Sperm offence", 
+           trait = "Sperm offence (2021)", 
            generations = "160",
            organism = "Drosophila melanogaster",
            interpretation = "A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have worse sperm offence (i.e. sire fewer offspring with previously mated females) compared to males carrying control X chromosomes (however the finding is significant in the opposite direction).") %>% 
@@ -1730,7 +1730,7 @@ mes(m.1 = df$mean[2],
     sd.2 = df$SE[1] * sqrt(80),
     n.1 = 880, n.2 = 80, verbose = F) %>% 
   parse_es(study = "Manat et al. (2021) Biol. Lett. 17, 20200915", 
-           trait = "Sperm defence", 
+           trait = "Sperm defence (2021)", 
            generations = "160",
            organism = "Drosophila melanogaster",
            interpretation = "The positive effect indicates that males carrying an X chromosome that underwent female-limited evolution have worse sperm defence (i.e. sire fewer offspring when after the female remates) compared to males carrying control X chromosomes.") %>% 
@@ -1876,69 +1876,285 @@ tibble(Study = "Lund-Hansen et al. (2022) Behav. Ecol. Sociobiol. 76, 120.",
   write_csv("effect_sizes/lundhansen2022_3.csv")
 ```
 
-### Female bacterial tolerance
+<!-- ### Female bacterial tolerance -->
 
-These data come from the same Github repo ([link](https://github.com/KKLund-Hansen/FLXLongevityImmune)). The data give the number of surviving female flies 7 days post-treatment from experiments in which females were either naive, wounded, or infected with one of two bacteria (gram-negative _Lactococcus lactis_ or gram-positive _Pseudomonas entomophila_), and these females carried one of three types of X chromosomes (female-evolved, control-evolved 'CFM', and wild type control). Higher bacterial load indicates lower resistance. The wounding treatment is a procedural control for the mode of infection.
+<!-- NOTE : LUKE REMOVED THIS DATA AS THE VARIANCE IS GIGANTIC AND IT MAKES THE PLOT LOOK WEIRD. THE META-ANALYSIS WOULD NOT BE AFFECTED SINCE THESE EFFECT SIZES HAVE HUGE UNCERTAINTY -->
 
-#### Calculating effect size
+<!-- These data come from the same Github repo ([link](https://github.com/KKLund-Hansen/FLXLongevityImmune)). The data give the number of surviving female flies 7 days post-treatment from experiments in which females were either naive, wounded, or infected with one of two bacteria (gram-negative _Lactococcus lactis_ or gram-positive _Pseudomonas entomophila_), and these females carried one of three types of X chromosomes (female-evolved, control-evolved 'CFM', and wild type control). Higher bacterial load indicates lower resistance. The wounding treatment is a procedural control for the mode of infection. -->
 
-We re-used the authors' code to run the same Cox survival model with random effects. We then calculated interaction contrasts using `emmeans`, to 1) find the difference in survival probability between the wounding control and the bacteria treatments, and 2) compare this difference between the FLX and CFM treatments. Assuming removal of IaSC makes females healthier, we would predict a smaller worsening of survival in infected (vs wounded) flies in the FLX treatment compared to the CFM treatment. There is no statistically significant difference, however.
+<!-- #### Calculating effect size -->
+
+<!-- We re-used the authors' code to run the same Cox survival model with random effects. We then calculated interaction contrasts using `emmeans`, to 1) find the difference in survival probability between the wounding control and the bacteria treatments, and 2) compare this difference between the FLX and CFM treatments. Assuming removal of IaSC makes females healthier, we would predict a smaller worsening of survival in infected (vs wounded) flies in the FLX treatment compared to the CFM treatment. There is no statistically significant difference, however. -->
+
+<!-- ```{r} -->
+<!-- Sur7d.data <- read.csv("input_data/LundHansen2022_FLXLongevityImmune/SurvivalAfterInfection/survival7days.csv", h = T, sep = ",", stringsAsFactors = T) -->
+<!-- surv.7d <- Surv(Sur7d.data$age, Sur7d.data$dead) -->
+<!-- cox.7d <- coxme(surv.7d ~ regime * bacterium + block + (1|vial) + (1|regime/rep_population),  -->
+<!--                 data = Sur7d.data) -->
+
+<!-- # Calculate interaction contrasts from the author's model: -->
+
+<!-- # Basically we want to know if the difference between: -->
+<!-- ## A) the wounding control and the L. lactis treatment, and -->
+<!-- ## B) the wounding control and the P. entomophila treatment -->
+<!-- # differ between the FLX and CFM selection regimes. If yes, then the X chr treatment affects  -->
+<!-- # survival tolerance to those two bacteria (in practice everything is non-significant) -->
+<!-- bac_eff <- contrast( -->
+<!--     emmeans(cox.7d, ~ bacterium | regime), -->
+<!--     method = "trt.vs.ctrl", -->
+<!--     ref = "bWounded"      -->
+<!-- ) -->
+<!-- x <- contrast(bac_eff, method = "pairwise", by = "contrast") %>%  -->
+<!--   as.data.frame() -->
+
+<!-- # Wounded vs L. lactis treatment -->
+<!-- logHR_Llactis <- x$estimate[4] * -1 -->
+<!-- varHR_Llactis <- x$SE[4] ^ 2 -->
+<!-- CI_logHR_Llactis <- logHR_Llactis + c(-1, 1) * 1.96 * sqrt(varHR_Llactis) -->
+
+<!-- # Wounded vs P. entomophila treatment -->
+<!-- logHR_Pent<- x$estimate[7] * -1 -->
+<!-- varHR_Pent <- x$SE[7] ^ 2 -->
+<!-- CI_logHR_Pent <- logHR_Pent + c(-1, 1) * 1.96 * sqrt(varHR_Pent) -->
+
+<!-- tibble(Study = "Lund-Hansen et al. (2022) Behav. Ecol. Sociobiol. 76, 120.", -->
+<!--        Trait = "Female L. lactis tolerance", -->
+<!--        Generations = 48, -->
+<!--        Organism = "Drosophila melanogaster", -->
+<!--        Interpretation = "A positive effect would mean that females carrying female-evolved X chromosomes were more tolerant of L. lactis infection (i.e. had a smaller reduction in survival 7 days after infection relative to the wounded control) than females with the control FM genotype (there is no difference, though).", -->
+<!--        Effect_size_source = "Model of the raw data", -->
+<!--        Estimate = logHR_Llactis, -->
+<!--        Var = varHR_Llactis, -->
+<!--        Lower_95_CI = CI_logHR_Llactis[1], -->
+<!--        Upper_95_CI = CI_logHR_Llactis[2]) %>%  -->
+<!--   write_csv("effect_sizes/lundhansen2022_4.csv") -->
+
+<!-- tibble(Study = "Lund-Hansen et al. (2022) Behav. Ecol. Sociobiol. 76, 120.", -->
+<!--        Trait = "Female P. entomophila tolerance", -->
+<!--        Generations = 48, -->
+<!--        Organism = "Drosophila melanogaster", -->
+<!--        Interpretation = "A positive effect would mean that females carrying female-evolved X chromosomes were more tolerant of P. entomophila infection (i.e. had a smaller reduction in survival 7 days after infection relative to the wounded control) than females with the control FM genotype (there is no difference, though).", -->
+<!--        Effect_size_source = "Model of the raw data", -->
+<!--        Estimate = logHR_Pent, -->
+<!--        Var = varHR_Pent, -->
+<!--        Lower_95_CI = CI_logHR_Pent[1], -->
+<!--        Upper_95_CI = CI_logHR_Pent[2]) %>%  -->
+<!--   write_csv("effect_sizes/lundhansen2022_5.csv") -->
+<!-- ``` -->
+
+## Manat et al. (2026)
+
+Manat, Y., Tarka, M., & Abbott, J. (in prep.) Change in the G-matrix as a result of female-limited X chromosome evolution in _Drosophila melanogaster_. _Philosophical Transactions of the Royal Society B: Biological Sciences_, in prep. (in the same Theme Issue as this meta-analysis).
 
 ```{r}
-Sur7d.data <- read.csv("input_data/LundHansen2022_FLXLongevityImmune/SurvivalAfterInfection/survival7days.csv", h = T, sep = ",", stringsAsFactors = T)
-surv.7d <- Surv(Sur7d.data$age, Sur7d.data$dead)
-cox.7d <- coxme(surv.7d ~ regime * bacterium + block + (1|vial) + (1|regime/rep_population), 
-                data = Sur7d.data)
+manat <- read_csv("input_data/Manat_PhilTransB_2026_Gmatrix/data.csv")
+manat$round<-factor(manat$round)
+manat$section<-factor(manat$section)
+manat$round.sec<-factor(manat$round.sec)
 
-# Calculate interaction contrasts from the author's model:
+females <- subset(manat, manat$sex=="female")
+males <- subset(manat, manat$sex=="male")
 
-# Basically we want to know if the difference between:
-## A) the wounding control and the L. lactis treatment, and
-## B) the wounding control and the P. entomophila treatment
-# differ between the FLX and CFM selection regimes. If yes, then the X chr treatment affects 
-# survival tolerance to those two bacteria (in practice everything is non-significant)
-bac_eff <- contrast(
-    emmeans(cox.7d, ~ bacterium | regime),
-    method = "trt.vs.ctrl",
-    ref = "bWounded"     
-)
-x <- contrast(bac_eff, method = "pairwise", by = "contrast") %>% 
-  as.data.frame()
+female_DR <- aggregate(females$DR, 
+                       by=list(mother=females$mother, 
+                               replicat=females$replicat, 
+                               treatment=females$treatment, 
+                               round=females$round), FUN=mean, na.action=na.rm) %>% 
+  filter(!is.na(x)) %>% 
+  mutate(x = scale(x))
 
-# Wounded vs L. lactis treatment
-logHR_Llactis <- x$estimate[4] * -1
-varHR_Llactis <- x$SE[4] ^ 2
-CI_logHR_Llactis <- logHR_Llactis + c(-1, 1) * 1.96 * sqrt(varHR_Llactis)
+male_DR <- aggregate(males$DR, 
+                     by=list(mother=males$mother, 
+                             replicat=males$replicat, 
+                             treatment=males$treatment, 
+                             round=males$round), 
+                     FUN=mean, na.action=na.rm) %>% 
+  filter(!is.na(x)) %>% 
+  mutate(x = scale(x))
 
-# Wounded vs P. entomophila treatment
-logHR_Pent<- x$estimate[7] * -1
-varHR_Pent <- x$SE[7] ^ 2
-CI_logHR_Pent <- logHR_Pent + c(-1, 1) * 1.96 * sqrt(varHR_Pent)
+female_WS <- aggregate(females$WS, 
+                       by=list(mother=females$mother,
+                               replicat=females$replicat,
+                               treatment=females$treatment,
+                               round=females$round), 
+                       FUN=mean, na.action=na.rm) %>% 
+  filter(!is.na(x)) %>% 
+  mutate(x = scale(x))
 
-tibble(Study = "Lund-Hansen et al. (2022) Behav. Ecol. Sociobiol. 76, 120.",
-       Trait = "Female L. lactis tolerance",
-       Generations = 48,
+male_WS <- aggregate(males$WS, 
+                     by=list(mother=males$mother,
+                             replicat=males$replicat,
+                             treatment=males$treatment,
+                             round=males$round), 
+                     FUN=mean, na.action=na.rm) %>% 
+  filter(!is.na(x)) %>% 
+  mutate(x = scale(x))
+
+female_LA <- aggregate(females$LA_active, 
+                 by=list(mother=females$mother,
+                         replicat=females$replicat,
+                         treatment=females$treatment,
+                         round=females$round), FUN=sum) %>% 
+  filter(!is.na(x)) 
+
+male_LA <- aggregate(males$LA_active, 
+                     by=list(mother=males$mother,
+                             replicat=males$replicat,
+                             treatment=males$treatment,
+                             round=males$round), FUN=sum) %>% 
+  filter(!is.na(x))
+
+
+modelF.dr <- lmer(x ~ treatment + round + (1 | treatment:replicat), data = female_DR)
+modelM.dr <- lmer(x ~ treatment + round + (1 | treatment:replicat), data = male_DR)
+modelF.ws<- lmer(x~treatment+round+(1|treatment:replicat), data=female_WS)
+modelM.ws<- lmer(x~treatment+round+(1|treatment:replicat), data=male_WS)
+modelF.la<- glmer(x~treatment+round+(1|treatment:replicat), data=female_LA, family=poisson)
+modelM.la<- glmer(x~treatment+round+(1|treatment:replicat), data=male_LA, family=poisson)
+
+effects <- tibble(trait = c("Female dessication resistance", "Male dessication resistance", 
+                            "Female wing size", "Male wing size", 
+                            "Female locomotion", "Male locomotion"),
+       rbind(
+         as.data.frame(contrast(emmeans(modelF.dr, ~ treatment), method = "pairwise"))[2,],
+         as.data.frame(contrast(emmeans(modelM.dr, ~ treatment), method = "pairwise"))[2,],
+         as.data.frame(contrast(emmeans(modelF.ws, ~ treatment), method = "pairwise"))[2,],
+         as.data.frame(contrast(emmeans(modelM.ws, ~ treatment), method = "pairwise"))[2,],
+         as.data.frame(contrast(emmeans(modelF.la, ~ treatment), method = "pairwise"))[2,],
+         as.data.frame(contrast(emmeans(modelM.la, ~ treatment), method = "pairwise"))[2,]
+         )) 
+
+# flip sign of dessication result for females, since authors say it's opposite to prediction in their Abstract
+# I also flip the sign for the wings results, since we want these effects to be positive given FLX are larger (feminised), just non-sig so
+effects$estimate[1:4] <- effects$estimate[1:4] * -1 
+effects <- effects %>% 
+  mutate(Var = SE ^ 2,
+         Lower_95_CI = estimate - 1.96 * SE,
+         Upper_95_CI = estimate + 1.96 * SE)
+  
+  
+effects[5:6, ] <- 
+  effects[5:6, ] %>% 
+   mutate(Var = (SE * sqrt(3) / pi)^2,
+         Lower_95_CI = (estimate - SE * 1.96) * sqrt(3) / pi,
+         Upper_95_CI = (estimate + SE * 1.96) * sqrt(3) / pi,
+         estimate = estimate * sqrt(3) / pi)
+
+tibble(Study = "Manat et al. (2026) Phil. Trans. B, in prep.",
+       Trait = effects$trait,
+       Generations = 147,
        Organism = "Drosophila melanogaster",
-       Interpretation = "A positive effect would mean that females carrying female-evolved X chromosomes were more tolerant of L. lactis infection (i.e. had a smaller reduction in survival 7 days after infection relative to the wounded control) than females with the control FM genotype (there is no difference, though).",
+       Interpretation = c(
+         "A positive effect size would mean that females carrying a female-limited X show increased (i.e. female-like) dessication resistance relative to controls. Actually, they showed significantly lower resistance than controls.",
+         "A positive effect size would mean that males carrying a female-limited X show increased (i.e. female-like) dessication resistance relative to controls. Actually, they showed non-significantly lower resistance than controls.",
+         "A positive effect size would mean that females carrying a female-limited X show increased (i.e. female-like) wing size relative to controls. Actually, they had non-significantly larger wings than controls.",
+         "A positive effect size would mean that males carrying a female-limited X show increased (i.e. female-like) wing size relative to controls. Actually, they had non-significantly larger wings than controls.",
+         "A positive effect size would mean that females carrying a female-limited X show reduced (i.e. female-like) locomotion relative to controls. Actually, they showed non-significantly higher locomotion than controls.",
+         "A positive effect size would mean that males carrying a female-limited X show reduced (i.e. female-like) locomotion relative to controls. The treatment was in the predicted direction but was non-significant."),
        Effect_size_source = "Model of the raw data",
-       Estimate = logHR_Llactis,
-       Var = varHR_Llactis,
-       Lower_95_CI = CI_logHR_Llactis[1],
-       Upper_95_CI = CI_logHR_Llactis[2]) %>% 
-  write_csv("effect_sizes/lundhansen2022_4.csv")
-
-tibble(Study = "Lund-Hansen et al. (2022) Behav. Ecol. Sociobiol. 76, 120.",
-       Trait = "Female P. entomophila tolerance",
-       Generations = 48,
-       Organism = "Drosophila melanogaster",
-       Interpretation = "A positive effect would mean that females carrying female-evolved X chromosomes were more tolerant of P. entomophila infection (i.e. had a smaller reduction in survival 7 days after infection relative to the wounded control) than females with the control FM genotype (there is no difference, though).",
-       Effect_size_source = "Model of the raw data",
-       Estimate = logHR_Pent,
-       Var = varHR_Pent,
-       Lower_95_CI = CI_logHR_Pent[1],
-       Upper_95_CI = CI_logHR_Pent[2]) %>% 
-  write_csv("effect_sizes/lundhansen2022_5.csv")
+       Estimate = effects$estimate,
+       Var = effects$Var,
+       Lower_95_CI = effects$Lower_95_CI,
+       Upper_95_CI = effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/manat_phil_trans.csv")
 ```
+
+## Lund-Hansen et al. (2026)
+
+
+Lund-Hansen, K. K., Li, Q. Y., Goyal, V., & Abbott, J. K. (in prep.) Signatures of sexually antagonistic intragenomic coevolution in _Drosophila melanogaster_. _Philosophical Transactions of the Royal Society B: Biological Sciences_, in prep. (in the same Theme Issue as this meta-analysis).
+
+### Locomotory activity
+
+```{r}
+Locoswap.data <- read.csv(file = "input_data/LundHansen_PhilTransB_2026/locomotionswap.csv", h = T, sep = ",", stringsAsFactors = T)
+
+model_loco <- glmer(cbind(active, inactive) ~ type * sex + day + (1|type:rep_pop) + (1|time), data = Locoswap.data, family = binomial)
+
+effects <- contrast(emmeans(model_loco, ~ type | sex), method = "pairwise") %>% 
+  as.data.frame() %>% as_tibble() %>% 
+  filter(contrast == "aFLXsex - cCFMsex") %>% 
+  mutate(LOR = -1 * estimate) %>% # flip effect sign to positive 
+  mutate(Estimate = LOR * sqrt(3) / pi, # convert LOR to Cohen's d
+         Var = (SE * sqrt(3) / pi)^2,
+         Lower_95_CI = (LOR - SE * 1.96) * sqrt(3) / pi,
+         Upper_95_CI = (LOR + SE * 1.96) * sqrt(3) / pi)
+
+tibble(Study = "Lund-Hansen et al. (2026) Phil. Trans. B, in prep.",
+       Trait = c("Female locomotion", "Male locomotion"),
+       Generations = 169,
+       Organism = "Drosophila melanogaster",
+       Interpretation = c(
+         "The positive effect size indicates that females carrying a female-limited X and Cwt autosomes show reduced (i.e. female-like) locomotion relative to females carrying a control (CFM) X and Cwt autosomes.",
+         "A positive effect size would indicate that males carrying a female-limited X and Cwt autosomes show reduced (i.e. female-like) locomotion relative to females carrying a control (CFM) X and Cwt autosomes (it't non-significant, though)."),
+       Effect_size_source = "Model of the raw data",
+       Estimate = effects$Estimate,
+       Var = effects$Var,
+       Lower_95_CI = effects$Lower_95_CI,
+       Upper_95_CI = effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/lundhansen_phil_trans1.csv")
+```
+
+### Sperm defence
+
+```{r}
+defswap.data <- read.csv(file = "input_data/LundHansen_PhilTransB_2026/defenceswap.csv", h = T, sep = ",", stringsAsFactors = T)
+
+model_def <- glmer(cbind(red, brown) ~ type + block + (1|type:rep_pop), data = defswap.data, family = binomial)
+
+effects <- contrast(emmeans(model_def, ~ type ), method = "pairwise") %>% 
+  as.data.frame() %>% as_tibble() %>% 
+  filter(contrast == "aFLXsex - cCFMsex") %>% 
+  mutate(LOR = estimate * -1) %>% # we want negative sign, since FLX males were non-sig. better competitors (opposite to prediction)
+  mutate(Estimate = LOR * sqrt(3) / pi, # convert LOR to Cohen's d
+         Var = (SE * sqrt(3) / pi)^2,
+         Lower_95_CI = (LOR - SE * 1.96) * sqrt(3) / pi,
+         Upper_95_CI = (LOR + SE * 1.96) * sqrt(3) / pi)
+
+
+tibble(Study = "Lund-Hansen et al. (2026) Phil. Trans. B, in prep.",
+       Trait = "Sperm defence",
+       Generations = 169,
+       Organism = "Drosophila melanogaster",
+       Interpretation = "A positive effect size would indicate that males carrying a female-limited X and Cwt autosomes show worse sperm defence than males carrying a control (CFM) X and Cwt autosomes (there is no significant difference, however).",
+       Effect_size_source = "Model of the raw data",
+       Estimate = effects$Estimate,
+       Var = effects$Var,
+       Lower_95_CI = effects$Lower_95_CI,
+       Upper_95_CI = effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/lundhansen_phil_trans2.csv")
+```
+
+### Sperm offence
+
+```{r}
+offswap.data <- read.csv(file = "input_data/LundHansen_PhilTransB_2026/offenceswap.csv", h = T, sep = ",", stringsAsFactors = T)
+
+model_off <- glmer(cbind(red, brown) ~ type + block + (1|type:rep_pop), data = offswap.data, family = binomial)
+
+effects <- contrast(emmeans(model_off, ~ type ), method = "pairwise") %>% 
+  as.data.frame() %>% as_tibble() %>% 
+  filter(contrast == "aFLXsex - cCFMsex") %>% 
+  mutate(LOR = estimate) %>% 
+  mutate(Estimate = LOR * sqrt(3) / pi, # convert LOR to Cohen's d
+         Var = (SE * sqrt(3) / pi)^2,
+         Lower_95_CI = (LOR - SE * 1.96) * sqrt(3) / pi,
+         Upper_95_CI = (LOR + SE * 1.96) * sqrt(3) / pi)
+
+
+tibble(Study = "Lund-Hansen et al. (2026) Phil. Trans. B, in prep.",
+       Trait = "Sperm offence",
+       Generations = 169,
+       Organism = "Drosophila melanogaster",
+       Interpretation = "A positive effect size would indicate that males carrying a female-limited X and Cwt autosomes show worse sperm offence than males carrying a control (CFM) X and Cwt autosomes (there is no significant difference, however).",
+       Effect_size_source = "Model of the raw data",
+       Estimate = effects$Estimate,
+       Var = effects$Var,
+       Lower_95_CI = effects$Lower_95_CI,
+       Upper_95_CI = effects$Upper_95_CI) %>% 
+  write_csv("effect_sizes/lundhansen_phil_trans3.csv")
+```
+
 
 
 ## Grieshop et al. (2025)
@@ -2346,7 +2562,7 @@ tibble(Study = "Cīrulis et al. (2026). Sex-limited experimental evolution, mati
        Organism = "Macrostomum lignano",
        Interpretation = "A positive effect size would indicate that worms carrying the female-limited genomic region induce more post-mating 'sucking' behaviour in their mates (they induced non-significantly less sucking, though).",
        Effect_size_source = "Model of the raw data",
-       Estimate = effects_sucking$Estimate[1],
+       Estimate = effects_sucking$estimate[1],
        Var = effects_sucking$SE[1] ^ 2,
        Lower_95_CI = effects_sucking$Lower_95_CI[1],
        Upper_95_CI = effects_sucking$Upper_95_CI[1]) %>%
@@ -2359,7 +2575,7 @@ tibble(Study = "Cīrulis et al. (2026). Sex-limited experimental evolution, mati
        Organism = "Macrostomum lignano",
        Interpretation = "A positive effect size would indicate that worms carrying the male-limited genomic region induce less post-mating 'sucking' behaviour in their mates (they induced significantly less, though).",
        Effect_size_source = "Model of the raw data",
-       Estimate = effects_sucking$Estimate[2],
+       Estimate = effects_sucking$estimate[2],
        Var = effects_sucking$SE[2] ^ 2,
        Lower_95_CI = effects_sucking$Lower_95_CI[2],
        Upper_95_CI = effects_sucking$Upper_95_CI[2]) %>% 
