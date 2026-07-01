@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Effect_size_source,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Bonel et al. (2018) Evolution, 72, 2181-2201",Female fecundity,20,Physa acuta,A positive effect size would indicate that female fecundity was higher in lines where selection was relaxed on males compared to lines where selection was relaxed on females (it's non-significantly different in the opposite direction).,Calculated from the raw data using a model,-0.2766430045239709,0.07901895295335733,-0.827605080955387,0.27431907190744514

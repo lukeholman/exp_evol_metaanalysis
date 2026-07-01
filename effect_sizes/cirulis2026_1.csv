@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Effect_size_source,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Cīrulis et al. (2026). Sex-limited experimental evolution, mating, and sexual conflict in a hermaphrodite. Zoo J Linnean Soc, 206, zlag036.",Mating rate (female-limited lines),44,Macrostomum lignano,"A positive effect size would indicate that worms carrying the female-limited genomic region show reduced mating behaviour (it's non-significant, though).",Model of the raw data,0.38270517270184307,0.04764269893620467,-0.04510809524729831,0.8105184406509844

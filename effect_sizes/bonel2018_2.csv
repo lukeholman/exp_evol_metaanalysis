@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Effect_size_source,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Bonel et al. (2018) Evolution, 72, 2181-2201",Male siring success,20,Physa acuta,The positive effect size indicates that siring success as the male parent was higher in lines where selection was relaxed on females compared to lines where selection was relaxed on males.,Calculated from the raw data using a model,1.5414102185489504,0.3097238023669347,0.7314778795384738,2.3513425575594273

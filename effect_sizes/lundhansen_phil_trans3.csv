@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Effect_size_source,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Lund-Hansen et al. (2026) Phil. Trans. B, in prep.",Sperm offence,169,Drosophila melanogaster,"A positive effect size would indicate that males carrying a female-limited X and Cwt autosomes show worse sperm offence than males carrying a control (CFM) X and Cwt autosomes (there is no significant difference, however).",Model of the raw data,-0.21150993556487824,0.2731664372378103,-1.2359103383824348,0.8128904672526784

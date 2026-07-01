@@ -1,0 +1,2 @@
+Study,Trait,Generations,Organism,Interpretation,Effect_size_source,Estimate,Var,Lower_95_CI,Upper_95_CI
+"Lund-Hansen et al. (2026) Phil. Trans. B, in prep.",Sperm defence,169,Drosophila melanogaster,"A positive effect size would indicate that males carrying a female-limited X and Cwt autosomes show worse sperm defence than males carrying a control (CFM) X and Cwt autosomes (there is no significant difference, however).",Model of the raw data,-0.8011313525170333,0.2275178266709966,-1.7360283965487813,0.13376569151471493
