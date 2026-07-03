@@ -1946,7 +1946,7 @@ tibble(Study = "Lund-Hansen et al. (2022) Behav. Ecol. Sociobiol. 76, 120.",
 
 Manat, Y., Tarka, M., & Abbott, J. (in prep.) Change in the G-matrix as a result of female-limited X chromosome evolution in _Drosophila melanogaster_. _Philosophical Transactions of the Royal Society B: Biological Sciences_, in prep. (in the same Theme Issue as this meta-analysis).
 
-```{r}
+```{r message=F, warning=F}
 manat <- read_csv("input_data/Manat_PhilTransB_2026_Gmatrix/data.csv")
 manat$round<-factor(manat$round)
 manat$section<-factor(manat$section)
@@ -2531,7 +2531,7 @@ The authors measured whether or not wild type worms performed a post-mating beha
 
 The authors kindly provided the relevant data in a separate file, which is loaded here.
 
-```{r}
+```{r message=F}
 cirulis_dat2 <- read_xlsx(
   "input_data/cirulis_2026_archived_data/Total_mating_investment_G44.xlsx")
 cirulis_dat2$Treatment <- factor(cirulis_dat2$Treatment)
@@ -2618,7 +2618,7 @@ mes(m.1 = stylet$Mean[1], m.2 = stylet$Mean[3],
 
 Melo-Gavin, C., Liu, M. J., & Agrawal, A. F. (2026). Local Adaptation to the Sex Environment: Reciprocal Sex-Limited Selection in Different Thermal Regimes. bioRxiv, 2026-01. https://doi.org/10.64898/2026.01.23.701411
 
-## Information provided by the authors
+### Information provided by the authors
 
 The authors kindly re-ran a quasibinomial mixed model matching the one presented in the paper, then used `contrast(emmeans(model_fit, ~ Sex * Chromosome * Environment), method = "pairwise)"` to compute the effect sizes contrasting the chromosomes types (separately for each combination of sex and environment). The edited output is shown below (keeping only effect sizes that relate to fitness measures of one sex, measured in one environment). For example, the first row shows the difference in female fitness (`F`) between female and male-limited (`FL` and `ML`) chromosomes in the benign conditions (lines were both evolved in and measured in this environmental condition). The effect size estimate is a log odds ratio.
 
@@ -2840,7 +2840,7 @@ The raw data were obtained from the Dryad repository.
 
 I used the generation 20 data for convenience (the variables are named in French, and there are many files with many columns each in the Dryad archive, so I did not attempt a more complex analysis). I fit a linear mixed model of the fecundity data with block, family ID, and replicate evolution line as random factors. 
 
-```{r}
+```{r message=F, warning=F}
 bonel1 <- read.csv2("input_data/Bonel_2018_snails_dryad_data/G20.female.rep.function.csv", check.names = F) %>% as_tibble()
 
 # bonel2 <- read.csv("input_data/Bonel_2018_snails_dryad_data/G35.reproductive.traits.csv", check.names = F) %>% as_tibble() %>% rename(treatment = linetype, replicate = line) %>% pull(eggs3)
