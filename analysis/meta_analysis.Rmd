@@ -215,9 +215,9 @@ fit_ma("~ Generations")
 ```
 
 
-## Forest plot of effect sizes (Figure 1)
+## Forest plot of effect sizes (Figure 2)
 
-```{r fig.height = 7.6, fig.width=6, message=F, warning=F}
+```{r fig.height = 7.96, fig.width=6, message=F, warning=F}
 exp2_levs <- c("Male-limited haplotypes", 
                "Male-limited autosome",
                "Female-limited markers",
@@ -311,7 +311,7 @@ plot_data <- plot_data %>%
 mean_effect <- plot_data %>% 
   filter(Short_name == mean_text)
 
-plot_data %>% 
+meta_plot <- plot_data %>% 
   mutate(Experiment_type1 = factor(
     Experiment_type1, levels = c("Sex-specific autosome(s)",
                                  "Sex-specific X",
@@ -364,9 +364,12 @@ plot_data %>%
   scale_fill_manual(values = c("0" = "grey80", 
                                "1" = "grey50")) +
   guides(fill = "none")
+
+ggsave(meta_plot, height=7.96, width=6, filename = "figure_2.pdf")
+meta_plot
 ```
 
-**Figure 1**: Forest plot showing the estimated effect sizes (Cohen's _d_ \(\pm \) 95% CIs). The y-axis indicates the trait being measured while horizontal grey bands show the `r nrow(bands)-1` independent experimental evolution projects (projects are reported in one or more publications, named on the right). Positive effect sizes indicate evolutionary change in the direction predicted under IaSC, while negative effects indicate evolution in the opposite direction. Point colour highlights experiments using sex-limited inheritance of autosomal (blue) or X (red) genomic regions, or sex-specific relaxed selection (green). The mean effect size from meta-analysis is shown in black.
+**Figure 2**: Forest plot showing the estimated effect sizes (Cohen's _d_ \(\pm \) 95% CIs). The y-axis indicates the trait being measured while horizontal grey bands show the `r nrow(bands)-1` independent experimental evolution projects (projects are reported in one or more publications, named on the right). Positive effect sizes indicate evolutionary change in the direction predicted under IaSC, while negative effects indicate evolution in the opposite direction. Point colour highlights experiments using sex-limited inheritance of autosomal (blue) or X (red) genomic regions, or sex-specific relaxed selection (green). The mean effect size from meta-analysis is shown in black.
 
 ## Plotting effect of moderator `Generations`
 
