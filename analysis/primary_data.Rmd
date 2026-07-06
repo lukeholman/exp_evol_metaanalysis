@@ -1730,7 +1730,7 @@ mes(m.1 = df$mean[2],
     sd.2 = df$SE[1] * sqrt(80),
     n.1 = 880, n.2 = 80, verbose = F) %>% 
   parse_es(study = "Manat et al. (2021) Biol. Lett. 17, 20200915", 
-           trait = "Sperm defence (2021)", 
+           trait = "Sperm offence (2021)", 
            generations = "160",
            organism = "Drosophila melanogaster",
            interpretation = "The positive effect indicates that males carrying an X chromosome that underwent female-limited evolution have worse sperm offence (i.e. sire fewer offspring with previously mated females) compared to males carrying control-evolved X chromosomes.") %>% 
