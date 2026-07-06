@@ -2659,7 +2659,7 @@ tibble(Study = "Melo-Gavin et al. (2026) bioRxiv, https://doi.org/10.64898/2026.
        Organism = "Drosophila melanogaster",
        Interpretation = c(
          "The positive effect size means that females carrying the female-limited chromosome had higher fitness than females with the male-limited chromosome, when evolved and measured under benign conditions.",
-         "A positive effect size would that males carrying the male-limited chromosome had higher fitness than males with the female-limited chromosome, when evolved and measured under benign conditions (there is no difference though).",
+         "A positive effect size would mean that males carrying the male-limited chromosome had higher fitness than males with the female-limited chromosome, when evolved and measured under benign conditions (there is no difference though).",
          "The positive effect size means that females carrying the female-limited chromosome had higher fitness than females with the male-limited chromosome, when evolved and measured under novel conditions.",
          "The positive effect size means that males carrying the male-limited chromosome had higher fitness than males with the female-limited chromosome, when evolved and measured under novel conditions."),
        Effect_size_source = "Model of the raw data",
