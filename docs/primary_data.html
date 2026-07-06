@@ -533,15 +533,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreeb10e6d3d581f7161d3e5a2ee6350af3e5f417658targetblankb10e6d3a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreeb9569fab3a386f1322a895adc54e11b605c98cedtargetblankb9569faa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/b10e6d3d581f7161d3e5a2ee6350af3e5f417658" target="_blank">b10e6d3</a>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/b9569fab3a386f1322a895adc54e11b605c98ced" target="_blank">b9569fa</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreeb10e6d3d581f7161d3e5a2ee6350af3e5f417658targetblankb10e6d3a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolmetaanalysistreeb9569fab3a386f1322a895adc54e11b605c98cedtargetblankb9569faa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -551,7 +551,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/b10e6d3d581f7161d3e5a2ee6350af3e5f417658" target="_blank">b10e6d3</a>.
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/tree/b9569fab3a386f1322a895adc54e11b605c98ced" target="_blank">b9569fa</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -590,6 +590,9 @@ Ignored files:
     Ignored:    input_data/lundhansen2020_github_data_FLXevoexp-master/StandardFitnessGeneration39-41 /.Rapp.history
     Ignored:    input_data/lundhansen2020_github_data_FLXevoexp-master/ThoraxSizeGeneration15-18/.Rapp.history
     Ignored:    input_data/lundhansen2020_github_data_FLXevoexp-master/ThoraxSizeGeneration72/.Rapp.history
+
+Unstaged changes:
+    Modified:   effect_sizes/MeloGavin2026.csv
 
 </code></pre>
 <p>
@@ -634,6 +637,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_metaanalysis/blob/b9569fab3a386f1322a895adc54e11b605c98ced/analysis/primary_data.Rmd" target="_blank">b9569fa</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-07-06
+</td>
+<td>
+wflow_publish("analysis/primary_data.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_metaanalysis/e17cdc533ddaf535962fb961a95972a864c7e823/docs/primary_data.html" target="_blank">e17cdc5</a>
+</td>
+<td>
+luekholman
+</td>
+<td>
+2026-07-06
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -7107,7 +7144,7 @@ CFM
          Trait = &quot;Male mating success&quot;, 
          Generations = &quot;107&quot;,
          Organism = &quot;Drosophila melanogaster&quot;,
-         Interpretation = &quot;A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have lower mating success compared to males carrying control X chromosomes (however, there&#39;s a significant difference in the opposite direction).&quot;,
+         Interpretation = &quot;A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have lower mating success compared to males carrying control-evolved X chromosomes (however, there&#39;s a significant difference in the opposite direction).&quot;,
        Effect_size_source = &quot;Chi-square test on total counts (pseudoreplicated)&quot;, 
          .before = 1) %&gt;% 
   write_csv(&quot;effect_sizes/manat_1.csv&quot;)</code></pre>
@@ -7187,12 +7224,12 @@ CFM
            trait = &quot;Male mating speed&quot;, 
            generations = &quot;107&quot;,
            organism = &quot;Drosophila melanogaster&quot;,
-           interpretation = &quot;A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would take longer to induce females to mate compared to males carrying control X chromosomes (however, there is a significant difference in the opposite direction).&quot;) %&gt;%  
+           interpretation = &quot;A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would take longer to induce females to mate compared to males carrying control-evolved X chromosomes (however, there is a significant difference in the opposite direction).&quot;) %&gt;%  
   write_csv(&quot;effect_sizes/manat_2.csv&quot;)</code></pre>
 </div>
 </div>
-<div id="male-sperm-offence" class="section level3">
-<h3>Male sperm offence</h3>
+<div id="male-sperm-defence" class="section level3">
+<h3>Male sperm defence</h3>
 <div id="manat-et-al.s-original-data-2" class="section level4">
 <h4>Manat et al.’s original data</h4>
 <p>The data were extracted from Figure 2c using PlotDigitizer.</p>
@@ -7262,15 +7299,15 @@ CFM
     sd.2 = df$SE[1] * sqrt(80),
     n.1 = 880, n.2 = 80, verbose = F) %&gt;% 
   parse_es(study = &quot;Manat et al. (2021) Biol. Lett. 17, 20200915&quot;, 
-           trait = &quot;Sperm offence (2021)&quot;, 
+           trait = &quot;Sperm defence (2021)&quot;, 
            generations = &quot;160&quot;,
            organism = &quot;Drosophila melanogaster&quot;,
-           interpretation = &quot;A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution would have worse sperm offence (i.e. sire fewer offspring with previously mated females) compared to males carrying control X chromosomes (however the finding is significant in the opposite direction).&quot;) %&gt;% 
+           interpretation = &quot;A positive effect size would mean that males carrying an X chromosome that underwent female-limited evolution have worse sperm defence (i.e. sire fewer offspring after their mate mates with another male) compared to males carrying control-evolved X chromosomes (however, the finding is significant in the opposite direction).&quot;) %&gt;% 
   write_csv(&quot;effect_sizes/manat_3.csv&quot;)</code></pre>
 </div>
 </div>
-<div id="male-sperm-defence" class="section level3">
-<h3>Male sperm defence</h3>
+<div id="male-sperm-offence" class="section level3">
+<h3>Male sperm offence</h3>
 <div id="manat-et-al.s-original-data-3" class="section level4">
 <h4>Manat et al.’s original data</h4>
 <p>The data were extracted from Figure 2d using PlotDigitizer.</p>
@@ -7343,7 +7380,7 @@ CFM
            trait = &quot;Sperm defence (2021)&quot;, 
            generations = &quot;160&quot;,
            organism = &quot;Drosophila melanogaster&quot;,
-           interpretation = &quot;The positive effect indicates that males carrying an X chromosome that underwent female-limited evolution have worse sperm defence (i.e. sire fewer offspring when after the female remates) compared to males carrying control X chromosomes.&quot;) %&gt;% 
+           interpretation = &quot;The positive effect indicates that males carrying an X chromosome that underwent female-limited evolution have worse sperm offence (i.e. sire fewer offspring with previously mated females) compared to males carrying control-evolved X chromosomes.&quot;) %&gt;% 
   write_csv(&quot;effect_sizes/manat_4.csv&quot;)</code></pre>
 </div>
 </div>
