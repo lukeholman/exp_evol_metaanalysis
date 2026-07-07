@@ -365,7 +365,7 @@ meta_plot <- plot_data %>%
                                "1" = "grey50")) +
   guides(fill = "none")
 
-ggsave(meta_plot, height=7.96, width=6, filename = "figure_2.pdf")
+ggsave(meta_plot, height=7.96, width=6, filename = "figure_2.svg")
 meta_plot
 ```
 
